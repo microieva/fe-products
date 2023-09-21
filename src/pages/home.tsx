@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, AppState } from '../shared/store';
 import { User } from '../@types/user';
-import { addUser } from '../redux/users';
+import { addUser } from '../redux/app-reducers/users';
 
 const Home: FC = () => {
     const users = useSelector((state: AppState) => state.users);
