@@ -1,40 +1,50 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { Product } from '../@types/product';
-import { addProduct, fetchProductsAsync, sortByPrice } from '../redux/app-reducers/products';
 import { useAppSelector } from '../hooks/useAppSelector';
-import { useAppDispatch } from '../hooks/useAppDispatch';
-//import { useDeleteProductMutation, useFetchAllProductsQuery } from '../redux/api-queries/product-queries';
+import { 
+    useDeleteProductMutation, 
+    useFetchAllProductsQuery, 
+    useAddProductMutation, 
+    useUpdateProductMutation, 
+    useFilterProductsByTitleQuery 
+} from '../redux/api-queries/product-queries';
 import { addItem, removeItem } from '../redux/app-reducers/cart';
-import { getFiltered } from '../redux/selectors/getFiltered';
+import { useAppDispatch } from '../hooks/useAppDispatch';
 
 
 const Products: FC = () => {
 
-    const dispatch = useAppDispatch();
-    const products: Product[] = useAppSelector(state => state.products.products);
-    const error: string | undefined = useAppSelector(state => state.products.error);
-    const loading: boolean = useAppSelector(state => state.products.loading);
+    const dispatch = useAppDispatch(); // needed for cart
     const cart = useAppSelector(state => state.cart);
-    const [searchTerm, setSearchTerm] = useState<string | undefined>(undefined)
-    const filteredProducts = useAppSelector(state => getFiltered(state, searchTerm));
-    //const [deleteProduct] =useDeleteProductMutation()
+    const [searchTerm, setSearchTerm] = useState<string>('');
+    const {data, error} = useFilterProductsByTitleQuery(searchTerm);
 
-    //const {data, error, isLoading, isError} = useFetchAllProductsQuery({limit: 20, offset: 0}) this replaces extraReducers and initialState
-    useEffect(() => {
-        dispatch(fetchProductsAsync({offset: 0, limit: 20})); // this way fetching only 20 products per time
-    }, [dispatch]);
+    const test: Partial<Product> = {
+            title: "XXX New Product",
+            price: 10,
+            description: "A description",
+            categoryId: 1,
+            category: {
+                id: 1,
+                name: 'category name',
+                image: ''
+            },
+            images: ["https://placeimg.com/640/480/any"]
+    }
+    const [addProduct] = useAddProductMutation();
+    const [updateProduct] = useUpdateProductMutation();
+    const [deleteProduct] =useDeleteProductMutation();
 
-    const test = {
-        id: 0,
-        title: "",
-        price: 0,
-        description: "",
-        //category: {},
-        images: [""]
+    const testID = 203;
+
+    const onAddNewProduct = () => {
+        console.log('passing: ', test);
+        addProduct(test); //tested works with Test type
     }
-    const onAddProduct = () => {
-        dispatch(addProduct(test));
+    const onDeleteProduct =()=> {
+        deleteProduct(testID); //tested works
     }
+    
     const onAddToCart = (item: Product) => {
         dispatch(addItem(item))
     }
@@ -42,24 +52,30 @@ const Products: FC = () => {
         dispatch(removeItem(id));
     }
     const onSortAsc = () => {
-        dispatch(sortByPrice('asc'));
+        //dispatch(sortByPrice('asc'));
     }
     const onSortDesc = () => {
-        dispatch(sortByPrice('desc'));
+        //dispatch(sortByPrice('desc'));
     }
-    console.log('PRODUCTS: ', products);
+    const onUpdateProduct = () => { // tested works
+        console.log('updating ID: ', testID);
+        updateProduct({ id: testID, title: 'updated-title', description: 'LOREM IPSUM LOREM IPSUM'})
+    }
+    console.log('PRODUCTS: ', data);
     console.log('CART ', cart);
     return (
         <>
             <div>Products</div>
-            <button onClick={onAddProduct}>Add New Product</button>
+            <button onClick={()=>onAddNewProduct()}>Add New Product</button>
+            <button onClick={()=>onDeleteProduct()}>DELETE Product id {testID}</button>
+            <button onClick={()=>onUpdateProduct()}>UPDATE Product id {testID}</button>
             <button onClick={onSortAsc}>Sort By Price Asc</button>
             <button onClick={onSortDesc}>Sort By Price Desc</button>
             <input type='text' placeholder='Search By Title' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
-            { filteredProducts.map((p, i)=> {
+            { data && data.map((p: Product)=> {
                 return (
                     <div style={{border: '2px orange solid'}}>
-                        <div key={i}>
+                        <div key={p.id}>
                             <p>{p.title}</p>
                             <p>{p.price} $</p>
                             <p>{p.description}</p>
@@ -72,8 +88,8 @@ const Products: FC = () => {
            <p>Number of Items In Cart: {cart.length}</p>
            <div style={{border: '2px green solid'}}>THIS IS CART
                 <ul>
-                    {cart && cart.map((c, i) => {
-                        return (<li key={i}>{c.title} - {c.quantity}</li>)
+                    {cart && cart.map((item) => {
+                        return (<li key={item.id}>{item.title} - {item.quantity}</li>)
                     })}
                 </ul>    
            </div>

@@ -1,34 +1,34 @@
-import { configureStore, ThunkAction, Action, combineReducers, Reducer } from "@reduxjs/toolkit";
+import { configureStore, ThunkAction, Action, combineReducers } from "@reduxjs/toolkit";
 
-import products from '../redux/app-reducers/products';
-import users from '../redux/app-reducers/users';
 import cart from '../redux/app-reducers/cart';
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 import { PersistConfig } from "redux-persist/lib/types";
-import { CartItem } from "../@types/cart";
 import { setupListeners } from '@reduxjs/toolkit/query/react';
 import productQueries from '../redux/api-queries/product-queries';
+import userQueries from "../redux/api-queries/user-queries";
 
 const persistConfig: PersistConfig<any> = { 
     key: 'cart', 
     storage, 
-    whitelist: ['cart'] // For local storage we add reducers we want to follow. opposite we can have blacklist and add the ones we skip
+    whitelist: ['cart'] // For local storage 
 };
 const rootReducer = combineReducers({
-    products, 
-    users, 
     cart, 
-    [productQueries.reducerPath]: productQueries.reducer
+    [productQueries.reducerPath]: productQueries.reducer,
+    [userQueries.reducerPath]: userQueries.reducer
 });
-const persistedReducer: Reducer<CartItem[]> = persistReducer(persistConfig, rootReducer);
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
     reducer: persistedReducer,
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().concat(userQueries.middleware, productQueries.middleware), 
   });
 
 export type AppDispatch = typeof store.dispatch;
-export type AppState = ReturnType<typeof rootReducer>; // redux-intro 1:56
+export type AppState = ReturnType<typeof rootReducer>;
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
   AppState,

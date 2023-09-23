@@ -3,8 +3,9 @@ export interface Product {
   title: string,
   price: number,
   description: string
-  category?: Category,
-  images: string[]
+  category: Category,
+  images: string[],
+  categoryId?: number
 }
 
 export interface Category  {

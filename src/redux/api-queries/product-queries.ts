@@ -3,25 +3,48 @@ import { PaginationQuery } from '../../@types/paginationQuery';
 import { Product } from '../../@types/product';
 
 const productQueries  = createApi({
-    //base query for all api calls
+
     reducerPath: "productReducer",
     baseQuery: fetchBaseQuery({
         baseUrl: 'https://api.escuelajs.co/api/v1/products'
     }),
-    tagTypes: ['Products'],
+    tagTypes: ['Products', 'Product'],
     endpoints: builder => ({
         // this creates a hook from dispatch and async thunk action -> to return data error and loading
         fetchAllProducts: builder.query<Product[], PaginationQuery>({
             query: ({limit, offset}) => `?limit=${limit}&offset=${offset}`,
             providesTags: ['Products']
-        }), // when we call fetchAllPr we send get request to the chain of baseUrl+query ending
-        deleteProduct: builder.mutation<boolean, string>({
+        }),
+        fetchOneProductById: builder.query<Product, number>({
+            query: (productId) => `${productId}`,
+            providesTags: ['Product']
+        }), 
+        deleteProduct: builder.mutation<boolean, number>({
             query: (productId) => ({url: `${productId}`, method: 'DELETE'}),
             invalidatesTags: ['Products']
+        }),
+        addProduct: builder.mutation<Product, Partial<Product>>({
+            query: (body) => ({url: `/`, method: 'POST', body}),
+            invalidatesTags: ['Products']
+        }),
+        updateProduct: builder.mutation<Product, Partial<Product>>({
+            query: ({id, ...updates}) =>  ({url: `/${id}`, method: 'PUT', body: updates}),
+            invalidatesTags: ['Products']
+        }),
+        filterProductsByTitle: builder.query<Product[], string>({
+            query: (query) => ({url:`/?title=${query}`}),
+            providesTags: ['Products']
         })
     })
 })
 
-export const {useFetchAllProductsQuery, useDeleteProductMutation} = productQueries;
+export const {
+    useFetchAllProductsQuery,
+    useFilterProductsByTitleQuery, 
+    useDeleteProductMutation, 
+    useFetchOneProductByIdQuery,
+    useAddProductMutation,
+    useUpdateProductMutation
+} = productQueries;
 export default productQueries;
 
