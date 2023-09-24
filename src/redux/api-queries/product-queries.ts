@@ -11,17 +11,11 @@ const productQueries  = createApi({
     tagTypes: ['Products', 'Product'],
     endpoints: builder => ({
         // this creates a hook from dispatch and async thunk action -> to return data error and loading
-        fetchAllProducts: builder.query<Product[], PaginationQuery>({
-            query: ({limit, offset}) => `?limit=${limit}&offset=${offset}`,
+        getProducts: builder.query<Product[], PaginationQuery>({
+            query: ({limit, offset, categoryId, title}) => `?/categoryId=${categoryId}&title=${title}&offset=${offset}&limit=${limit}`,
             providesTags: ['Products']
         }),
-        /*
-        getProducts: build.query<ProductRes[], GetProductsReq>({
-            query: ({ categoryId, offset, limit, title }) => `products?categoryId=${categoryId}&title=${title}&offset=${offset}&limit=${limit}`,
-            providesTags: ['Products'],
-        }),
-        */
-        fetchOneProductById: builder.query<Product, number>({
+        getProductById: builder.query<Product, number>({
             query: (productId) => `${productId}`,
             providesTags: ['Product']
         }), 
@@ -45,10 +39,10 @@ const productQueries  = createApi({
 })
 
 export const {
-    useFetchAllProductsQuery,
+    useGetProductsQuery,
     useFilterProductsByTitleQuery, 
     useDeleteProductMutation, 
-    useFetchOneProductByIdQuery,
+    useGetProductByIdQuery,
     useAddProductMutation,
     useUpdateProductMutation
 } = productQueries;

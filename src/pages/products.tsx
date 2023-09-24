@@ -3,10 +3,10 @@ import { Product } from '../@types/product';
 import { useAppSelector } from '../hooks/useAppSelector';
 import { 
     useDeleteProductMutation, 
-    useFetchAllProductsQuery, 
+    useGetProductsQuery, 
     useAddProductMutation, 
-    useUpdateProductMutation, 
-    useFilterProductsByTitleQuery 
+    useUpdateProductMutation,
+    //useFilterProductsByTitleQuery, 
 } from '../redux/api-queries/product-queries';
 import { addItem, removeItem } from '../redux/app-reducers/cart';
 import { useAppDispatch } from '../hooks/useAppDispatch';
@@ -17,7 +17,9 @@ const Products: FC = () => {
     const dispatch = useAppDispatch(); // needed for cart
     const cart = useAppSelector(state => state.cart);
     const [searchTerm, setSearchTerm] = useState<string>('');
-    const {data, error} = useFilterProductsByTitleQuery(searchTerm);
+    const { data, error } = useGetProductsQuery({categoryId: 1, title: searchTerm, limit: 20, offset: 0});
+    //const {data} = useFilterProductsByTitleQuery(searchTerm);
+
 
     const test: Partial<Product> = {
             title: "XXX New Product",
