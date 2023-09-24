@@ -15,6 +15,12 @@ const productQueries  = createApi({
             query: ({limit, offset}) => `?limit=${limit}&offset=${offset}`,
             providesTags: ['Products']
         }),
+        /*
+        getProducts: build.query<ProductRes[], GetProductsReq>({
+            query: ({ categoryId, offset, limit, title }) => `products?categoryId=${categoryId}&title=${title}&offset=${offset}&limit=${limit}`,
+            providesTags: ['Products'],
+        }),
+        */
         fetchOneProductById: builder.query<Product, number>({
             query: (productId) => `${productId}`,
             providesTags: ['Product']

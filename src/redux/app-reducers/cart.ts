@@ -12,14 +12,19 @@ const cartSlice = createSlice({
             const cartItem: CartItem = {...action.payload, quantity: 1};
             const index = state.findIndex(item => item.id === action.payload.id);
             if (index !== -1) {
-                state[index].quantity++
+                state[index].quantity++;
             } else {
                 state.push(cartItem);
             }
         },
         removeItem: (state, action: PayloadAction<number>) => {
-            const index = state.findIndex(p => p.id === action.payload);
-            state.splice(index, 1);
+            const index = state.findIndex((item) => item.id === action.payload);
+            if (state[index].quantity > 1) {
+                state[index].quantity--;
+            } else {
+                state.splice(index, 1);
+            }
+            
         }
     }
 });
