@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { User } from '../@types/user';
 import { 
     useAddUserMutation, 
@@ -6,6 +6,7 @@ import {
     useFetchAllUsersQuery, 
     useUpdateUserMutation 
 } from '../redux/api-queries/user-queries';
+import Layout from '../components/layout';
 
 const Home: FC = () => {
     const {data, error, isLoading, isError} = useFetchAllUsersQuery();
@@ -32,13 +33,28 @@ const Home: FC = () => {
         data && updateUser({ id: 12, name: 'updated-name', password: 'updatedPassowrd'}); 
         // some users will be blocked from updating: can update only own added users
     }
+    const [isProducts, setIsProducts] =useState<boolean>(true);
+    const [isCart, setIsCart] =useState<boolean>(false);
 
+    const onProducts = () =>{
+        setIsProducts(true);
+        setIsCart(false);
+    }
+    
+    const onCart = () =>{
+        setIsProducts(false);
+        setIsCart(true);
+    }
     return (
         <>
-            <div>Home</div>
+            {/* <div>Home</div>
             <button onClick={()=>onAddUser()}>Add New User</button>
             <button onClick={()=>onDeleteUser()}>DELETE USER</button>
-            <button onClick={()=>onUpdateUser()}>UPDATE USER</button>
+            <button onClick={()=>onUpdateUser()}>UPDATE USER</button> */}
+            <button onClick={()=>onProducts()}>PRODUCTS</button>
+            <button onClick={()=>onCart()}>CART</button>
+            {isProducts && <Layout page='products'/>}
+            {isCart && <Layout page='cart' />}
         </>
     )
 }

@@ -5,7 +5,9 @@ export interface Product {
   description: string
   category: Category,
   images: string[],
-  categoryId?: number
+  categoryId?: number,
+
+  //ICONS?: any
 }
 
 export interface Category  {
