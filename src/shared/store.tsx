@@ -1,9 +1,10 @@
-import { configureStore, ThunkAction, Action, combineReducers } from "@reduxjs/toolkit";
+import { configureStore, ThunkAction, Action, combineReducers, Reducer, AnyAction } from "@reduxjs/toolkit";
 
 import cart from '../redux/app-reducers/cart';
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 import { PersistConfig } from "redux-persist/lib/types";
+
 import { setupListeners } from '@reduxjs/toolkit/query/react';
 import productQueries from '../redux/api-queries/product-queries';
 import userQueries from "../redux/api-queries/user-queries";
@@ -19,7 +20,7 @@ const rootReducer = combineReducers({
     [userQueries.reducerPath]: userQueries.reducer
 });
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const persistedReducer: Reducer<AppState, AnyAction> = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
     reducer: persistedReducer,
