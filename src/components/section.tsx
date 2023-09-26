@@ -11,9 +11,9 @@ interface SectionProps {
 const Section: FC<SectionProps> = ({isProducts}: SectionProps) => {
 
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const { data, error } = useGetProductsQuery({title: searchTerm, limit: 20, offset: 0});
+  const { data, error } = useGetProductsQuery({});
   const cart = useAppSelector(state => state.cart);
-
+  console.log('data from section: ', data);
 
   return (
     <section>
