@@ -34,16 +34,13 @@ const Home: FC = () => {
         // some users will be blocked from updating: can update only own added users
     }
     const [isProducts, setIsProducts] =useState<boolean>(true);
-    const [isCart, setIsCart] =useState<boolean>(false);
 
     const onProducts = () =>{
         setIsProducts(true);
-        setIsCart(false);
     }
     
     const onCart = () =>{
         setIsProducts(false);
-        setIsCart(true);
     }
     return (
         <>
@@ -53,8 +50,7 @@ const Home: FC = () => {
             <button onClick={()=>onUpdateUser()}>UPDATE USER</button> */}
             <button onClick={()=>onProducts()}>PRODUCTS</button>
             <button onClick={()=>onCart()}>CART</button>
-            {isProducts && <Layout page='products'/>}
-            {isCart && <Layout page='cart' />}
+            <Layout isProducts={isProducts}/>
         </>
     )
 }

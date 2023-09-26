@@ -4,14 +4,14 @@ import Section from './section';
 import Footer from './footer';
 
 interface LayoutProps {
-    page: string
+    isProducts: boolean
 }
 
-const Layout: FC<LayoutProps> = ({page}: LayoutProps) => {
+const Layout: FC<LayoutProps> = ({isProducts}: LayoutProps) => {
   return (
     <div>
-        <Header page={page}/>
-        <Section page={page}/> 
+        {/* <Header page={page}/> */}
+        <Section isProducts={isProducts}/> 
         <Footer />
     </div>
   )
