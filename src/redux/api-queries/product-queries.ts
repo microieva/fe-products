@@ -12,7 +12,7 @@ const productQueries  = createApi({
     endpoints: builder => ({
         // this creates a hook from dispatch and async thunk action -> to return data error and loading
         getProducts: builder.query<Product[], PaginationQuery>({
-            query: ({limit, offset, categoryId, title}) => `?/categoryId=${categoryId}&title=${title}&offset=${offset}&limit=${limit}`,
+            query: ({limit, offset}) => `/?offset=${offset}&limit=${limit}`,
             providesTags: ['Products']
         }),
         getProductById: builder.query<Product, number>({

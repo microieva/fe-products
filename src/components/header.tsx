@@ -1,13 +1,9 @@
 import React, { FC } from 'react';
 
-interface HeaderProps {
-  page: string
-}
-
-const Header: FC<HeaderProps> = ({page}: HeaderProps) => {
+const Header: FC = () => {
   return (
     <header>
-      <h1>This Is Header from {page}</h1>
+      <h1>This Is Header</h1>
     </header>
   )
 }

@@ -17,7 +17,7 @@ const Products: FC = () => {
     const dispatch = useAppDispatch(); // needed for cart
     const cart = useAppSelector(state => state.cart);
     const [searchTerm, setSearchTerm] = useState<string>('');
-    const { data, error } = useGetProductsQuery({categoryId: 1, title: searchTerm, limit: 20, offset: 0});
+    //const { data, error } = useGetProductsQuery({categoryId: 1, title: searchTerm, limit: 20, offset: 0});
     //const {data} = useFilterProductsByTitleQuery(searchTerm);
 
 
@@ -63,8 +63,8 @@ const Products: FC = () => {
         console.log('updating ID: ', testID);
         updateProduct({ id: testID, title: 'updated-title', description: 'LOREM IPSUM LOREM IPSUM'})
     }
-    console.log('PRODUCTS: ', data);
-    console.log('CART ', cart);
+    // console.log('PRODUCTS: ', data);
+    // console.log('CART ', cart);
     return (
         <>
             <div>Products</div>
@@ -74,7 +74,7 @@ const Products: FC = () => {
             <button onClick={onSortAsc}>Sort By Price Asc</button>
             <button onClick={onSortDesc}>Sort By Price Desc</button>
             <input type='text' placeholder='Search By Title' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
-            { data && data.map((p: Product)=> {
+            {/* { data && data.map((p: Product)=> {
                 return (
                     <div style={{border: '2px orange solid'}}>
                         <div key={p.id}>
@@ -86,7 +86,7 @@ const Products: FC = () => {
                         <button onClick={()=>onDeleteFromCart(p.id)}>Delete From Cart</button>
                     </div>
                 )
-            })}
+            })} */}
            <p>Number of Items In Cart: {cart.length}</p>
            <div style={{border: '2px green solid'}}>THIS IS CART
                 <ul>

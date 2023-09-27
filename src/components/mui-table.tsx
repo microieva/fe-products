@@ -1,15 +1,134 @@
-import React from 'react';
+import { ChangeEvent, useState } from 'react';
+
+import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+
 import { Product } from '../@types/product';
+import { Column } from '../@types/table';
 
 interface TableProps {
-    arr: Product[]
+    arr: Product[],
+    length: number
 }
 
-const MuiTable = ({arr}: TableProps) => {
-    console.log('arr for table: ', arr);
-  return (
-    <div>TABLE</div>
-  )
+const MuiTable = ({arr, length}: TableProps) => {
+    const columns: readonly Column[] = [
+        { id: 'title', label: 'Title', minWidth: 170 },
+        {
+            id: 'price',
+            label: 'Price',
+            minWidth: 170,
+            align: 'right',
+        },
+        {
+            id: 'category',
+            label: 'Category',
+            minWidth: 170,
+            align: 'right',
+        },
+    ];
+
+    const rows: Product[] = arr;
+
+    const StickyHeadTable = () => { 
+        const [page, setPage] = useState(0);
+        const [rowsPerPage, setRowsPerPage] = useState(10);
+    
+        const handleChangePage = (event: unknown, newPage: number) => {
+        setPage(newPage);
+        };
+    
+        const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement>) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+        };
+    
+        return (
+            <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                <TableContainer sx={{ maxHeight: 440 }}>
+                    <Table stickyHeader aria-label="sticky table">
+                        <TableHead sx={{ "&thead": {top: "0", position: "sticky"} }}>
+                            <TableRow sx={{
+                                "& th": {
+                                    fontSize: "16px",
+                                    backgroundColor: " rgba(0, 0, 0, 0.04)",
+                                    borderBottom: "1px solid black",
+                                    
+                                    }
+                                }}
+                            >
+                                {columns.map((column: Column) => (
+                                <TableCell
+                                    key={column.id}
+                                    align={column.align}
+                                    style={{ minWidth: column.minWidth }} 
+                                    
+                                >
+                                    {column.label}
+                                </TableCell>
+                                ))}
+                            </TableRow>
+                        </TableHead>
+                        <TableBody sx={{ "& tbody": {height: "50rem"}}}>
+                        { rows
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((row: Product, i: any) => {
+                                return (   
+                                    <TableRow 
+                                        hover 
+                                        role="checkbox" 
+                                        tabIndex={-1} 
+                                        key={row.id} 
+                                        onClick={()=> console.log("ROW: ",row)}
+                                        sx={{
+                                            "& td:hover": {
+                                                cursor: "pointer"
+                                            }
+                                        }}
+                                    >    
+                                    {columns.map((column: Column) => {
+                                        const value: string = row[column.id].toString();
+                                        return (
+                                            <TableCell key={column.id} align={column.align}>
+                                                {value}
+                                                {/* <Link style={{textDecoration: "none", color: "black"}} to={`/brewery/${row.id}`}>
+                                                    {value}
+                                                </Link> */}
+                                            </TableCell>    
+                                            );
+                                        })}
+                                    
+                                    </TableRow>
+                                );
+                            })}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <TablePagination
+                    rowsPerPageOptions={[10, 25, 100]}
+                    component="div"
+                    count={length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+            {/* <Outlet /> */}
+            </Paper>
+        );
+    }
+
+    return rows.length> 0 
+        ? <StickyHeadTable /> 
+        : 
+        // <Error height="30rem" text="No products found with current search term.." />   
+        <h1>NO RESULTS</h1>
 }
 
 export default MuiTable;

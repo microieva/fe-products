@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import { User } from '../@types/user';
 import { 
     useAddUserMutation, 
@@ -7,6 +7,8 @@ import {
     useUpdateUserMutation 
 } from '../redux/api-queries/user-queries';
 import Layout from '../components/layout';
+import { useAddProductMutation } from '../redux/api-queries/product-queries';
+import { Product } from '../@types/product';
 
 const Home: FC = () => {
     const {data, error, isLoading, isError} = useFetchAllUsersQuery();
@@ -33,24 +35,31 @@ const Home: FC = () => {
         data && updateUser({ id: 12, name: 'updated-name', password: 'updatedPassowrd'}); 
         // some users will be blocked from updating: can update only own added users
     }
-    const [isProducts, setIsProducts] =useState<boolean>(true);
+    const testP: Partial<Product> = {
+        title: "XXX New Product",
+        price: 10,
+        description: "A description",
+        categoryId: 1,
+        category: {
+            id: 1,
+            name: 'category name',
+            image: ''
+        },
+        images: ["https://placeimg.com/640/480/any"]
+}
+    const [addProduct] = useAddProductMutation();
+    const onAddNewProduct = () => {
+        addProduct(testP); //tested works with Test type
+    }
 
-    const onProducts = () =>{
-        setIsProducts(true);
-    }
-    
-    const onCart = () =>{
-        setIsProducts(false);
-    }
     return (
         <>
             {/* <div>Home</div>
             <button onClick={()=>onAddUser()}>Add New User</button>
             <button onClick={()=>onDeleteUser()}>DELETE USER</button>
             <button onClick={()=>onUpdateUser()}>UPDATE USER</button> */}
-            <button onClick={()=>onProducts()}>PRODUCTS</button>
-            <button onClick={()=>onCart()}>CART</button>
-            <Layout isProducts={isProducts}/>
+            {/* <button onClick={()=>onAddNewProduct()}>Add New Product</button> */}
+            <Layout/>
         </>
     )
 }
