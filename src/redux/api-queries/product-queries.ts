@@ -11,7 +11,7 @@ const productQueries  = createApi({
     tagTypes: ['Products', 'Product'],
     endpoints: builder => ({
         // this creates a hook from dispatch and async thunk action -> to return data error and loading
-        getProducts: builder.query({
+        getProducts: builder.query<Product[], Response>({
             query: () => `/`,
             providesTags: ['Products']
         }),
