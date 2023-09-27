@@ -5,9 +5,11 @@ import Footer from './footer';
 
 const Layout: FC = () => {
   return (
-    <div>
+    <div className="layout-container">
         <Header/>
-        <Section/> 
+        <main>
+          <Section/> 
+        </main>
         <Footer />
     </div>
   )

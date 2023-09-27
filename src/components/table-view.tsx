@@ -12,12 +12,12 @@ import TableRow from '@mui/material/TableRow';
 import { Product } from '../@types/product';
 import { Column } from '../@types/table';
 
-interface TableProps {
+interface ViewProps {
     arr: Product[],
     length: number
 }
 
-const MuiTable = ({arr, length}: TableProps) => {
+const TableView = ({arr, length}: ViewProps) => {
     const columns: readonly Column[] = [
         { id: 'title', label: 'Title', minWidth: 170 },
         {
@@ -131,4 +131,4 @@ const MuiTable = ({arr, length}: TableProps) => {
         <h1>NO RESULTS</h1>
 }
 
-export default MuiTable;
+export default TableView;

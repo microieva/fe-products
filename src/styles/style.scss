@@ -1,0 +1,21 @@
+.layout-container {
+  width: 70%;
+  margin:auto;
+}
+
+.cards-view-wrapper {
+  max-width: max-content;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  border: 1px orange solid;
+}
+
+.card-wrapper {
+  border: 1px green solid;
+  height: 16rem;
+  width: 12rem;
+  margin: 2rem 0;
+}

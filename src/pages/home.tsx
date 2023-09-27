@@ -58,7 +58,7 @@ const Home: FC = () => {
             <button onClick={()=>onAddUser()}>Add New User</button>
             <button onClick={()=>onDeleteUser()}>DELETE USER</button>
             <button onClick={()=>onUpdateUser()}>UPDATE USER</button> */}
-            {/* <button onClick={()=>onAddNewProduct()}>Add New Product</button> */}
+            <button onClick={()=>onAddNewProduct()}>Add New Product</button>
             <Layout/>
         </>
     )

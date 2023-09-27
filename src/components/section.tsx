@@ -1,28 +1,27 @@
-import React, { FC, useState } from 'react'
-import Table from './table';
+import { FC } from 'react';
+import TableView from './table-view';
+import CardsView from './cards-view';
 import { useGetProductsQuery } from '../redux/api-queries/product-queries';
-import { useAppDispatch } from '../hooks/useAppDispatch';
-import { useAppSelector } from '../hooks/useAppSelector';
 
 
-const Section: FC = () => {
-  //this component should return options to: searchbar, reset all products, switch view from cards to table
+const Section:FC = () => {
 
-  //const [searchTerm, setSearchTerm] = useState<string>('');
-  //const { data, error } = useGetProductsQuery({title: searchTerm, limit: 20, offset: 0});
-  //const cart = useAppSelector(state => state.cart);
+    const { data, error } = useGetProductsQuery({limit: 1000, offset: 0});
+    const isTable = false;
 
-
-  return (
-    <section>
-      <div>
-        search bar ..etc; View switch to table click sets boolean for table is true
-      </div>
-      <div className='tables-wrapper'>
-        <Table/>
-      </div>  
-    </section>
-  )
+        return (
+            <div>
+                <p>`Table-Header with dropdown to options to sort by price up & down and sort by categories up & down?`</p>
+                {/* // <ReactTable Component passing string 'title' | 'categoryId'for query && passing page = 'products' | 'cart'/> 
+                inside react table component, we use hooks from api-reducers either get products or cart
+                */}
+                {data && data.length>0 ? 
+                    isTable ? <TableView arr={data} length={data.length}/> : <CardsView arr={data} length={data.length}/>
+                :
+                <h1>error</h1>
+                }
+            </div>
+        )
 }
 
 export default Section;
