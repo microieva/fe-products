@@ -11,9 +11,9 @@ interface SectionProps {
 const Section: FC<SectionProps> = ({isProducts}: SectionProps) => {
 
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const { data, error } = useGetProductsQuery();
+  const { data, error } = useGetProductsQuery(undefined);
   const cart = useAppSelector(state => state.cart);
-  console.log('data from section: ', data);
+  console.log('Section hook data: ', data);
 
   return (
     <section>

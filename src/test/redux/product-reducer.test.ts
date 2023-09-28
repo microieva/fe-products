@@ -1,44 +1,44 @@
-import { renderHook } from '@testing-library/react-hooks';
-import { Provider } from 'react-redux';
-import { waitFor, fetchMock } from '@testing-library/react'; // Import waitFor
-import productReducer, {
-  useGetProductsQuery
-} from '../../redux/api-queries/product-queries'; // Update the import path as needed
-import { configureStore } from '@reduxjs/toolkit';
-import { WrapperProps, wrapper } from './provider-wrapper';
-
+import productQueries from '../../redux/api-queries/product-queries';
+import { store } from '../../shared/store';
+import server from '../../shared/server';
 import { mockProducts } from './mock-products';
+import { Product } from '../../@types/product';
 
-// Mock a successful response for the getProducts query
-const mockGetProductsResponse = [
-  {
-    id: 1,
-    name: 'Product 1',
-    price: 10,
-  },
-  {
-    id: 2,
-    name: 'Product 2',
-    price: 20,
-  },
-];
+describe('products', () => {
 
-test('should fetch products successfully', async () => {
-  // Render the hook
-  const { result, waitForNextUpdate } = renderHook(() => useGetProductsQuery());
+  beforeAll(()=> {
+    server.listen()
+  })
+  afterAll(()=>{
+    server.close()
+  })
+  afterEach(() => server.resetHandlers())
 
-  // Mock the API response
-  fetchMock.mockOnce(JSON.stringify(mockProducts));
+  it('Should get all products', async () => {
+    await store.dispatch(productQueries.endpoints.getProducts.initiate(undefined));
+    //console.log('test: ', store.getState().productReducer.queries['getProducts(undefined)']?.data);
 
-  // Wait for the query to resolve
-  await waitForNextUpdate();
+    expect(store.getState().productReducer.queries['getProducts(undefined)']?.data).toMatchObject(mockProducts);
+  });
 
-  // Check if the loading state is false
-  expect(result.current.isLoading).toBe(false);
+  it('Should get one product object by id = 8', async () => {
+    const id: number = 8;
+    await store.dispatch(productQueries.endpoints.getProductById.initiate(id));
+    expect(store.getState().productReducer.queries[`getProductById(${id})`]?.data).toMatchObject(mockProducts[0]);
+  });
 
-  // Check if the error state is null
-  expect(result.current.error).toBe(null);
+  it('Should get an array with product id = 8 inside, by passed string query = nuevo', async () => {
+    const query: string = "nuevo";
+    await store.dispatch(productQueries.endpoints.filterProductsByTitle.initiate(query));
+    expect(store.getState().productReducer.queries[`filterProductsByTitle("nuevo")`]?.data).toContainEqual(mockProducts[0]);
+  });
 
-  // Check if the data matches the mocked response
-  expect(result.current.data).toEqual(mockProducts);
-});
+  it('Should add new product test product', async () => {
+    const newProduct: Partial<Product> =  { title: "New Product" };
+    await store.dispatch(productQueries.endpoints.addProduct.initiate(newProduct));
+
+    console.log(' - - - - - FROM TEST', store.getState().productReducer.mutations['addProduct(body)']?.data)
+    expect(store.getState().productReducer.mutations['addProduct(newProduct)']?.data).toMatchObject(newProduct);
+    expect(store.getState().productReducer.mutations['addProduct(newProduct)']?.status).toBe(200);
+  });
+})

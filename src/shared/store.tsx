@@ -2,7 +2,7 @@ import { configureStore, ThunkAction, Action, combineReducers, Reducer, AnyActio
 
 import cart from '../redux/app-reducers/cart';
 import storage from "redux-persist/lib/storage";
-import { persistReducer, persistStore } from "redux-persist";
+import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistReducer, persistStore } from "redux-persist";
 import { PersistConfig } from "redux-persist/lib/types";
 
 import { setupListeners } from '@reduxjs/toolkit/query/react';
@@ -25,7 +25,13 @@ const persistedReducer: Reducer<AppState, AnyAction> = persistReducer(persistCon
 export const store = configureStore({
     reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(userQueries.middleware, productQueries.middleware), 
+    getDefaultMiddleware(
+        {
+            serializableCheck: {
+                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+            },
+        }
+    ).concat(productQueries.middleware, userQueries.middleware),
   });
 
 export type AppDispatch = typeof store.dispatch;
