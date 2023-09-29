@@ -3,13 +3,13 @@ import { User } from '../@types/user';
 import { 
     useAddUserMutation, 
     useDeleteUserMutation, 
-    useFetchAllUsersQuery, 
+    useGetUsersQuery, 
     useUpdateUserMutation 
 } from '../redux/api-queries/user-queries';
 import Layout from '../components/layout';
 
 const Home: FC = () => {
-    const {data, error, isLoading, isError} = useFetchAllUsersQuery();
+    const {data, error, isLoading, isError} = useGetUsersQuery();
 
     console.log('USERS from HOME: ', data);
 

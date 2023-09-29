@@ -1,7 +1,7 @@
 import { store } from '../../shared/store';
-import server from '../../shared/server';
+import server from '../../servers/product-server';
 import productQueries from '../../redux/api-queries/product-queries';
-import { mockProducts } from './mock-products';
+import { mockProducts } from '../../shared/mock-products';
 import { Product } from '../../@types/product';
 
 describe('products', () => {

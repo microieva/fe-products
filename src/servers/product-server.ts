@@ -1,25 +1,10 @@
 import {rest} from 'msw';
 import {setupServer} from 'msw/node';
 
-import {mockProducts} from '../test/redux/mock-products';
-import { Product } from '../@types/product';
+import {mockProducts} from '../shared/mock-products';
 
 
 export const handlers = [
-  /*rest.delete("our api link", async (req, res, ctx)=>{
-    const {id} = req.params;
-    if(mockProducts.find(p=> p.id === Number(id))) {
-
-      return res(
-        ctx.json(true)
-      )
-    } else {
-      return res(
-        ctx.json(false)
-      )
-    }
-
-  }),*/
   rest.get('https://api.escuelajs.co/api/v1/products', (req, res, ctx) =>{
     return res(ctx.json(mockProducts))
   }),
