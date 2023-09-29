@@ -3,10 +3,9 @@ import { Product } from '../@types/product';
 import { useAppSelector } from '../hooks/useAppSelector';
 import { 
     useDeleteProductMutation, 
-    useGetProductsQuery, 
     useAddProductMutation, 
     useUpdateProductMutation,
-    //useFilterProductsByTitleQuery, 
+    useFilterProductsByTitleQuery, 
 } from '../redux/api-queries/product-queries';
 import { addItem, removeItem } from '../redux/app-reducers/cart';
 import { useAppDispatch } from '../hooks/useAppDispatch';
@@ -18,7 +17,11 @@ const Products: FC = () => {
     const cart = useAppSelector(state => state.cart);
     const [searchTerm, setSearchTerm] = useState<string>('');
     //const { data, error } = useGetProductsQuery({categoryId: 1, title: searchTerm, limit: 20, offset: 0});
+<<<<<<< HEAD
     //const {data} = useFilterProductsByTitleQuery(searchTerm);
+=======
+    const {data} = useFilterProductsByTitleQuery(searchTerm);
+>>>>>>> test/unit-testing
 
 
     const test: Partial<Product> = {

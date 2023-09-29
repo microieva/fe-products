@@ -8,10 +8,10 @@ import { useAppSelector } from '../hooks/useAppSelector';
 const Section: FC = () => {
   //this component should return options to: searchbar, reset all products, switch view from cards to table
 
-  //const [searchTerm, setSearchTerm] = useState<string>('');
-  //const { data, error } = useGetProductsQuery({title: searchTerm, limit: 20, offset: 0});
-  //const cart = useAppSelector(state => state.cart);
-
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const { data, error } = useGetProductsQuery(undefined);
+  const cart = useAppSelector(state => state.cart);
+  console.log('Section hook data: ', data);
 
   return (
     <section>
