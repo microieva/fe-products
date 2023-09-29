@@ -1,6 +1,6 @@
-import productQueries from '../../redux/api-queries/product-queries';
 import { store } from '../../shared/store';
 import server from '../../shared/server';
+import productQueries from '../../redux/api-queries/product-queries';
 import { mockProducts } from './mock-products';
 import { Product } from '../../@types/product';
 
@@ -16,8 +16,6 @@ describe('products', () => {
 
   it('Should get all products', async () => {
     await store.dispatch(productQueries.endpoints.getProducts.initiate(undefined));
-    //console.log('test: ', store.getState().productReducer.queries['getProducts(undefined)']?.data);
-
     expect(store.getState().productReducer.queries['getProducts(undefined)']?.data).toMatchObject(mockProducts);
   });
 
@@ -33,12 +31,25 @@ describe('products', () => {
     expect(store.getState().productReducer.queries[`filterProductsByTitle("nuevo")`]?.data).toContainEqual(mockProducts[0]);
   });
 
-  it('Should add new product test product', async () => {
-    const newProduct: Partial<Product> =  { title: "New Product" };
-    await store.dispatch(productQueries.endpoints.addProduct.initiate(newProduct));
-
-    console.log(' - - - - - FROM TEST', store.getState().productReducer.mutations['addProduct(body)']?.data)
-    expect(store.getState().productReducer.mutations['addProduct(newProduct)']?.data).toMatchObject(newProduct);
-    expect(store.getState().productReducer.mutations['addProduct(newProduct)']?.status).toBe(200);
+  it('Should add new product test product with id: 11', async () => {
+    const newProduct: Partial<Product> =  {  
+      title: "New Product",
+    };
+    const result: any = await store.dispatch(productQueries.endpoints.addProduct.initiate(newProduct));
+    expect(result.data).toMatchObject({...newProduct, id: 11});
+  });
+  it('Should update existing product title to Updated Product', async () => {
+    const id = 10;
+    const updates: Partial<Product> =  {  
+      title: "Updated Product",
+    };
+    const result: any = await store.dispatch(productQueries.endpoints.updateProduct.initiate({id, ...updates}));
+    expect(result.data.title).toMatch("Updated Product");
+  });
+  it('Should delete existing product', async () => {
+    const id = 10;
+    const result: any = await store.dispatch(productQueries.endpoints.deleteProduct.initiate(id));
+    expect(result.data).toBe(true);
   });
 })
+

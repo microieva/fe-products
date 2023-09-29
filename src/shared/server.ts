@@ -20,10 +20,6 @@ export const handlers = [
     }
 
   }),*/
-  /*rest.post('our link', (req, res, ctx) =>{
-    const data = req.bodyUsed
-    console.log('data from mock server: ', data);
-  }),*/
   rest.get('https://api.escuelajs.co/api/v1/products', (req, res, ctx) =>{
     return res(ctx.json(mockProducts))
   }),
@@ -56,16 +52,34 @@ export const handlers = [
       }
     }),
     rest.post('https://api.escuelajs.co/api/v1/products/', async (req, res, ctx) => {
-      const newProduct = await req.json().then(response => {return response});
-      mockProducts.push(newProduct)
-      console.log('res: ', res(ctx.json(newProduct) ));
-
+      const body = await req.json();
       return res(
         ctx.status(200),
-        ctx.json(newProduct) 
+        ctx.json({ ...body, id: 11 }),
       );
-    })
-
+    }),
+    rest.put('https://api.escuelajs.co/api/v1/products/:id', async (req, res, ctx) => {
+      const {id} = req.params;
+      const body = await req.json()
+      const mockProductToUpdate = mockProducts.find(p=> p.id === Number(id))
+      return res(
+        ctx.status(200),
+        ctx.json({...mockProductToUpdate, title: body.title}),
+      );
+    }),
+    rest.delete('https://api.escuelajs.co/api/v1/products/:id', async (req, res, ctx)=>{
+      const {id} = req.params;
+      if(mockProducts.find(p=> p.id === Number(id))) {
+        return res(
+          ctx.json(true)
+        )
+      } else {
+        return res(
+          ctx.json(false)
+        )
+      }
+  
+    }),
 ]
 
 const server = setupServer(...handlers);
