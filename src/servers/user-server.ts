@@ -7,34 +7,6 @@ export const handlers = [
   rest.get('https://api.escuelajs.co/api/v1/users', (req, res, ctx) =>{
     return res(ctx.json(mockUsers))
   }),
-  /*rest.get(`https://api.escuelajs.co/api/v1/users/:id`, (req, res, ctx) =>{
-    const {id} = req.params;
-    const mockProduct = mockUsers.find(u=> u.id === Number(id))
-
-    if(mockProduct) {
-      return res(
-        ctx.json(mockProduct)
-        )
-      } else {
-      return res(
-        ctx.json("Product Not Found")
-        )
-      }
-    }), */
-    /*rest.get(`https://api.escuelajs.co/api/v1/users/name=:name`, (req, res, ctx) =>{
-      const {name} = req.params
-      const queryResult = mockUsers.filter(u =>u.name.toLowerCase().includes(name.toString()));
-      
-      if(name && queryResult.length>0) {
-        return res(
-          ctx.json(queryResult)
-        )
-      } else {
-        return res(
-          ctx.json("Product Not Found")
-        )
-      }
-    }),*/
   rest.post('https://api.escuelajs.co/api/v1/users/', async (req, res, ctx) => {
     const body = await req.json();
     return res(

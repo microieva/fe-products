@@ -8,6 +8,7 @@ import { PersistConfig } from "redux-persist/lib/types";
 import { setupListeners } from '@reduxjs/toolkit/query/react';
 import productQueries from '../redux/api-queries/product-queries';
 import userQueries from "../redux/api-queries/user-queries";
+import authQueries from "../redux/api-queries/auth-queries";
 
 const persistConfig: PersistConfig<any> = { 
     key: 'cart', 
@@ -17,7 +18,8 @@ const persistConfig: PersistConfig<any> = {
 const rootReducer = combineReducers({
     cart, 
     [productQueries.reducerPath]: productQueries.reducer,
-    [userQueries.reducerPath]: userQueries.reducer
+    [userQueries.reducerPath]: userQueries.reducer,
+    [authQueries.reducerPath]: authQueries.reducer
 });
 
 const persistedReducer: Reducer<AppState, AnyAction> = persistReducer(persistConfig, rootReducer);
@@ -31,7 +33,7 @@ export const store = configureStore({
                 ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
             },
         }
-    ).concat(productQueries.middleware, userQueries.middleware),
+    ).concat(productQueries.middleware, userQueries.middleware, authQueries.middleware),
   });
 
 export type AppDispatch = typeof store.dispatch;
