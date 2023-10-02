@@ -32,7 +32,7 @@ export const mockProducts: Product[] = [
       title: "Gorgeous Soft Hat",
       price: 635,
       category: {
-        id: 1,
+        id: 2,
         name: 'string',
         image: 'string'
 
