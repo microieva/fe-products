@@ -1,9 +1,16 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
+import Button from './button';
 
 const Header: FC = () => {
+
+  const handleClick = () => {
+    console.log('sign in click')
+  }
+  
   return (
     <header>
-      <h1>This Is Header</h1>
+      <h2>PRODUCTS</h2>
+      <Button text="sign in" width="8rem" height="2rem" onClick={handleClick} />
     </header>
   )
 }

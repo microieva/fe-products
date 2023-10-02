@@ -1,8 +1,16 @@
-import React from 'react'
+import { FC } from 'react';
 
-const Footer = () => {
+const Footer: FC = () => {
   return (
-    <div>Footer</div>
+    <footer>
+      <div className="footer-wrapper">
+        <div>
+          <p>This is a home assignment to practise React Hooks & Material UI</p>
+          <p>by Ieva Vyliaudaite</p>
+        </div>
+        <p>INTEGRIFY, Helsinki, 2023</p>
+      </div>
+    </footer>
   )
 }
 

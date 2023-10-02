@@ -13,11 +13,10 @@ import { Product } from '../@types/product';
 import { Column } from '../@types/table';
 
 interface TableProps {
-    arr: Product[],
-    length: number
+    data: Product[],
 }
 
-const MuiTable = ({arr, length}: TableProps) => {
+const MuiTable = ({ data }: TableProps) => {
     const columns: readonly Column[] = [
         { id: 'title', label: 'Title', minWidth: 170 },
         {
@@ -34,7 +33,7 @@ const MuiTable = ({arr, length}: TableProps) => {
         },
     ];
 
-    const rows: Product[] = arr;
+    const rows: Product[] = data;
 
     const StickyHeadTable = () => { 
         const [page, setPage] = useState(0);
@@ -113,7 +112,7 @@ const MuiTable = ({arr, length}: TableProps) => {
                 <TablePagination
                     rowsPerPageOptions={[10, 25, 100]}
                     component="div"
-                    count={length}
+                    count={data.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}
