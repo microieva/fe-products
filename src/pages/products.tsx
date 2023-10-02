@@ -16,12 +16,8 @@ const Products: FC = () => {
     const dispatch = useAppDispatch(); // needed for cart
     const cart = useAppSelector(state => state.cart);
     const [searchTerm, setSearchTerm] = useState<string>('');
-    //const { data, error } = useGetProductsQuery({categoryId: 1, title: searchTerm, limit: 20, offset: 0});
-<<<<<<< HEAD
+    //const { data, error } = useGetProductsQuery();
     //const {data} = useFilterProductsByTitleQuery(searchTerm);
-=======
-    const {data} = useFilterProductsByTitleQuery(searchTerm);
->>>>>>> test/unit-testing
 
 
     const test: Partial<Product> = {

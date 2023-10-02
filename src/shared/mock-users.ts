@@ -14,7 +14,7 @@ export const mockUsers: User[] = [
     email: "email",
     password: "password2",
     name: "Adam",
-    role: "user",
+    role: "customer",
     avatar: ""
   },
   {
@@ -22,7 +22,7 @@ export const mockUsers: User[] = [
     email: "email",
     password: "password3",
     name: "Eve",
-    role: "user",
+    role: "customer",
     avatar: ""
   },
 ]
