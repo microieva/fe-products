@@ -7,13 +7,14 @@ import { useGetProductsQuery } from '../redux/api-queries/product-queries';
 
 
 interface ViewProps {
-  filteredData: Product[],
+  filteredData: Product[]
 }
 
 const CardsView = ({ filteredData }: ViewProps) => {
-
-	const [ products, setProducts] = useState<Product[]>([])
+	const [ products, setProducts] = useState<Product[]>([]);
     const { data, error } = useGetProductsQuery(undefined);
+	const [currentPage, setCurrentPage] = useState<number>(1);
+	const [itemsPerPage, setItemsPerPage] = useState<number>(20);
 
     useEffect(()=>{
         if (filteredData.length !== 0) {
@@ -21,46 +22,35 @@ const CardsView = ({ filteredData }: ViewProps) => {
         } else {
             data && setProducts(data)
         }
-    }, [filteredData, data])
+    }, [filteredData, data]);
 
-	const [currentPage, setCurrentPage] = useState<number>(0);
-	const [itemsPerPage, setItemsPerPage] = useState<number>(20);
-	
+	useEffect(()=> {
+
+	});
 
 	const handlePageChange = (newPage: number, newItemsPerPage: number) => {
-		
-		const startIndex = currentPage * itemsPerPage;
-		const endIndex = startIndex + itemsPerPage; // newPage or currentPage ?
-		console.log('products: ', products)
-		if (products.length > endIndex) {
-			const splicedProducts: Product[] = products.slice(endIndex);
-			console.log('sliced? ', splicedProducts);
-			setProducts(splicedProducts);
-		} else {
-			const splicedProducts: Product[] = products.slice(startIndex);
-			console.log('sliced? ', splicedProducts);
-			setProducts(splicedProducts);
-		}
-		setCurrentPage(newPage);
+    	setCurrentPage(newPage);
 		setItemsPerPage(newItemsPerPage);
+  	};
 
-	};
+	const startIndex = (currentPage - 1) * itemsPerPage;
+  	const endIndex = startIndex + itemsPerPage;
+  	const currentProducts = products.slice(startIndex, endIndex);
 
 	return (
 		<>
 			<div className="cards-view-wrapper">
-				{products.map(product => {
+				{currentProducts.map(product => {
 					return (
-						<ProductCard key={product.id} product = {product}/>
+						<ProductCard key={product.id} product={product}/>
 					);
 				})}
 			</div>
 			<Pagination
+				itemsPerPage={[10, 20]}
 				totalItems={products.length}
-				itemsPerPageOptions={[10, 20]}
-				defaultItemsPerPage={20}
-				onPageChange={()=>handlePageChange}
-			/>
+				onPageChange={handlePageChange}
+      		/>
 		</>
 	);
 };
