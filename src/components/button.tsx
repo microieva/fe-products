@@ -1,8 +1,9 @@
-import React from 'react'
+import { FC } from 'react';
+import { ButtonProps } from '../@types/types';
 
-const Button = () => {
+const Button: FC<ButtonProps> = ({text, width, height, onClick}) => {
   return (
-    <div>Button</div>
+    <button className="btn" style={{width: `${width}`, height: `${height}`}} onClick={()=>onClick()}>{text}</button>
   )
 }
 

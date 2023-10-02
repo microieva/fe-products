@@ -11,17 +11,17 @@ const productQueries  = createApi({
     tagTypes: ['Products', 'Product'],
     endpoints: builder => ({
         // this creates a hook from dispatch and async thunk action -> to return data error and loading
-        getProducts: builder.query<Product[], PaginationQuery>({
-            query: ({limit, offset}) => `/?offset=${offset}&limit=${limit}`,
+        getProducts: builder.query<Product[], undefined>({
+            query: () => `/`,
             providesTags: ['Products']
         }),
         getProductById: builder.query<Product, number>({
-            query: (productId) => `${productId}`,
+            query: (productId) => `/${productId}`,
             providesTags: ['Product']
         }), 
-        deleteProduct: builder.mutation<boolean, number>({
-            query: (productId) => ({url: `${productId}`, method: 'DELETE'}),
-            invalidatesTags: ['Products']
+        filterProductsByTitle: builder.query<Product[], string>({
+            query: (query) => ({url:`/?title=${query}`}),
+            providesTags: ['Products']
         }),
         addProduct: builder.mutation<Product, Partial<Product>>({
             query: (body) => ({url: `/`, method: 'POST', body}),
@@ -31,9 +31,9 @@ const productQueries  = createApi({
             query: ({id, ...updates}) =>  ({url: `/${id}`, method: 'PUT', body: updates}),
             invalidatesTags: ['Products']
         }),
-        filterProductsByTitle: builder.query<Product[], string>({
-            query: (query) => ({url:`/?title=${query}`}),
-            providesTags: ['Products']
+        deleteProduct: builder.mutation<boolean, number>({
+            query: (productId) => ({url: `${productId}`, method: 'DELETE'}),
+            invalidatesTags: ['Products']
         })
     })
 })

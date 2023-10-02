@@ -12,12 +12,11 @@ import TableRow from '@mui/material/TableRow';
 import { Product } from '../@types/product';
 import { Column } from '../@types/table';
 
-interface ViewProps {
-    arr: Product[],
-    length: number
+interface TableProps {
+    data: Product[],
 }
 
-const TableView = ({arr, length}: ViewProps) => {
+const MuiTable = ({ data }: TableProps) => {
     const columns: readonly Column[] = [
         { id: 'title', label: 'Title', minWidth: 170 },
         {
@@ -34,7 +33,7 @@ const TableView = ({arr, length}: ViewProps) => {
         },
     ];
 
-    const rows: Product[] = arr;
+    const rows: Product[] = data;
 
     const StickyHeadTable = () => { 
         const [page, setPage] = useState(0);
@@ -113,7 +112,7 @@ const TableView = ({arr, length}: ViewProps) => {
                 <TablePagination
                     rowsPerPageOptions={[10, 25, 100]}
                     component="div"
-                    count={length}
+                    count={data.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}
@@ -131,4 +130,4 @@ const TableView = ({arr, length}: ViewProps) => {
         <h1>NO RESULTS</h1>
 }
 
-export default TableView;
+export default MuiTable;

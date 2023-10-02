@@ -8,7 +8,7 @@ const userQueries  = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: 'https://api.escuelajs.co/api/v1/users' }),
     tagTypes: ['Users', 'User'],
     endpoints: (builder) => ({
-        fetchAllUsers: builder.query<User[], void>({
+        getUsers: builder.query<User[], void>({
             query: () => '',
             providesTags: ['Users']
         }),
@@ -16,19 +16,19 @@ const userQueries  = createApi({
             query: (body) => ({url: `/`, method: 'POST', body}),
             invalidatesTags: ['Users']
         }),
-        deleteUser: builder.mutation<boolean, number>({
-            query: (userId) =>  ({url: `/${userId}`, method: 'DELETE'}),
-            invalidatesTags: ['Users']
-        }),
         updateUser: builder.mutation<User, Partial<User>>({
             query: ({id, ...updates}) =>  ({url: `/${id}`, method: 'PUT', body: updates}),
+            invalidatesTags: ['Users']
+        }),
+        deleteUser: builder.mutation<boolean, number>({
+            query: (userId) =>  ({url: `/${userId}`, method: 'DELETE'}),
             invalidatesTags: ['Users']
         })
     })
 })
 
 export const {
-    useFetchAllUsersQuery, 
+    useGetUsersQuery, 
     useAddUserMutation,
     useDeleteUserMutation,
     useUpdateUserMutation

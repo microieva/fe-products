@@ -3,7 +3,7 @@ import { User } from '../@types/user';
 import { 
     useAddUserMutation, 
     useDeleteUserMutation, 
-    useFetchAllUsersQuery, 
+    useGetUsersQuery, 
     useUpdateUserMutation 
 } from '../redux/api-queries/user-queries';
 import Layout from '../components/layout';
@@ -11,7 +11,7 @@ import { useAddProductMutation } from '../redux/api-queries/product-queries';
 import { Product } from '../@types/product';
 
 const Home: FC = () => {
-    const {data, error, isLoading, isError} = useFetchAllUsersQuery();
+    const {data, error, isLoading, isError} = useGetUsersQuery();
 
     console.log('USERS from HOME: ', data);
 
@@ -52,16 +52,7 @@ const Home: FC = () => {
         addProduct(testP); //tested works with Test type
     }
 
-    return (
-        <>
-            {/* <div>Home</div>
-            <button onClick={()=>onAddUser()}>Add New User</button>
-            <button onClick={()=>onDeleteUser()}>DELETE USER</button>
-            <button onClick={()=>onUpdateUser()}>UPDATE USER</button> */}
-            <button onClick={()=>onAddNewProduct()}>Add New Product</button>
-            <Layout/>
-        </>
-    )
+    return (<Layout/>) 
 }
 
 export default Home;

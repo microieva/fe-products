@@ -1,27 +1,36 @@
-import { FC } from 'react';
-import TableView from './table-view';
-import CardsView from './cards-view';
-import { useGetProductsQuery } from '../redux/api-queries/product-queries';
+import { FC, useState } from 'react';
+import Table from './table';
+import SearchBar from './search-bar';
+import ViewSwitcher from './view-switcher';
+import { Product } from '../@types/product';
 
 
-const Section:FC = () => {
+const Section: FC = () => {
+    //this component should return options to: searchbar, reset all products, switch view from cards to table
+    const [activeView, setActiveView] = useState<string>('grid');
+    const [ filteredData, setFilteredData ] = useState<Product[]>([]);
 
-    const { data, error } = useGetProductsQuery({limit: 1000, offset: 0});
-    const isTable = false;
+    const switchView = (activeView: string) => {
+        setActiveView(activeView)
+     }
 
-        return (
-            <div>
-                <p>`Table-Header with dropdown to options to sort by price up & down and sort by categories up & down?`</p>
-                {/* // <ReactTable Component passing string 'title' | 'categoryId'for query && passing page = 'products' | 'cart'/> 
-                inside react table component, we use hooks from api-reducers either get products or cart
-                */}
-                {data && data.length>0 ? 
-                    isTable ? <TableView arr={data} length={data.length}/> : <CardsView arr={data} length={data.length}/>
-                :
-                <h1>error</h1>
-                }
+    const searchProducts = (searchResult: Product[]) => {
+        setFilteredData(searchResult);
+    }
+
+    return (
+        <section>
+            <div className='utilities-container'>
+                <SearchBar searchProducts={searchProducts}/>
+                <ViewSwitcher switchView={switchView}/>
             </div>
-        )
+            <div className='products-container'>
+                {/* {!table && <Cards />} */}
+                {activeView === 'grid' && <p>cards</p>}
+                {activeView === 'table' && <Table filteredData={filteredData}/>}
+            </div>  
+        </section>
+    )
 }
 
 export default Section;

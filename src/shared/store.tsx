@@ -1,12 +1,15 @@
-import { configureStore, ThunkAction, Action, combineReducers } from "@reduxjs/toolkit";
+import { configureStore, ThunkAction, Action, combineReducers, Reducer, AnyAction } from "@reduxjs/toolkit";
 
 import cart from '../redux/app-reducers/cart';
 import storage from "redux-persist/lib/storage";
-import { persistReducer, persistStore } from "redux-persist";
+import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistReducer, persistStore } from "redux-persist";
 import { PersistConfig } from "redux-persist/lib/types";
+
 import { setupListeners } from '@reduxjs/toolkit/query/react';
 import productQueries from '../redux/api-queries/product-queries';
 import userQueries from "../redux/api-queries/user-queries";
+import authQueries from "../redux/api-queries/auth-queries";
+import categoryQueries from "../redux/api-queries/category-queries";
 
 const persistConfig: PersistConfig<any> = { 
     key: 'cart', 
@@ -16,15 +19,23 @@ const persistConfig: PersistConfig<any> = {
 const rootReducer = combineReducers({
     cart, 
     [productQueries.reducerPath]: productQueries.reducer,
-    [userQueries.reducerPath]: userQueries.reducer
+    [userQueries.reducerPath]: userQueries.reducer,
+    [authQueries.reducerPath]: authQueries.reducer,
+    [categoryQueries.reducerPath]: categoryQueries.reducer
 });
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const persistedReducer: Reducer<AppState, AnyAction> = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
     reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(userQueries.middleware, productQueries.middleware), 
+    getDefaultMiddleware(
+        {
+            serializableCheck: {
+                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+            },
+        }
+    ).concat(productQueries.middleware, userQueries.middleware, authQueries.middleware, categoryQueries.middleware),
   });
 
 export type AppDispatch = typeof store.dispatch;

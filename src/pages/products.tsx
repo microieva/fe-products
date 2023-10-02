@@ -3,10 +3,9 @@ import { Product } from '../@types/product';
 import { useAppSelector } from '../hooks/useAppSelector';
 import { 
     useDeleteProductMutation, 
-    useGetProductsQuery, 
     useAddProductMutation, 
     useUpdateProductMutation,
-    //useFilterProductsByTitleQuery, 
+    useFilterProductsByTitleQuery, 
 } from '../redux/api-queries/product-queries';
 import { addItem, removeItem } from '../redux/app-reducers/cart';
 import { useAppDispatch } from '../hooks/useAppDispatch';
@@ -17,7 +16,7 @@ const Products: FC = () => {
     const dispatch = useAppDispatch(); // needed for cart
     const cart = useAppSelector(state => state.cart);
     const [searchTerm, setSearchTerm] = useState<string>('');
-    //const { data, error } = useGetProductsQuery({categoryId: 1, title: searchTerm, limit: 20, offset: 0});
+    //const { data, error } = useGetProductsQuery();
     //const {data} = useFilterProductsByTitleQuery(searchTerm);
 
 
