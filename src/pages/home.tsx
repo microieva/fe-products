@@ -9,6 +9,7 @@ import {
 import Layout from '../components/layout';
 import { useAddProductMutation } from '../redux/api-queries/product-queries';
 import { Product } from '../@types/product';
+import Footer from '../components/footer';
 
 const Home: FC = () => {
     const {data, error, isLoading, isError} = useGetUsersQuery();
@@ -52,7 +53,14 @@ const Home: FC = () => {
         addProduct(testP); //tested works with Test type
     }
 
-    return (<Layout/>) 
+    return (
+        <>
+            <main>
+                <Layout/>
+            </main>
+            <Footer />
+        </>
+        ) 
 }
 
 export default Home;

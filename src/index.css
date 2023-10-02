@@ -1,6 +1,10 @@
-.layout-container {
-  width: 70%;
-  margin: auto;
+.products-container {
+  display: flex;
+  flex-direction: column;
+}
+
+section {
+  margin: 3rem 0;
 }
 
 .cards-view-wrapper {
@@ -20,7 +24,7 @@
   margin: 2rem 0;
 }
 
-.app-container {
+main {
   width: 70%;
   margin: auto;
 }
@@ -87,12 +91,11 @@ header h2 {
 
 footer {
   font-family: Arial, Helvetica, sans-serif;
-  position: fixed;
   left: 0;
   bottom: 0;
   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
   background-color: #dbdbdb;
-  height: 8rem;
+  height: 12rem;
   width: 100%;
   display: flex;
   justify-content: space-around;

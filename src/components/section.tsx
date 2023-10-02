@@ -1,9 +1,9 @@
 import { FC, useState } from 'react';
-import Table from './table';
+import TableView from './table-view';
 import SearchBar from './search-bar';
 import ViewSwitcher from './view-switcher';
 import { Product } from '../@types/product';
-
+import CardsView from './cards-view';
 
 const Section: FC = () => {
     //this component should return options to: searchbar, reset all products, switch view from cards to table
@@ -25,9 +25,8 @@ const Section: FC = () => {
                 <ViewSwitcher switchView={switchView}/>
             </div>
             <div className='products-container'>
-                {/* {!table && <Cards />} */}
-                {activeView === 'grid' && <p>cards</p>}
-                {activeView === 'table' && <Table filteredData={filteredData}/>}
+                {activeView === 'grid' && <CardsView filteredData={filteredData}/>}
+                {activeView === 'table' && <TableView filteredData={filteredData}/>}
             </div>  
         </section>
     )
