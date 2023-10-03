@@ -62,21 +62,6 @@ const Pagination: FC<PaginationProps> = ({ itemsPerPage, totalItems, onPageChang
 					<NavigateNextIcon className="right"/>
 				</IconButton>
 			</div>
-				{/* <p>Total Items: {totalItems}</p> */}
-				
-				{/* <button
-					onClick={() => handlePageChange(currentPage - 1)}
-					disabled={currentPage === 1}
-				>
-				Previous
-				</button>
-				
-				<button
-					onClick={() => handlePageChange(currentPage - 1)}
-					disabled={currentPage === totalPages}
-				>
-				Next
-			</button> */}
 		</div>
 	);
 }
