@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+import ImageListItemBar from '@mui/material/ImageListItemBar';
+
 import ProductCard from './product-card';
 import Pagination from './pagination';
 import { Product } from '../@types/product';
 import { useGetProductsQuery } from '../redux/api-queries/product-queries';
-
 
 interface ViewProps {
   filteredData: Product[]
@@ -38,22 +41,24 @@ const CardsView = ({ filteredData }: ViewProps) => {
   	const currentProducts = products.slice(startIndex, endIndex);
 
 	return (
-		<>
+		<div className="cards-container">
 			<div className="cards-view-wrapper">
 				{currentProducts.map(product => {
 					return (
 						<ProductCard key={product.id} product={product}/>
 					);
 				})}
+			</div> 
+			<div className="pagination-container">
+				<Pagination
+					itemsPerPage={[10, 20]}
+					totalItems={products.length}
+					onPageChange={handlePageChange}
+					startIndex={startIndex}
+					endIndex={currentProducts.length < itemsPerPage ? currentProducts.length : endIndex}
+				/>
 			</div>
-			<Pagination
-				itemsPerPage={[10, 20]}
-				totalItems={products.length}
-				onPageChange={handlePageChange}
-				startIndex={startIndex}
-				endIndex={currentProducts.length < itemsPerPage ? currentProducts.length : endIndex}
-      		/>
-		</>
+		</div>
 	);
 };
 
