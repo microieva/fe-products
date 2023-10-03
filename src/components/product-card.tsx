@@ -6,6 +6,9 @@ interface CardProps {
 }
 
 const ProductCard: FC<CardProps> = ({product}: CardProps) => {
+  // this will have title, price & maybe category; 
+  // button to add to card - or showing "In Cart" 
+  // button remove from cart
   return (
     <div className="card-wrapper">
         <div>ProductCard</div>
