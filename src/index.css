@@ -42,12 +42,37 @@ header {
   margin: 0.5rem 0 3rem 0;
   border-radius: 5px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+}
+header .header-group {
+  display: flex;
+  align-items: center;
+}
+header button {
+  margin-left: 59rem;
 }
 header h2 {
   letter-spacing: 2px;
   margin: 0 1rem;
+}
+header .shopping-cart-icon {
+  margin-right: 12px;
+  margin-left: auto;
+}
+header .shopping-cart-icon span.MuiBadge-badge {
+  background-color: rgb(255, 111, 0);
+  color: white;
+  font-weight: 700;
+}
+header .shopping-cart-icon svg {
+  height: 3rem;
+  width: 3rem;
+  color: #DBDBDB;
+}
+header .shopping-cart-icon svg:hover {
+  cursor: pointer;
+  color: darkgray;
 }
 
 .btn {
@@ -93,6 +118,9 @@ header h2 {
 .utilities-container .icons-container .active-icon {
   background-color: #DBDBDB;
   color: #fff;
+}
+.utilities-container .icons-container .disabled-icon:hover {
+  cursor: default;
 }
 
 .cards-container {

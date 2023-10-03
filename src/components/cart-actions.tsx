@@ -7,12 +7,14 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useAppDispatch } from '../hooks/useAppDispatch';
 import { addItem, removeItem } from '../redux/app-reducers/cart';
 import { Product } from '../@types/product';
+import { useAppSelector } from '../hooks/useAppSelector';
 
 interface CartActionsProps {
     product: Product
 }
 
 const CartActions: FC<CartActionsProps> = ({product}: CartActionsProps) => {
+    const cart = useAppSelector(state => state.cart); // check if item NOT in cart to make delete disabled
     const dispatch = useAppDispatch();
 
     const addToCart = () => {
@@ -22,7 +24,7 @@ const CartActions: FC<CartActionsProps> = ({product}: CartActionsProps) => {
         dispatch(removeItem(product.id));
     }
     return (
-        <div className='btn-group'>
+        <div className='btn-group' style={{float: "right"}}>
             <IconButton aria-label="add" size="large" onClick={addToCart}>
                 <AddCircleOutlineIcon/>
             </IconButton>

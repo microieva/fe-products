@@ -42,11 +42,36 @@ header {
   margin: 0.5rem 0 3rem 0;
   border-radius: 5px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  .header-group {
+    display: flex;
+    align-items: center;
+  }
+  button {
+    margin-left: 59rem;
+  }
   h2 {
     letter-spacing: 2px;
     margin: 0 1rem;
+  }
+  .shopping-cart-icon {
+    span.MuiBadge-badge {
+      background-color: rgb(255, 111, 0);
+      color: white;
+      font-weight: 700;
+    }
+    margin-right: 12px;
+    margin-left: auto;
+    svg {
+      height: 3rem;
+      width: 3rem;
+      color: #DBDBDB;
+      &:hover {
+        cursor: pointer;
+        color: darkgray;
+      }
+    }
   }
 }
 
@@ -82,7 +107,7 @@ transition: 200ms;
       border-radius: 3px;
       &:hover {
         cursor: pointer;
-        background-color:  #DBDBDB;
+        background-color: #DBDBDB;
         color: #fff;
         transition: 0.2s ease-in-out;
       }
@@ -90,6 +115,9 @@ transition: 200ms;
     .active-icon {
       background-color:  #DBDBDB;
       color: #fff;
+    }
+    .disabled-icon:hover{ //make this class in section utilities icons!
+      cursor: default;
     }
   }
 }
