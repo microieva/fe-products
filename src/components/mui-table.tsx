@@ -30,10 +30,12 @@ const MuiTable = ({ data }: TableProps) => {
             label: 'Category',
             minWidth: 170,
             align: 'right',
+            render: (row: Product) => row.category.name,
         },
     ];
 
     const rows: Product[] = data;
+    console.log('TABLE DATA: ', data);
 
     const StickyHeadTable = () => { 
         const [page, setPage] = useState(0);
@@ -77,7 +79,7 @@ const MuiTable = ({ data }: TableProps) => {
                         <TableBody sx={{ "& tbody": {height: "50rem"}}}>
                         { rows
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((row: Product, i: any) => {
+                            .map((row: Product) => {
                                 return (   
                                     <TableRow 
                                         hover 
@@ -92,7 +94,7 @@ const MuiTable = ({ data }: TableProps) => {
                                         }}
                                     >    
                                     {columns.map((column: Column) => {
-                                        const value: string = row[column.id].toString();
+                                        const value = column.render ? column.render(row) : row[column.id].toString();
                                         return (
                                             <TableCell key={column.id} align={column.align}>
                                                 {value}

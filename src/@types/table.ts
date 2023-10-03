@@ -1,4 +1,5 @@
 import { FontStyle } from "@mui/material/styles/createTypography";
+import { Product } from "./product";
 
 export interface Column {
   bold?: FontStyle | undefined
@@ -6,4 +7,5 @@ export interface Column {
   label: string,
   minWidth?: number,
   align?: 'right',
+  render?: (row: Product) => string,
 }
