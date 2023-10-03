@@ -1,25 +1,30 @@
-import { ChangeEvent, FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
+
+import IconButton from "@mui/material/IconButton";
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 interface PaginationProps {
 	itemsPerPage: number[],
 	totalItems: number,
+	startIndex: number,
+	endIndex: number,
 	onPageChange: (newPage: number, newItemsPerPage: number) => void
 }
 
-const Pagination: FC<PaginationProps> = ({ itemsPerPage, totalItems, onPageChange }: PaginationProps) => {
-
+const Pagination: FC<PaginationProps> = ({ itemsPerPage, totalItems, onPageChange, startIndex, endIndex }: PaginationProps) => {
 	const [itemsPerPageOption, setItemsPerPageOption] = useState(20);
 	const totalPages = Math.ceil(totalItems / itemsPerPageOption);
 	const [currentPage, setCurrentPage] = useState(1);
-
-	
 
 	const handlePageChange = (newPage: number) => {
 		setCurrentPage(newPage);
 		onPageChange(newPage, itemsPerPageOption);
 	}
 
-	const handleItemsPerPageChange = (event: ChangeEvent<HTMLSelectElement>) => {
+	const handleItemsPerPageChange = (event: SelectChangeEvent) => {
 		const newItemsPerPage = parseInt(event.target.value, 10);
 		setItemsPerPageOption(newItemsPerPage);
 	}
@@ -31,32 +36,47 @@ const Pagination: FC<PaginationProps> = ({ itemsPerPage, totalItems, onPageChang
 	return (
 		<div className="pagination">
 			<div className="items-per-page">
-				Items Per Page:
-				<select 
-					onChange={handleItemsPerPageChange} 
-					value={itemsPerPageOption}>
-					{itemsPerPage.map((option) => (
-						<option key={option} value={option}>
-							{option}
-						</option>
-					))}
-				</select>
-				</div>
-				<p>Total Items: {totalItems}</p>
+				<p>Items per page:</p>
+				<FormControl>
+					<Select
+						sx={{ boxShadow: 'none', '.MuiOutlinedInput-notchedOutline': { border: 0 } }}
+						id="select"
+						label={itemsPerPageOption}
+						onChange={handleItemsPerPageChange}
+						value={`${itemsPerPageOption}`}
+					>
+						{itemsPerPage.map((option) => (
+							<MenuItem value={option}>{option}</MenuItem>
+						))}
+  					</Select>
+				</FormControl>
+			</div>
+			<div className="page-nrs">
+				<span>{startIndex} - {endIndex} of {totalItems}</span>
+			</div>
+			<div className="page-arrows">
+				<IconButton aria-label="delete" size="large" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+					<NavigateNextIcon className="left"/>
+				</IconButton>
+				<IconButton aria-label="delete" size="large" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === totalPages}>
+					<NavigateNextIcon className="right"/>
+				</IconButton>
+			</div>
+				{/* <p>Total Items: {totalItems}</p> */}
 				
-				<button
+				{/* <button
 					onClick={() => handlePageChange(currentPage - 1)}
 					disabled={currentPage === 1}
 				>
 				Previous
 				</button>
-				<span>Page {currentPage} of {totalPages}</span>
+				
 				<button
-					onClick={() => handlePageChange(currentPage + 1)}
+					onClick={() => handlePageChange(currentPage - 1)}
 					disabled={currentPage === totalPages}
 				>
 				Next
-			</button>
+			</button> */}
 		</div>
 	);
 }

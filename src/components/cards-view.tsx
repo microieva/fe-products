@@ -50,6 +50,8 @@ const CardsView = ({ filteredData }: ViewProps) => {
 				itemsPerPage={[10, 20]}
 				totalItems={products.length}
 				onPageChange={handlePageChange}
+				startIndex={startIndex}
+				endIndex={currentProducts.length < itemsPerPage ? currentProducts.length : endIndex}
       		/>
 		</>
 	);

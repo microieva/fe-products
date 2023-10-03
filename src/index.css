@@ -1,3 +1,7 @@
+.app-container {
+  font-family: "Roboto", sans-serif;
+}
+
 .products-container {
   display: flex;
   flex-direction: column;
@@ -89,6 +93,29 @@ header h2 {
   color: #fff;
 }
 
+.pagination {
+  font-size: 14px;
+  align-self: flex-end;
+  display: flex;
+  align-items: center;
+}
+.pagination > div {
+  margin: 0 0.5rem;
+}
+.pagination .items-per-page {
+  width: 11rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.pagination .page-arrows {
+  color: #F5F5F5;
+  width: 6rem;
+}
+.pagination .page-arrows .left {
+  rotate: 180deg;
+}
+
 footer {
   font-family: Arial, Helvetica, sans-serif;
   left: 0;
@@ -99,6 +126,8 @@ footer {
   width: 100%;
   display: flex;
   justify-content: space-around;
+  position: absolute;
+  margin-top: auto;
 }
 
 .footer-wrapper {
