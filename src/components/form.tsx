@@ -1,22 +1,20 @@
-import * as React from 'react';
+import { FC, useContext } from 'react';
+
+import { FormContext } from '../contexts/form';
+import { TypeFormContext } from '../@types/types';
+
 import SignupForm from './signup-form';
-
-
-interface FormProps {
-    onClose?: ()=> void,
-    form: 'signup' | 'login' | null
-}
                                 
-const Form: React.FC<FormProps> = ({form}: FormProps) => {
+const Form = () => {
+    const { form } = useContext(FormContext) as TypeFormContext;
     
-
     switch (form) {
         case 'signup':
             return <SignupForm />
         case 'login':
-            return <p>ANOTHER FORM</p>
+            return <p>LOGIN FORM</p>
         default: 
-            return;
+            return <></>
     }
       
 }

@@ -21,3 +21,8 @@ export type ButtonProps = {
 }
 
 export type TypeForm = 'signup' | 'login' | null;
+
+export type TypeFormContext = {
+  form: TypeForm,
+  onClose: ()=> boolean
+}

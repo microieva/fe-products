@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useState, useContext } from 'react';
 
 import Dialog from '@mui/material/Dialog';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
@@ -8,6 +8,7 @@ import Button from './button';
 import { useAppSelector } from '../hooks/useAppSelector';
 import Form from './form';
 import { TypeForm } from '../@types/types';
+import FormProvider, { FormContext } from '../contexts/form';
 
 const Header: FC = () => {
     const [ open, setOpen ] = useState<boolean>(false);
@@ -21,7 +22,8 @@ const Header: FC = () => {
     }
 
     const handleClose = () => {
-        console.log('close form')
+        setOpen(false);
+        return true;
     }
     const openCart = () => {
         //setCart(true)
@@ -48,11 +50,11 @@ const Header: FC = () => {
                     </Badge>
                 </div>
             </div>
-            <Dialog open={open} onClose={handleClose}>
-                <Form 
-                    //onClose={handleClose} 
-                    form={form}/>
-            </Dialog>
+            <FormProvider form={form}>
+                <Dialog open={open} onClose={handleClose}>
+                    <Form />
+                </Dialog>
+            </FormProvider>
         </header>
     )
 }
