@@ -7,6 +7,10 @@
 
 This project requires implementation of TypeScript and SASS.
 
+# DEMO
+
+[Progress So Far](https://tinyurl.com/w6a8fymf)
+
 ## Requirement
 
 1. Use the API endpoint [https://fakeapi.platzi.com/](https://fakeapi.platzi.com/) to create an e-commerce website. Read the documentation and learn how to use the different endpoints.
