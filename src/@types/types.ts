@@ -19,3 +19,5 @@ export type ButtonProps = {
   height?: string,
   onClick: ()=>void
 }
+
+export type TypeForm = 'signup' | 'login' | null;
