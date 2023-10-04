@@ -1,5 +1,7 @@
 .app-container {
   font-family: "Roboto", sans-serif;
+  position: relative;
+  padding-bottom: 12rem;
 }
 
 .products-container {
@@ -164,6 +166,7 @@ footer {
   display: flex;
   justify-content: space-around;
   margin-top: auto;
+  position: absolute;
 }
 
 .footer-wrapper {
