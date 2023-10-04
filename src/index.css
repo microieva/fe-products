@@ -102,24 +102,22 @@ header .shopping-cart-icon svg:hover {
 }
 .utilities-container .icons-container {
   display: flex;
-  color: #DBDBDB;
+  color: darkgray;
 }
 .utilities-container .icons-container svg {
-  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
   margin: 0 0.5rem;
-  height: 3rem;
-  width: 3rem;
-  border-radius: 3px;
+  height: 2rem;
+  width: 2rem;
+  padding: 0.6rem;
+  border-radius: 5px;
 }
 .utilities-container .icons-container svg:hover {
   cursor: pointer;
-  background-color: #DBDBDB;
-  color: #fff;
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
   transition: 0.2s ease-in-out;
 }
 .utilities-container .icons-container .active-icon {
-  background-color: #DBDBDB;
-  color: #fff;
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
 }
 
 .cards-container {
@@ -135,6 +133,7 @@ header .shopping-cart-icon svg:hover {
 
 .pagination {
   font-size: 14px;
+  letter-spacing: 1px;
   display: flex;
   align-items: center;
 }
@@ -142,7 +141,7 @@ header .shopping-cart-icon svg:hover {
   margin: 0 0.5rem;
 }
 .pagination .items-per-page {
-  width: 11rem;
+  width: 12rem;
   display: flex;
   justify-content: space-between;
   align-items: center;

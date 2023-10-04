@@ -1,7 +1,10 @@
 import { FC, useState } from 'react';
 
 import TableRowsIcon from '@mui/icons-material/TableRows';
+import TableRowsOutlinedIcon from '@mui/icons-material/TableRowsOutlined';
+import TocOutlinedIcon from '@mui/icons-material/TocOutlined';
 import GridViewIcon from '@mui/icons-material/GridView';
+import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined';
 
 interface SwitcherProps {
     switchView:(activeView: string)=>void

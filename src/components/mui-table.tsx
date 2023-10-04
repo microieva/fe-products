@@ -70,7 +70,7 @@ const MuiTable = ({ data }: TableProps) => {
     
         return (
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                <TableContainer sx={{ maxHeight: 440 }}>
+                <TableContainer sx={{ maxHeight: "40rem" }}>
                     <Table stickyHeader aria-label="sticky table">
                         <CustomTableHead sx={{ "&thead": {top: "0", position: "sticky"} }}>
                             <TableRow>
@@ -138,7 +138,7 @@ const MuiTable = ({ data }: TableProps) => {
                     </Table>
                 </TableContainer>
                 <TablePagination
-                    rowsPerPageOptions={[10, 25, 100]}
+                    rowsPerPageOptions={[10, 20, 100]}
                     component="div"
                     count={data.length}
                     rowsPerPage={rowsPerPage}

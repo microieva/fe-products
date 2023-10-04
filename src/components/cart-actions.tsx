@@ -16,7 +16,7 @@ interface CartActionsProps {
 
 const CartActions: FC<CartActionsProps> = ({product}: CartActionsProps) => {
     const cart = useAppSelector(state => state.cart); 
-    const [isInCart, setIsInCart] = useState<boolean>(false)
+    const [isInCart, setIsInCart] = useState<boolean>(cart.some((item: CartItem) => item.id == product.id))
     const dispatch = useAppDispatch();
 
     const addToCart = () => {
@@ -27,7 +27,7 @@ const CartActions: FC<CartActionsProps> = ({product}: CartActionsProps) => {
         dispatch(removeItem(product.id))
     }
     useEffect(()=>{
-        const inCart = cart.find((item: CartItem) => item.id == product.id);
+        const inCart = cart.some((item: CartItem) => item.id == product.id);
         if (!inCart) {
             setIsInCart(false)
         }

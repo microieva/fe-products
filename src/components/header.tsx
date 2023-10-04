@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import Badge from '@mui/material/Badge';
 
 import Button from './button';
@@ -25,14 +25,13 @@ const Header: FC = () => {
                 <Button text="sign in" width="8rem" height="2rem" onClick={handleClick} />
                 <div className="shopping-cart-icon">
                     <Badge 
-                        //color="secondary" 
                         overlap="circular" 
                         badgeContent={amount}
                         sx={{
                             "&.css-z5pebr-MuiBadge-badge": {backgroundColor: "orange"}
                         }}
                     >
-                        <ShoppingCartIcon onClick={openCart}/>
+                        <ShoppingCartOutlinedIcon onClick={openCart}/>
                     </Badge>
                 </div>
             </div>
