@@ -115,10 +115,7 @@ transition: 200ms;
     .active-icon {
       background-color:  #DBDBDB;
       color: #fff;
-    }
-    .disabled-icon:hover{ //make this class in section utilities icons!
-      cursor: default;
-    }
+    } 
   }
 }
 
@@ -173,7 +170,6 @@ footer {
   display: flex;
   align-items: center;
 }
-
 .card-content {
   display: flex;
   flex-direction: column;
@@ -183,6 +179,9 @@ footer {
     align-self: flex-end;
     margin: 0 0 20px 0;
     color: darkgray;
+    .disabled:hover { // doesnt work !!!
+      cursor: default
+    }
   }
   .product-price {
     align-self: flex-end;
@@ -209,8 +208,8 @@ footer {
     width: 100%;
     border-bottom: 2px black solid;
     background-color: red;
-    th {
-      //background-color: red;
+    td.MuiTableCell-root {
+      padding: 0
     }
   }
   

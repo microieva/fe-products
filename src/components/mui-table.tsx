@@ -96,7 +96,7 @@ const MuiTable = ({ data }: TableProps) => {
                                  <TableCell colSpan={1} style={{ minWidth: 50 }}></TableCell>
                             </TableRow>
                         </CustomTableHead>
-                        <TableBody sx={{ "& tbody": {height: "50rem"}}}>
+                        <TableBody sx={{ "& tbody": {height: ""}}}>
                         { rows
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row: Product) => {
@@ -108,6 +108,7 @@ const MuiTable = ({ data }: TableProps) => {
                                         key={row.id} 
                                         onClick={()=> console.log("ROW: ",row)}
                                         sx={{
+                                            "& td": {padding: "0 1rem"},
                                             "& td:hover": {
                                                 cursor: "pointer"
                                             }

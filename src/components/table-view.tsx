@@ -20,10 +20,6 @@ const Table: FC<TableProps> = ({ filteredData }: TableProps) => {
 
     return (
             <div className='table-view'>
-                <p>`Table-Header with dropdown to options to sort by price up & down and sort by categories up & down?`</p>
-            {/* // <ReactTable Component passing string 'title' | 'categoryId'for query && passing page = 'products' | 'cart'/> 
-            inside react table component, we use hooks from api-reducers either get products or cart
-            */}
                 <MuiTable data={products} />
             </div>
         )

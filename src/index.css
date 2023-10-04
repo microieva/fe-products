@@ -119,9 +119,6 @@ header .shopping-cart-icon svg:hover {
   background-color: #DBDBDB;
   color: #fff;
 }
-.utilities-container .icons-container .disabled-icon:hover {
-  cursor: default;
-}
 
 .cards-container {
   display: flex;
@@ -187,6 +184,9 @@ footer {
   margin: 0 0 20px 0;
   color: darkgray;
 }
+.card-content .btn-group .disabled:hover {
+  cursor: default;
+}
 .card-content .product-price {
   align-self: flex-end;
   border-radius: 25px;
@@ -211,6 +211,9 @@ footer {
   width: 100%;
   border-bottom: 2px black solid;
   background-color: red;
+}
+.table-view .MuiTableRow-head td.MuiTableCell-root {
+  padding: 0;
 }
 
 /*# sourceMappingURL=index.css.map */

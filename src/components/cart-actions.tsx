@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 import IconButton from "@mui/material/IconButton";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -15,21 +15,37 @@ interface CartActionsProps {
 
 const CartActions: FC<CartActionsProps> = ({product}: CartActionsProps) => {
     const cart = useAppSelector(state => state.cart); // check if item NOT in cart to make delete disabled
+    const [isInCart, setIsInCart] = useState<boolean>(false)
     const dispatch = useAppDispatch();
 
     const addToCart = () => {
         dispatch(addItem(product));
+        setIsInCart(true);
     }
     const removeFromCart = () => {
         dispatch(removeItem(product.id));
+        if (!cart.find((item: Product) => item.id !== product.id)) {
+            setIsInCart(false);
+        }
     }
     return (
         <div className='btn-group' style={{float: "right"}}>
-            <IconButton aria-label="add" size="large" onClick={addToCart}>
+            <IconButton 
+                aria-label="add" 
+                size="large" 
+                onClick={addToCart}
+            >
                 <AddCircleOutlineIcon/>
             </IconButton>
-            <IconButton aria-label="delete" size="large" onClick={removeFromCart}>
-                <DeleteOutlineIcon/>
+            <IconButton 
+                aria-label="delete" 
+                size="large" 
+                onClick={removeFromCart} 
+                disabled={!isInCart} 
+                className={!isInCart ? 'disabled' : ''}
+                sx={{ "&button.Mui-disabled": {cursor: "default"}}} // doesnt work !!!
+            >
+                <DeleteOutlineIcon />
             </IconButton>
         </div>
   )
