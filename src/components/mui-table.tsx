@@ -57,12 +57,6 @@ const MuiTable = ({ data }: TableProps) => {
             setPage(0);
         };
 
-        const addToCart = () =>{
-
-        }
-        const removeFromCart = () =>{
-
-        }
         const handleSort = (property: keyof Product)  => {
             const isAsc = orderBy === property && order === 'asc';
             setOrder(isAsc ? 'desc' : 'asc');
