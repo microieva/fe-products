@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import IconButton from "@mui/material/IconButton";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -8,13 +8,14 @@ import { useAppDispatch } from '../hooks/useAppDispatch';
 import { addItem, removeItem } from '../redux/app-reducers/cart';
 import { Product } from '../@types/product';
 import { useAppSelector } from '../hooks/useAppSelector';
+import { CartItem } from '../@types/cart';
 
 interface CartActionsProps {
     product: Product
 }
 
 const CartActions: FC<CartActionsProps> = ({product}: CartActionsProps) => {
-    const cart = useAppSelector(state => state.cart); // check if item NOT in cart to make delete disabled
+    const cart = useAppSelector(state => state.cart); 
     const [isInCart, setIsInCart] = useState<boolean>(false)
     const dispatch = useAppDispatch();
 
@@ -23,11 +24,15 @@ const CartActions: FC<CartActionsProps> = ({product}: CartActionsProps) => {
         setIsInCart(true);
     }
     const removeFromCart = () => {
-        dispatch(removeItem(product.id));
-        if (!cart.find((item: Product) => item.id !== product.id)) {
-            setIsInCart(false);
-        }
+        dispatch(removeItem(product.id))
     }
+    useEffect(()=>{
+        const inCart = cart.find((item: CartItem) => item.id == product.id);
+        if (!inCart) {
+            setIsInCart(false)
+        }
+    }, [isInCart, removeFromCart]);
+
     return (
         <div className='btn-group' style={{float: "right"}}>
             <IconButton 
