@@ -5,17 +5,16 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-
-import IconButton from "@mui/material/IconButton";
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import TableSortLabel from '@mui/material/TableSortLabel';
+import Box from '@mui/material/Box';
+import { visuallyHidden } from '@mui/utils';
 
 import { Product } from '../@types/product';
 import { Column } from '../@types/table';
 import CartActions from './cart-actions';
+import CustomTableHead from './custom-table-head';
 
 interface TableProps {
     data: Product[],
@@ -36,10 +35,15 @@ const MuiTable = ({ data }: TableProps) => {
             minWidth: 170,
             align: 'right',
             render: (row: Product) => row.category.name,
-        }
+        },
     ];
 
     const rows: Product[] = data;
+
+    // const createSortHandler =
+    // (property: keyof Product) => (event: React.MouseEvent<unknown>) => {
+    //   onRequestSort(event, property);
+    // };
 
     const StickyHeadTable = () => { 
         const [page, setPage] = useState(0);
@@ -65,29 +69,33 @@ const MuiTable = ({ data }: TableProps) => {
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                 <TableContainer sx={{ maxHeight: 440 }}>
                     <Table stickyHeader aria-label="sticky table">
-                        <TableHead sx={{ "&thead": {top: "0", position: "sticky"} }}>
-                            <TableRow 
-                                sx={{
-                                   "&.MuiTableRow-root": { // doesnt work
-                                       fontSize: "16px",
-                                       backgroundColor: " rgba(0, 0, 0, 0.04)",
-                                       borderBottom: "1px solid black",
-                                    
-                                    }
-                                }}
-                            >
+                        <CustomTableHead sx={{ "&thead": {top: "0", position: "sticky"} }}>
+                            <TableRow>
                                 {columns.map((column: Column) => (
-                                <TableCell
-                                    key={column.id}
-                                    align={column.align}
-                                    style={{ minWidth: column.minWidth }} 
-                                    
-                                >
-                                    {column.label}
-                                </TableCell>
+                                    <TableCell
+                                        key={column.id}
+                                        align={column.align}
+                                        style={{ minWidth: column.minWidth }} 
+                                    >   
+                                        {column.label}
+                                        {/* <TableSortLabel
+                                            active={orderBy === column.id}
+                                            direction={orderBy === column.id ? order : 'asc'}
+                                            onClick={createSortHandler(column.id)}
+                                        >
+                                            {column.label}
+                                            {orderBy === column.id ? (
+                                            <Box component="span" sx={visuallyHidden}>
+                                                {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                                            </Box>
+                                            ) : null
+                                        }
+                                        </TableSortLabel> */}
+                                    </TableCell>
                                 ))}
+                                 <TableCell colSpan={1} style={{ minWidth: 50 }}></TableCell>
                             </TableRow>
-                        </TableHead>
+                        </CustomTableHead>
                         <TableBody sx={{ "& tbody": {height: "50rem"}}}>
                         { rows
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)

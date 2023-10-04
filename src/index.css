@@ -185,6 +185,7 @@ footer {
 .card-content .btn-group {
   align-self: flex-end;
   margin: 0 0 20px 0;
+  color: darkgray;
 }
 .card-content .product-price {
   align-self: flex-end;
@@ -204,6 +205,12 @@ footer {
 .card-content .product-category {
   margin: 0;
   bottom: 5px;
+}
+
+.table-view .MuiTableRow-head {
+  width: 100%;
+  border-bottom: 2px black solid;
+  background-color: red;
 }
 
 /*# sourceMappingURL=index.css.map */
