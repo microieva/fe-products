@@ -48,7 +48,7 @@ const CartActions: FC<CartActionsProps> = ({product}: CartActionsProps) => {
                 onClick={removeFromCart} 
                 disabled={!isInCart} 
                 className={!isInCart ? 'disabled' : ''}
-                sx={{ "&button.Mui-disabled": {cursor: "default"}}} // doesnt work !!!
+                sx={{ "&:disabled": {cursor: "default"}}} // doesnt work !!!
             >
                 <DeleteOutlineIcon />
             </IconButton>

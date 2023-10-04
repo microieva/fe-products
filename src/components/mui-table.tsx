@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -15,39 +15,38 @@ import { Product } from '../@types/product';
 import { Column } from '../@types/table';
 import CartActions from './cart-actions';
 import CustomTableHead from './custom-table-head';
+import { getSorted } from '../redux/selectors/getSorted';
 
 interface TableProps {
     data: Product[],
 }
 
 const MuiTable = ({ data }: TableProps) => {
-    const columns: readonly Column[] = [
-        { id: 'title', label: 'Title', minWidth: 170 },
-        {
-            id: 'price',
-            label: 'Price',
-            minWidth: 170,
-            align: 'right',
-        },
-        {
-            id: 'category',
-            label: 'Category',
-            minWidth: 170,
-            align: 'right',
-            render: (row: Product) => row.category.name,
-        },
-    ];
-
-    const rows: Product[] = data;
-
-    // const createSortHandler =
-    // (property: keyof Product) => (event: React.MouseEvent<unknown>) => {
-    //   onRequestSort(event, property);
-    // };
 
     const StickyHeadTable = () => { 
         const [page, setPage] = useState(0);
         const [rowsPerPage, setRowsPerPage] = useState(10);
+        type Order = 'asc' | 'desc';
+        const [order, setOrder] = useState<Order>('asc');
+        const [orderBy, setOrderBy] = useState<keyof Product>('title');
+        const [rows, setRows] = useState<Product[]>(data)
+
+        const columns: readonly Column[] = [
+            { id: 'title', label: 'Title', minWidth: 170 },
+            {
+                id: 'price',
+                label: 'Price',
+                minWidth: 170,
+                align: 'right',
+            },
+            {
+                id: 'category',
+                label: 'Category',
+                minWidth: 170,
+                align: 'right',
+                render: (row: Product) => row.category.name,
+            },
+        ];
     
         const handleChangePage = (event: unknown, newPage: number) => {
             setPage(newPage);
@@ -64,6 +63,16 @@ const MuiTable = ({ data }: TableProps) => {
         const removeFromCart = () =>{
 
         }
+        const handleSort = (property: keyof Product)  => {
+            const isAsc = orderBy === property && order === 'asc';
+            setOrder(isAsc ? 'desc' : 'asc');
+            setOrderBy(property);   
+        };
+
+        useEffect(()=> {
+            const sorted = getSorted(data, order, orderBy);
+            setRows(sorted);
+        }, [order, orderBy, handleSort])
     
         return (
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -77,11 +86,10 @@ const MuiTable = ({ data }: TableProps) => {
                                         align={column.align}
                                         style={{ minWidth: column.minWidth }} 
                                     >   
-                                        {column.label}
-                                        {/* <TableSortLabel
+                                        <TableSortLabel
                                             active={orderBy === column.id}
                                             direction={orderBy === column.id ? order : 'asc'}
-                                            onClick={createSortHandler(column.id)}
+                                            onClick={()=> handleSort(column.id)}
                                         >
                                             {column.label}
                                             {orderBy === column.id ? (
@@ -90,7 +98,7 @@ const MuiTable = ({ data }: TableProps) => {
                                             </Box>
                                             ) : null
                                         }
-                                        </TableSortLabel> */}
+                                        </TableSortLabel>
                                     </TableCell>
                                 ))}
                                  <TableCell colSpan={1} style={{ minWidth: 50 }}></TableCell>
@@ -102,7 +110,7 @@ const MuiTable = ({ data }: TableProps) => {
                             .map((row: Product) => {
                                 return (   
                                     <TableRow 
-                                        hover 
+                                        hover
                                         role="checkbox" 
                                         tabIndex={-1} 
                                         key={row.id} 
@@ -149,7 +157,7 @@ const MuiTable = ({ data }: TableProps) => {
         );
     }
 
-    return rows.length> 0 
+    return data.length> 0 
         ? <StickyHeadTable /> 
         : 
         // <Error height="30rem" text="No products found with current search term.." />   
