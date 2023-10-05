@@ -61,21 +61,21 @@ header h2 {
   letter-spacing: 2px;
   margin: 0 1rem;
 }
-header .shopping-cart-icon {
+header .btn-group {
   margin-right: 12px;
   margin-left: auto;
 }
-header .shopping-cart-icon span.MuiBadge-badge {
+header .btn-group span.MuiBadge-badge {
   background-color: rgb(255, 111, 0);
   color: white;
   font-weight: 700;
 }
-header .shopping-cart-icon svg {
+header .btn-group svg {
   height: 3rem;
   width: 3rem;
   color: #DBDBDB;
 }
-header .shopping-cart-icon svg:hover {
+header .btn-group svg:hover {
   cursor: pointer;
   color: darkgray;
 }

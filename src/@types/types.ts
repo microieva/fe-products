@@ -1,4 +1,6 @@
+import { LoginResponse } from "./auth"
 import { Product } from "./product"
+import { User } from "./user"
 
 export type ErrorProps = {
   text: string | null,
@@ -25,4 +27,8 @@ export type TypeForm = 'signup' | 'login' | null;
 export type TypeFormContext = {
   form: TypeForm,
   onClose: ()=> void,
+}
+
+export type TypeUserContext = {
+  user: Partial<User> | LoginResponse | undefined
 }

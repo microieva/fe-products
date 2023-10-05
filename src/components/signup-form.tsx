@@ -17,7 +17,7 @@ const SignupForm = () => {
         email: '',
         password: '',
         name: '',
-        avatar: ''
+        avatar: 'https://api.lorem.space/image/face?w=640&h=480&r=867'
     });
     const { onClose } = useContext(FormContext) as TypeFormContext;
     const [addUser] = useAddUserMutation();
@@ -31,7 +31,10 @@ const SignupForm = () => {
     };
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        addUser(user).then(res => console.log('from add user: ', res));
+        const newUser = addUser(user);
+        const jsonUser = JSON.stringify(newUser)
+        console.log('newUser: ', jsonUser);
+        //localStorage.setItem('user', jsonUser);
         onClose();
     };
 
@@ -105,3 +108,23 @@ const SignupForm = () => {
 }
 
 export default SignupForm;
+
+/*
+create user context 
+
+import React from 'react';
+
+import { useGetUserQuery } from '../redux/services/authApi';
+import { LoginRes } from '../types/auth';
+
+const UserProvider = ({ children }: { children: React.ReactNode }) => {
+  const localToken = localStorage.getItem('token');
+  const token: LoginRes = JSON.parse(localToken || '{}');
+
+  useGetUserQuery(token.access_token, { skip: !token.access_token });
+
+  return <>{children}</>;
+};
+
+export default UserProvider;
+*/

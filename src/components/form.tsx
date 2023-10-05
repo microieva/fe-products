@@ -4,6 +4,7 @@ import { FormContext } from '../contexts/form';
 import { TypeFormContext } from '../@types/types';
 
 import SignupForm from './signup-form';
+import LoginForm from './login-form';
                                 
 const Form = () => {
     const { form } = useContext(FormContext) as TypeFormContext;
@@ -12,7 +13,7 @@ const Form = () => {
         case 'signup':
             return <SignupForm />
         case 'login':
-            return <p>LOGIN FORM</p>
+            return <LoginForm />
         default: 
             return <></>
     }
