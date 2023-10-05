@@ -1,4 +1,4 @@
-import { FC, useState, useContext } from 'react';
+import { FC, useState } from 'react';
 
 import Dialog from '@mui/material/Dialog';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
@@ -8,7 +8,8 @@ import Button from './button';
 import { useAppSelector } from '../hooks/useAppSelector';
 import Form from './form';
 import { TypeForm } from '../@types/types';
-import FormProvider, { FormContext } from '../contexts/form';
+import FormProvider from '../contexts/form';
+
 
 const Header: FC = () => {
     const [ open, setOpen ] = useState<boolean>(false);
@@ -51,7 +52,7 @@ const Header: FC = () => {
                 </div>
             </div>
             <FormProvider form={form}>
-                <Dialog open={open} onClose={handleClose}>
+                <Dialog fullWidth open={open} onClose={handleClose}>
                     <Form />
                 </Dialog>
             </FormProvider>

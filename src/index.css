@@ -1,5 +1,8 @@
-.app-container {
+* {
   font-family: "Roboto", sans-serif;
+}
+
+.app-container {
   position: relative;
   padding-bottom: 12rem;
 }
@@ -207,6 +210,37 @@ footer {
 .card-content .product-category {
   margin: 0;
   bottom: 5px;
+}
+
+.form-container {
+  margin: 4rem 6rem;
+  height: 34rem;
+}
+.form-container h2 {
+  margin-bottom: inherit;
+}
+.form-container form {
+  /*display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  grid-template-areas: "item1 item2" "item3 item4" ". item5"; 
+  grid-gap: 6rem 6rem;*/
+  display: flex;
+  flex-direction: column;
+}
+.form-container form div {
+  height: 4rem;
+  margin: 5px 0;
+}
+.form-container form .btn-group {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 60px;
+  margin-right: -20px;
+}
+.form-container form .btn-group button {
+  width: 3rem;
+  height: 3rem;
 }
 
 /*# sourceMappingURL=index.css.map */
