@@ -1,21 +1,24 @@
 import { FC, useState } from 'react';
 
+import { ThemeProvider } from '@mui/material';
+import { Backdrop } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import Badge from '@mui/material/Badge';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
-import Button from './button';
 import { useAppSelector } from '../hooks/useAppSelector';
+import FormProvider from '../contexts/form';
+import { theme } from '../shared/theme';
+import Button from './button';
 import Form from './form';
 import { TypeForm } from '../@types/types';
-import FormProvider from '../contexts/form';
 
 
 const Header: FC = () => {
     const [ open, setOpen ] = useState<boolean>(false);
     const [ form, setForm ] = useState<TypeForm>(null);
     const cart = useAppSelector(state => state.cart);
-    const amount = cart.reduce((curr, item) => curr+item.quantity, 0)
+    const amount = cart.reduce((curr, item) => curr+item.quantity, 0);
 
     const handleOpen = (form: TypeForm) => {
         setOpen(true);
@@ -30,7 +33,7 @@ const Header: FC = () => {
         //setCart(true)
         console.log('click')
     }
-  
+
     return (
         <header>
             <h2>products</h2>
@@ -51,11 +54,14 @@ const Header: FC = () => {
                     </Badge>
                 </div>
             </div>
-            <FormProvider form={form}>
-                <Dialog fullWidth open={open} onClose={handleClose}>
-                    <Form />
-                </Dialog>
-            </FormProvider>
+            <ThemeProvider theme={theme}>
+                <FormProvider form={form} onClose={handleClose}>
+                    <Dialog fullWidth open={open} onClose={handleClose} >
+                        <Form />
+                    </Dialog>
+                <Backdrop open={open} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
+                </FormProvider>
+            </ThemeProvider>
         </header>
     )
 }

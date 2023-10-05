@@ -1,24 +1,26 @@
 import { ChangeEvent, FormEvent, useContext, useState } from 'react';
-import FormControl from '@mui/material/FormControl';
-import FormHelperText from '@mui/material/FormHelperText';
-import Input from '@mui/material/Input';
-import InputLabel from '@mui/material/InputLabel';
-import { TypeFormContext } from '../@types/types';
-import { FormContext } from '../contexts/form';
-import { IconButton, TextField } from '@mui/material';
 
+import FormControl from '@mui/material/FormControl';
+import { IconButton, TextField } from '@mui/material';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
+
+import { useAddUserMutation } from '../redux/api-queries/user-queries';
+import { FormContext } from '../contexts/form';
+import { TypeFormContext } from '../@types/types';
 import { User } from '../@types/user';
 
+
 const SignupForm = () => {
+    const avatar = 'https://api.lorem.space/image/face?w=640&h=480&r=867';
     const [user, setUser] = useState<Partial<User>>({
         email: '',
         password: '',
         name: '',
-        avatar: '',
+        avatar: ''
     });
     const { onClose } = useContext(FormContext) as TypeFormContext;
+    const [addUser] = useAddUserMutation();
 
     const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = event.target;
@@ -29,7 +31,7 @@ const SignupForm = () => {
     };
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log('Submitted user:', user);
+        addUser(user).then(res => console.log('from add user: ', res));
         onClose();
     };
 
@@ -39,60 +41,60 @@ const SignupForm = () => {
             <form onSubmit={handleSubmit}>
                 <FormControl fullWidth>
                     <TextField
-                    fullWidth
-                    id="standard-basic"
-                    variant="standard"
-                    label="Name"
-                    name="name"
-                    value={user.name}
-                    onChange={handleChange}
-                    required
+                        fullWidth
+                        id="standard-basic"
+                        variant="standard"
+                        label="Name"
+                        name="name"
+                        value={user.name}
+                        onChange={handleChange}
+                        required
                     />
                 </FormControl>
                 <FormControl fullWidth>
                     <TextField
-                    fullWidth
-                    id="standard-basic"
-                    variant="standard"
-                    label="Email"
-                    name="email"
-                    type="email"
-                    value={user.email}
-                    onChange={handleChange}
-                    required
-                    />
-                </FormControl>
-
-                <FormControl fullWidth>
-                    <TextField
-                    fullWidth
-                    id="standard-basic"
-                    variant="standard"
-                    label="Password"
-                    name="password"
-                    type="password"
-                    value={user.password}
-                    onChange={handleChange}
-                    required
+                        fullWidth
+                        id="standard-basic"
+                        variant="standard"
+                        label="Email"
+                        name="email"
+                        type="email"
+                        value={user.email}
+                        onChange={handleChange}
+                        required
                     />
                 </FormControl>
 
                 <FormControl fullWidth>
                     <TextField
-                    fullWidth
-                    id="standard-basic"
-                    variant="standard"
-                    label="Avatar"
-                    name="avatar"
-                    value={user.avatar}
-                    onChange={handleChange}
+                        fullWidth
+                        id="standard-basic"
+                        variant="standard"
+                        label="Password"
+                        name="password"
+                        type="password"
+                        value={user.password}
+                        onChange={handleChange}
+                        required
+                    />
+                </FormControl>
+
+                <FormControl fullWidth>
+                    <TextField
+                        fullWidth
+                        id="standard-basic"
+                        variant="standard"
+                        label="Avatar"
+                        name="avatar"
+                        value={user.avatar}
+                        onChange={handleChange}
                     />
                 </FormControl> 
                 <div className='btn-group'>
                     <IconButton type ="submit">
                         <BackupOutlinedIcon/>
                     </IconButton>
-                    <IconButton onClick={onClose}>
+                    <IconButton onClick={()=> onClose()}>
                         <DoorBackOutlinedIcon/>
                     </IconButton>
                 </div>
