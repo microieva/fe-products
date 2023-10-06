@@ -10,7 +10,7 @@ const authQueries = createApi({
   endpoints: (build) => ({
     login: build.mutation<LoginResponse, LoginRequest>({
       query: (body) => ({ url: 'login', method: 'POST', body }),
-      //transformErrorResponse() { return { message: 'Invalid username or password' }},
+      transformErrorResponse() { return { message: 'Invalid username or password' }},
     }),
     getUser: build.query<User, string>({
       query: (token) => ({ url: 'profile', headers: { 'Authorization': `Bearer ${token}`}

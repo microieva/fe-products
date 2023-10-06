@@ -209,32 +209,21 @@ footer {
 
 .form-container { 
   margin: 4rem 6rem;
-  height: 34rem;
+  //height: 34rem;
   h2 {
     margin-bottom: inherit;
   }
   form {
-    /*display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto;
-    grid-template-areas: "item1 item2" "item3 item4" ". item5"; 
-    grid-gap: 6rem 6rem;*/
     display: flex;
     flex-direction: column;
-    div {
-      height: 4rem;
-      margin: 5px 0;
-      input {
-        //padding-top: 0.5rem;
-      }
+    & > div {
+      margin-bottom: 2rem;
     }
     .btn-group {
-      //grid-area: item5;
       display: flex;
       justify-content: flex-end;
       margin-top: 60px;
       margin-right: -20px;
-      //margin-bottom: 30px;
       button {
         width: 3rem;
         height: 3rem;
