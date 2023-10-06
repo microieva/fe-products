@@ -33,8 +33,7 @@ const SignupForm = () => {
         event.preventDefault();
         const newUser = addUser(user);
         const jsonUser = JSON.stringify(newUser)
-        console.log('newUser: ', jsonUser);
-        //localStorage.setItem('user', jsonUser);
+
         onClose();
     };
 
@@ -108,23 +107,3 @@ const SignupForm = () => {
 }
 
 export default SignupForm;
-
-/*
-create user context 
-
-import React from 'react';
-
-import { useGetUserQuery } from '../redux/services/authApi';
-import { LoginRes } from '../types/auth';
-
-const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  const localToken = localStorage.getItem('token');
-  const token: LoginRes = JSON.parse(localToken || '{}');
-
-  useGetUserQuery(token.access_token, { skip: !token.access_token });
-
-  return <>{children}</>;
-};
-
-export default UserProvider;
-*/

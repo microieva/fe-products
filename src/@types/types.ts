@@ -30,5 +30,5 @@ export type TypeFormContext = {
 }
 
 export type TypeUserContext = {
-  user: Partial<User> | LoginResponse | undefined
+  user: User | undefined
 }

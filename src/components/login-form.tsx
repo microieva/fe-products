@@ -16,10 +16,6 @@ const LoginForm = () => {
         email: '',
         password: ''
     });
-    const [ resp, setResp ] = useState<LoginResponse>({
-        access_token: '',
-        refresh_token: ''
-    })
     const { onClose } = useContext(FormContext) as TypeFormContext;
     const [ login ] = useLoginMutation();
 
@@ -30,9 +26,11 @@ const LoginForm = () => {
           [name]: value,
         }));
     };
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        login(req)
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();   
+        const token = await login(req);
+        //type check ? error check
+        localStorage.setItem('token', JSON.stringify(token));
         onClose();
     };
 
