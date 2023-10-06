@@ -30,5 +30,5 @@ export type TypeFormContext = {
 }
 
 export type TypeUserContext = {
-  user: User | undefined
+  user: User | null
 }
