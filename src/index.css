@@ -223,7 +223,7 @@ footer {
   flex-direction: column;
 }
 .form-container form > div {
-  margin-bottom: 2rem;
+  margin-bottom: 1.2rem;
 }
 .form-container form .btn-group {
   display: flex;

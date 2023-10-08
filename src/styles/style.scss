@@ -209,7 +209,6 @@ footer {
 
 .form-container { 
   margin: 4rem 6rem;
-  //height: 34rem;
   h2 {
     margin-bottom: inherit;
   }
@@ -217,7 +216,7 @@ footer {
     display: flex;
     flex-direction: column;
     & > div {
-      margin-bottom: 2rem;
+      margin-bottom: 1.2rem;
     }
     .btn-group {
       display: flex;

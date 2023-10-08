@@ -13,23 +13,24 @@ import { useLoginMutation } from '../redux/api-queries/auth-queries';
 const LoginForm = () => {
     const [ email, setEmail ] = useState<string>();
     const [ password, setPassword ] = useState<string>();
-    const [ err, setErr ] = useState<string>();
+    const [ err, setErr ] = useState<boolean>(false);
     const { onClose } = useContext(FormContext) as TypeFormContext;
     const [ login, { error, data }] = useLoginMutation();
     const formRef = useRef<HTMLFormElement>(null);
 
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => { 
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (!error && data) {  
+        if (!error && data) {
             localStorage.setItem('token', JSON.stringify(data.access_token));
             onClose();
         } else {
-            console.log('ERROR: ', error)
-            setErr("Incorrect email or password")
-            setEmail("");
-            setPassword("");
+            setErr(true);
             formRef.current && formRef.current.reset();
         }
+    };
+
+    const handleInputFocus = () => {
+        setErr(false);
     };
 
     useEffect(()=> {
@@ -37,7 +38,7 @@ const LoginForm = () => {
             email && password && await login({email, password});
         }
         initialLogin();
-    }, [email, password])
+    }, [email, password, handleInputFocus])
 
     return (
         <div className='form-container'>
@@ -46,8 +47,7 @@ const LoginForm = () => {
                 <FormControl fullWidth>
                     <TextField
                         fullWidth
-                        error
-                        helperText={err}
+                        helperText="Incorrect email or password"
                         id="standard-basic"
                         variant="standard"
                         label="Email"
@@ -55,12 +55,18 @@ const LoginForm = () => {
                         value={email}
                         onChange={()=> setEmail(email)}
                         required
+                        sx={{
+                            '& .MuiFormHelperText-root': {
+                              visibility: err ? 'visible' : 'hidden',
+                              transition: 'visibility 0.2s ease-in',
+                            }
+                        }}
+                        onFocus={()=>handleInputFocus()}
                     />
                 </FormControl>
                 <FormControl fullWidth>
                     <TextField
-                        error
-                        helperText={err}
+                        helperText="Incorrect email or password"
                         fullWidth
                         id="standard-basic"
                         variant="standard"
@@ -70,6 +76,13 @@ const LoginForm = () => {
                         value={password}
                         onChange={()=> setPassword(password)}
                         required
+                        sx={{
+                            '& .MuiFormHelperText-root': {
+                                visibility: err ? 'visible' : 'hidden',
+                                transition: 'visibility 0.2s ease-in',
+                            }
+                        }}
+                        onFocus={()=>handleInputFocus()}
                     />
                     {/* {error && <FormHelperText>error</FormHelperText>} */}
                 </FormControl>

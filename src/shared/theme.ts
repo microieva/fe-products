@@ -10,6 +10,9 @@ export const theme = createTheme({
           },
           '&  .MuiInputBase-root.Mui-focused:after': {
             borderBottom: '2px aquamarine solid', 
+          },
+          '& .MuiFormHelperText-root': {
+            color: 'orange'
           }
         }
       },

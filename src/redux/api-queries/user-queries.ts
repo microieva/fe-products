@@ -14,7 +14,8 @@ const userQueries  = createApi({
         }),
         addUser: builder.mutation<User, Partial<User>>({ 
             query: (body) => ({url: `/`, method: 'POST', body}),
-            invalidatesTags: ['Users']
+            invalidatesTags: ['Users'],
+            transformErrorResponse() { return { message: 'Error' }}, // TESTING IN UI
         }),
         updateUser: builder.mutation<User, Partial<User>>({
             query: ({id, ...updates}) =>  ({url: `/${id}`, method: 'PUT', body: updates}),
