@@ -9,24 +9,27 @@ import { useAddUserMutation } from '../redux/api-queries/user-queries';
 import { FormContext } from '../contexts/form';
 import { TypeFormContext } from '../@types/types';
 import { User } from '../@types/user';
+import { SerializedError } from '@reduxjs/toolkit';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 
 
 const SignupForm = () => {
     // 'https://api.lorem.space/image/face?w=640&h=480&r=867' avatar
-    const [user, setUser] = useState<Partial<User>>()
+    const [user, setUser] = useState<Partial<User>>();
      
     const [ name, setName ] = useState<string>();
+    const [ signupUser, setSignedupUser ] = useState<User>();
     const [ password, setPassword ] = useState<string>();
     const [ email, setEmail ] = useState<string>();
     const [ avatar, setAvatar ] = useState<string>();
 
     const { onClose } = useContext(FormContext) as TypeFormContext;
-    const [addUser, { error }] = useAddUserMutation();
+    const [ addUser ] = useAddUserMutation();
+    const [ errors, setErrors ] = useState<string[] | null>(null);
     const [ err, setErr ] = useState<boolean>(false);
-    //const [ login, { error, data }] = useLoginMutation();
     const formRef = useRef<HTMLFormElement>(null);
 
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const user = {
             name,
@@ -34,15 +37,19 @@ const SignupForm = () => {
             password,
             avatar
         }
-        setUser(user)
-        // const addUserResponse = await addUser(user);
-        console.log('error: ', error);
-        
-        if (!error) {
-
+        setUser(user);
+        try {
+            const payload = user && await addUser(user).unwrap();
+            setSignedupUser(payload);
+            setErr(false);
+          } catch (error: any) {
+            setErr(true);
+            setErrors(error.data.message)
+          }
+        if (signupUser) {
+            // if no error, login with data.email & data.password
             onClose();
         } else {
-            setErr(true);
             formRef.current && formRef.current.reset();
         }
     };
@@ -51,15 +58,6 @@ const SignupForm = () => {
         setErr(false);
     };
 
-    useEffect(()=> {
-        const initialSignUp = async () => {
-            //const addUserResponse = 
-            user && await addUser(user);
-            console.log('error------: ', error)
-        }
-        initialSignUp();
-    }, [user]);
-
     return (
         <div className='form-container'>
             <h2>create account</h2>
@@ -67,27 +65,25 @@ const SignupForm = () => {
                 <FormControl fullWidth>
                     <TextField
                         fullWidth
-                        id="standard-basic"
                         variant="standard"
                         label="Name"
                         name="name"
                         value={name}
                         onChange={() => setName(name)}
                         required
-                        helperText="Some error"
+                        helperText={errors && errors[1] || 'Some error'}
                         sx={{
                             '& .MuiFormHelperText-root': {
                               visibility: err ? 'visible' : 'hidden',
                               transition: 'visibility 0.2s ease-in',
                             }
                         }}
-                        onFocus={()=>handleInputFocus()}
+                        onFocus={()=>handleInputFocus()} // make seperate error status, so that on focus, just one disappears
                     />
                 </FormControl>
                 <FormControl fullWidth>
                     <TextField
                         fullWidth
-                        id="standard-basic"
                         variant="standard"
                         label="Email"
                         name="email"
@@ -109,7 +105,6 @@ const SignupForm = () => {
                 <FormControl fullWidth>
                     <TextField
                         fullWidth
-                        id="standard-basic"
                         variant="standard"
                         label="Password"
                         name="password"
@@ -131,7 +126,6 @@ const SignupForm = () => {
                 <FormControl fullWidth>
                     <TextField
                         fullWidth
-                        id="standard-basic"
                         variant="standard"
                         label="Avatar"
                         name="avatar"
