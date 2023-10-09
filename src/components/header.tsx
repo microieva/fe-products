@@ -1,4 +1,4 @@
-import { FC, useContext, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 
 import { IconButton, ThemeProvider } from '@mui/material';
 import { Backdrop } from '@mui/material';
@@ -16,17 +16,20 @@ import Button from './button';
 import FormSwitcher from './form-switcher';
 import { TypeForm, TypeUserContext } from '../@types/types';
 import { UserContext } from '../contexts/user';
+import { User } from '../@types/user';
 
 
 const Header: FC = () => {
-    const { user } = useContext(UserContext) as TypeUserContext;
+    const { user, onLogout } = useContext(UserContext) as TypeUserContext;
+
+    const [ loggedInUser, setLoggedInUser ] = useState<User | undefined>(user);
     const [ open, setOpen ] = useState<boolean>(false);
     const [ form, setForm ] = useState<TypeForm>(null);
     const cart = useAppSelector(state => state.cart);
     const amount = cart.reduce((curr, item) => curr+item.quantity, 0);
 
-    
-    console.log('USER ? ', user);
+    console.log('USER from header: ', loggedInUser);
+
     const handleOpen = (form: TypeForm) => {
         setOpen(true);
         setForm(form);
@@ -40,12 +43,14 @@ const Header: FC = () => {
         //setCart(true)
         console.log('click')
     }
-    const handleLogout = () => {
-        // clear the storage ?
-    }
+
     const openProfilePage = () => {
         // router link ?
     }
+
+    useEffect(()=> {
+        setLoggedInUser(user);
+    }, [loggedInUser]);
 
     return (
         <header>
@@ -59,7 +64,7 @@ const Header: FC = () => {
                         </>
                         :
                         <>
-                            <Button text="log out" width="8rem" height="2rem" onClick={()=>handleLogout} />
+                            <Button text="log out" width="8rem" height="2rem" onClick={()=>onLogout()} />
                             <IconButton onClick={openProfilePage} id="profile-icon">
                                 <AccountCircleOutlinedIcon /> 
                             </IconButton>

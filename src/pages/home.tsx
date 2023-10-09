@@ -21,7 +21,7 @@ const Home: FC = () => {
             </main>
             <Footer />
         </>
-        ) 
+    ) 
 }
 
 export default Home;

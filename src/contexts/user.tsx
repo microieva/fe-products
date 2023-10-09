@@ -11,17 +11,20 @@ interface UserProviderProps {
 }
 
 const UserProvider: FC<UserProviderProps> = ({ children }: UserProviderProps) => {
-    const [ user, setUser ] = useState<User | null>(null);
+    const [user, setUser] = useState<User | undefined>();
     const storedToken: string | null = localStorage.getItem('token');
-    const token: LoginResponse = JSON.parse(storedToken || '{}');
-    const res = useGetUserQuery(token.access_token);
-    console.log('res from PROVIDER: ', res);
+    const token: string = storedToken && JSON.parse(storedToken);
+    const { data } = useGetUserQuery(token);
+    
+    const onLogout = () => {
+        localStorage.removeItem('token');
+        setUser(undefined);
+    };
+    useEffect(() => {
+        setUser(data);
+    }, [data]);
 
-    useEffect(()=> {
-        res.isSuccess && setUser(res.data)
-    }, [user])
-
-    return <UserContext.Provider value={{ user }}>{ children }</UserContext.Provider>;
+    return <UserContext.Provider value={{ user, onLogout }}>{ children }</UserContext.Provider>;
 }
 
 export default UserProvider;

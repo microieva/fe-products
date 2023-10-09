@@ -12,7 +12,7 @@ import { LoginRequest } from '../@types/auth';
 
 
 const LoginForm = () => {
-    const [ request, setRequest ] = useState<LoginRequest>();
+    const [ request, setRequest ] = useState<LoginRequest | undefined>();
 
     const [ email, setEmail ] = useState<string>();
     const [ password, setPassword ] = useState<string>();
@@ -24,24 +24,25 @@ const LoginForm = () => {
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const req: LoginRequest = {
-            email,
-            password
+        setRequest({email, password});
+        if (!err) {
+            onClose();
         }
-        req && setRequest(req);
-
-        console.log('from handleSubmit error & data: ', error, data)
     };
 
     const handleInputFocus = () => {
         setErr(false);
     };
 
+    const saveToken = (token: string) => {
+        localStorage.setItem('token', JSON.stringify(token));
+    }
+
     useEffect(()=> {
         const initialLogin = async () => {
             try {
-                request && await login({email: request.email, password: request.password}).unwrap();
-                console.log('error: ', error, 'data: ', data)
+                const payload = request && await login({email: request.email, password: request.password}).unwrap();
+                payload && saveToken(payload.access_token);
             } catch (e){
                 setErr(true);
             }
@@ -49,18 +50,6 @@ const LoginForm = () => {
         initialLogin();
        
     }, [request]);
-
-    useEffect(()=> {
-        //console.log('data & error: ', data, error)
-        /*if (data) {
-            localStorage.setItem('token', JSON.stringify(data.access_token));
-            onClose();
-        } else {
-            console.log('error ? ', error);
-            setErr(true);
-            formRef.current && formRef.current.reset();
-        }*/
-    }, [data, error])
 
     return (
         <div className='form-container'>
@@ -74,9 +63,7 @@ const LoginForm = () => {
                         variant="standard"
                         label="Email"
                         name="email"
-                        value={email}
-                        //onChange={(e)=> setEmail(e.target.value)}
-                        onChange={()=>setEmail(email)}
+                        onChange={(e)=> setEmail(e.target.value)}
                         required
                         sx={{
                             '& .MuiFormHelperText-root': {
@@ -96,9 +83,7 @@ const LoginForm = () => {
                         label="Password"
                         name="password"
                         type="password"
-                        value={password}
-                        //onChange={(e)=> setPassword(e.target.value)}
-                        onChange={()=> setPassword(password)}
+                        onChange={(e)=> setPassword(e.target.value)}
                         required
                         sx={{
                             '& .MuiFormHelperText-root': {
@@ -108,7 +93,6 @@ const LoginForm = () => {
                         }}
                         onFocus={()=>handleInputFocus()}
                     />
-                    {/* {error && <FormHelperText>error</FormHelperText>} */}
                 </FormControl>
                 <div className="btn-group">
                     <IconButton  type="submit" onClick={() => handleSubmit}>

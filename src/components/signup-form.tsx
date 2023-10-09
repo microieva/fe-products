@@ -53,8 +53,6 @@ const SignupForm = () => {
         onClose();
     }
     useEffect(()=> {
-        data && console.log('data: ', data)
-        error && console.log('error: ', error);
         data && localStorage.setItem('token', JSON.stringify(data.access_token));
     }, [data, error])
 
