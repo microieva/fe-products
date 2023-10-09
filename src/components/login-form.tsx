@@ -1,4 +1,4 @@
-import { FormEvent, RefObject, useContext, useEffect, useRef, useState } from 'react';
+import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 
 import FormControl from '@mui/material/FormControl';
 import { IconButton, TextField } from '@mui/material';
@@ -8,11 +8,15 @@ import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 import { FormContext } from '../contexts/form';
 import { TypeFormContext } from '../@types/types';
 import { useLoginMutation } from '../redux/api-queries/auth-queries';
+import { LoginRequest } from '../@types/auth';
 
 
 const LoginForm = () => {
+    const [ request, setRequest ] = useState<LoginRequest>();
+
     const [ email, setEmail ] = useState<string>();
     const [ password, setPassword ] = useState<string>();
+
     const [ err, setErr ] = useState<boolean>(false);
     const { onClose } = useContext(FormContext) as TypeFormContext;
     const [ login, { error, data }] = useLoginMutation();
@@ -20,13 +24,13 @@ const LoginForm = () => {
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (!error && data) {
-            localStorage.setItem('token', JSON.stringify(data.access_token));
-            onClose();
-        } else {
-            setErr(true);
-            formRef.current && formRef.current.reset();
+        const req: LoginRequest = {
+            email,
+            password
         }
+        req && setRequest(req);
+
+        console.log('from handleSubmit error & data: ', error, data)
     };
 
     const handleInputFocus = () => {
@@ -35,10 +39,28 @@ const LoginForm = () => {
 
     useEffect(()=> {
         const initialLogin = async () => {
-            email && password && await login({email, password});
+            try {
+                request && await login({email: request.email, password: request.password}).unwrap();
+                console.log('error: ', error, 'data: ', data)
+            } catch (e){
+                setErr(true);
+            }
         }
         initialLogin();
-    }, [email, password, handleInputFocus])
+       
+    }, [request]);
+
+    useEffect(()=> {
+        //console.log('data & error: ', data, error)
+        /*if (data) {
+            localStorage.setItem('token', JSON.stringify(data.access_token));
+            onClose();
+        } else {
+            console.log('error ? ', error);
+            setErr(true);
+            formRef.current && formRef.current.reset();
+        }*/
+    }, [data, error])
 
     return (
         <div className='form-container'>
@@ -53,7 +75,8 @@ const LoginForm = () => {
                         label="Email"
                         name="email"
                         value={email}
-                        onChange={()=> setEmail(email)}
+                        //onChange={(e)=> setEmail(e.target.value)}
+                        onChange={()=>setEmail(email)}
                         required
                         sx={{
                             '& .MuiFormHelperText-root': {
@@ -74,6 +97,7 @@ const LoginForm = () => {
                         name="password"
                         type="password"
                         value={password}
+                        //onChange={(e)=> setPassword(e.target.value)}
                         onChange={()=> setPassword(password)}
                         required
                         sx={{
@@ -87,7 +111,7 @@ const LoginForm = () => {
                     {/* {error && <FormHelperText>error</FormHelperText>} */}
                 </FormControl>
                 <div className="btn-group">
-                    <IconButton  type="submit">
+                    <IconButton  type="submit" onClick={() => handleSubmit}>
                         <LoginOutlinedIcon/>
                     </IconButton>
                     <IconButton onClick={()=> onClose()}>

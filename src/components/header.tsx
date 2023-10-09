@@ -13,7 +13,7 @@ import { useAppSelector } from '../hooks/useAppSelector';
 import FormProvider from '../contexts/form';
 import { theme } from '../shared/theme';
 import Button from './button';
-import Form from './form';
+import FormSwitcher from './form-switcher';
 import { TypeForm, TypeUserContext } from '../@types/types';
 import { UserContext } from '../contexts/user';
 
@@ -25,6 +25,8 @@ const Header: FC = () => {
     const cart = useAppSelector(state => state.cart);
     const amount = cart.reduce((curr, item) => curr+item.quantity, 0);
 
+    
+    console.log('USER ? ', user);
     const handleOpen = (form: TypeForm) => {
         setOpen(true);
         setForm(form);
@@ -79,7 +81,7 @@ const Header: FC = () => {
             <ThemeProvider theme={theme}>
                 <FormProvider form={form} onClose={handleClose}>
                     <Dialog fullWidth open={open} onClose={handleClose} >
-                        <Form />
+                        <FormSwitcher />
                     </Dialog>
                 <Backdrop open={open} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
                 </FormProvider>

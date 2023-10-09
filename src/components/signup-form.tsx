@@ -11,6 +11,7 @@ import { TypeFormContext } from '../@types/types';
 import { User } from '../@types/user';
 import { SerializedError } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
+import { useLoginMutation } from '../redux/api-queries/auth-queries';
 
 
 const SignupForm = () => {
@@ -18,14 +19,18 @@ const SignupForm = () => {
     const [user, setUser] = useState<Partial<User>>();
      
     const [ name, setName ] = useState<string>();
-    const [ signupUser, setSignedupUser ] = useState<User>();
     const [ password, setPassword ] = useState<string>();
     const [ email, setEmail ] = useState<string>();
     const [ avatar, setAvatar ] = useState<string>();
 
+    const [ nameError, setNameError ] = useState<boolean>(false);
+    const [ emailError, setEmailError ] = useState<boolean>(false);
+    const [ passwordError, setPasswordError ] = useState<boolean>(false);
+    const [ avatarError, setAvatarError ] = useState<boolean>(false);
+
     const { onClose } = useContext(FormContext) as TypeFormContext;
     const [ addUser ] = useAddUserMutation();
-    const [ errors, setErrors ] = useState<string[] | null>(null);
+    const [ login, {data, error}] = useLoginMutation();
     const [ err, setErr ] = useState<boolean>(false);
     const formRef = useRef<HTMLFormElement>(null);
 
@@ -38,25 +43,78 @@ const SignupForm = () => {
             avatar
         }
         setUser(user);
-        try {
-            const payload = user && await addUser(user).unwrap();
-            setSignedupUser(payload);
-            setErr(false);
-          } catch (error: any) {
-            setErr(true);
-            setErrors(error.data.message)
-          }
-        if (signupUser) {
-            // if no error, login with data.email & data.password
-            onClose();
-        } else {
-            formRef.current && formRef.current.reset();
-        }
     };
 
-    const handleInputFocus = () => {
-        setErr(false);
-    };
+    const loginSignupUser = async (email: string, password: string) => {
+        // check if user exists
+        // if does - inform
+        // if not - login 
+        await login({email: email, password: password});
+        onClose();
+    }
+    useEffect(()=> {
+        data && console.log('data: ', data)
+        error && console.log('error: ', error);
+        data && localStorage.setItem('token', JSON.stringify(data.access_token));
+    }, [data, error])
+
+    useEffect(()=> {
+        if (user) {
+            validate();
+        }
+        const signup = async () => {
+            if (!err) {
+                try {
+                    const payload = user && await addUser(user).unwrap();
+                    payload && loginSignupUser(payload.email, payload.password)
+                    //setSignedupUser(payload);    
+                } catch (error: any) {
+                    setErr(true);
+                    //formRef.current && formRef.current.reset();
+                }
+            }
+        }
+        signup();
+    }, [user]);
+
+    const validate = () => {
+        const nameRegex = new RegExp('^[a-zA-Z]');
+        const emailRegex = new RegExp('^(?:[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z]{2})');
+        const passWordRegex = new RegExp('^[a-zA-Z0-9]{4,}');
+        const avatarRegex = new RegExp('^(https?|ftp)://[^\s/$.?#].[^\s]*');
+
+        if (user) {
+            if (user.name) {
+                if (!user.name.match(nameRegex)) {
+                    setNameError(true);
+                }
+            } else {
+                setNameError(true);
+            }
+            if (user.email) {
+                if (!user.email.match(emailRegex)) {
+                    setEmailError(true);
+                }
+            } else {
+                setEmailError(true);
+            }
+            if (user.password) {
+                if (!user.password.match(passWordRegex)) {
+                    setPasswordError(true);
+                }
+            } else {
+                setPasswordError(true);
+            }
+            if (user.avatar) {
+                if (!user.avatar.match(avatarRegex)) {
+                    setAvatarError(true);
+                }
+            } else {
+                setAvatarError(true);
+            }
+            setErr(nameError && emailError && passwordError && avatarError);
+        }
+    }
 
     return (
         <div className='form-container'>
@@ -68,17 +126,16 @@ const SignupForm = () => {
                         variant="standard"
                         label="Name"
                         name="name"
-                        value={name}
-                        onChange={() => setName(name)}
+                        onChange={(e) => setName(e.target.value)}
                         required
-                        helperText={errors && errors[1] || 'Some error'}
+                        helperText="Name should be letters only"
                         sx={{
                             '& .MuiFormHelperText-root': {
-                              visibility: err ? 'visible' : 'hidden',
+                              visibility: nameError ? 'visible' : 'hidden',
                               transition: 'visibility 0.2s ease-in',
                             }
                         }}
-                        onFocus={()=>handleInputFocus()} // make seperate error status, so that on focus, just one disappears
+                        onFocus={()=>setNameError(false)} 
                     />
                 </FormControl>
                 <FormControl fullWidth>
@@ -88,17 +145,16 @@ const SignupForm = () => {
                         label="Email"
                         name="email"
                         type="email"
-                        value={email}
-                        onChange={() => setEmail(email)}
+                        onChange={(e) => setEmail(e.target.value)}
                         required
-                        helperText="Some error"
+                        helperText="Must be a valid email address"
                         sx={{
                             '& .MuiFormHelperText-root': {
-                              visibility: err ? 'visible' : 'hidden',
+                              visibility: emailError ? 'visible' : 'hidden',
                               transition: 'visibility 0.2s ease-in',
                             }
                         }}
-                        onFocus={()=>handleInputFocus()}
+                        onFocus={()=>setEmailError(false)}
                     />
                 </FormControl>
 
@@ -109,17 +165,16 @@ const SignupForm = () => {
                         label="Password"
                         name="password"
                         type="password"
-                        value={password}
-                        onChange={()=> setPassword(password)}
+                        onChange={(e)=> setPassword(e.target.value)}
                         required
-                        helperText="Some error"
+                        helperText="Must be only letters and numbers, longer than 3 characters"
                         sx={{
                             '& .MuiFormHelperText-root': {
-                              visibility: err ? 'visible' : 'hidden',
+                              visibility: passwordError ? 'visible' : 'hidden',
                               transition: 'visibility 0.2s ease-in',
                             }
                         }}
-                        onFocus={()=>handleInputFocus()}
+                        onFocus={()=>setPasswordError(false)}
                     />
                 </FormControl>
 
@@ -129,16 +184,15 @@ const SignupForm = () => {
                         variant="standard"
                         label="Avatar"
                         name="avatar"
-                        value={avatar}
-                        onChange={() => setAvatar(avatar)}
+                        onChange={(e) => setAvatar(e.target.value)}
                         sx={{
                             '& .MuiFormHelperText-root': {
-                              visibility: err ? 'visible' : 'hidden',
+                              visibility: avatarError ? 'visible' : 'hidden',
                               transition: 'visibility 0.2s ease-in',
                             }
                         }}
-                        helperText="Some error"
-                        onFocus={()=>handleInputFocus()}
+                        helperText="Avatar error"
+                        onFocus={()=> setAvatarError(false)}
                     />
                 </FormControl> 
                 <div className='btn-group'>
