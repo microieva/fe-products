@@ -1,15 +1,13 @@
-# Front-end Project
 
-![React](https://img.shields.io/badge/React-v.18-blue)
-![Redux toolkit](https://img.shields.io/badge/RTK-v.1-purple)
-![TypeScript](https://img.shields.io/badge/TypeScript-v.4-green)
-![SASS](https://img.shields.io/badge/SASS-v.1-hotpink)
-
-This project requires implementation of TypeScript and SASS.
 
 # DEMO
 
-[Progress So Far](https://tinyurl.com/w6a8fymf)
+[Progress So Far](https://fs16-6-frontend-project-six.vercel.app/)
+
+
+
+--------------------------------------------------------------------------------
+
 
 ## Requirement
 
