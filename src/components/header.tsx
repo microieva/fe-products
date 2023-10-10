@@ -15,11 +15,7 @@ import { TypeForm, TypeUserContext } from '../@types/types';
 import { User } from '../@types/user';
 import { Link, Outlet } from 'react-router-dom';
 
-interface HeaderProps {
-    title?: string
-}
-
-const Header: FC<HeaderProps> = ({ title }) => {
+const Header: FC = () => {
     const { user, onLogout, onLogin } = useContext(UserContext) as TypeUserContext;
 
     const [ loggedInUser, setLoggedInUser ] = useState<User | undefined>(user);
@@ -45,7 +41,7 @@ const Header: FC<HeaderProps> = ({ title }) => {
 
     return (
         <header>
-            { title ? <h2>{title}</h2> : <h2>products</h2>}
+            { user ? <h2>Hello, {user.name}</h2> : <h2>products</h2>}
             <div className='header-group'>
                 <div className='btn-group'>
                     { !user ? 

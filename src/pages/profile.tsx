@@ -1,4 +1,5 @@
-import { FC, useContext, useEffect } from 'react'
+import { FC, useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { UserContext } from '../contexts/user';
 import Header from '../components/header';
@@ -9,9 +10,9 @@ import { TypeUserContext } from '../@types/types';
 
 
 const Profile: FC = () => {
-    
     const { user, onLogin } = useContext(UserContext) as TypeUserContext;
-    
+    const goBack = useNavigate();
+
     useEffect(()=> {
         onLogin();
     }, [user]);
@@ -20,13 +21,12 @@ const Profile: FC = () => {
         <>
             {user ? 
                 <main>
-                    <Header title={`Hello, ${user.name}`}/>
+                    <Header/>
                     {<ProfileDetails user={user}/>}
                 </main>
             :
-                <main>
-                    <h1>NO PAGE</h1>
-                </main> }
+                goBack('/')
+            }
             <Footer />
         </>
     ) 
