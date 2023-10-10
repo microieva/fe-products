@@ -16,6 +16,7 @@ import { Column } from '../@types/table';
 import CartActions from './cart-actions';
 import CustomTableHead from './custom-table-head';
 import { getSorted } from '../redux/selectors/getSorted';
+import { Link, Outlet } from 'react-router-dom';
 
 interface TableProps {
     data: Product[],
@@ -121,10 +122,9 @@ const MuiTable = ({ data }: TableProps) => {
                                        
                                         return (
                                             <TableCell key={column.id} align={column.align}>
-                                                {value}
-                                                {/* <Link style={{textDecoration: "none", color: "black"}} to={`/brewery/${row.id}`}>
+                                                <Link style={{textDecoration: "none", color: "black"}} to={`/products/${row.id}`}>
                                                     {value}
-                                                </Link> */}
+                                                </Link>
                                             </TableCell>    
                                             );
                                         })}
@@ -146,7 +146,7 @@ const MuiTable = ({ data }: TableProps) => {
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
-            {/* <Outlet /> */}
+                <Outlet />
             </Paper>
         );
     }

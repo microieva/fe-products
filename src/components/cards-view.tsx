@@ -8,6 +8,7 @@ import ProductCard from './product-card';
 import Pagination from './pagination';
 import { Product } from '../@types/product';
 import { useGetProductsQuery } from '../redux/api-queries/product-queries';
+import { Link, Outlet } from 'react-router-dom';
 
 interface ViewProps {
   filteredData: Product[]
@@ -45,7 +46,9 @@ const CardsView = ({ filteredData }: ViewProps) => {
 			<div className="cards-view-wrapper">
 				{currentProducts.map(product => {
 					return (
-						<ProductCard key={product.id} product={product}/>
+						<Link style={{textDecoration: "none", color: "black"}} to={`/products/${product.id}`}>
+							<ProductCard key={product.id} product={product}/>
+						</Link>
 					);
 				})}
 			</div> 
@@ -58,6 +61,7 @@ const CardsView = ({ filteredData }: ViewProps) => {
 					endIndex={currentProducts.length < itemsPerPage ? currentProducts.length : endIndex}
 				/>
 			</div>
+			<Outlet />
 		</div>
 	);
 };

@@ -1,9 +1,10 @@
 import { FC } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import UserProvider from './contexts/user';
 import Home from './pages/home';
 import Profile from './pages/profile';
-import UserProvider from './contexts/user';
+import Product from './pages/product';
 
 const App: FC = () => {
 
@@ -14,7 +15,7 @@ const App: FC = () => {
                     <Routes>
                             <Route path="/" element={<Home />}/>
                             <Route path="/auth/profile" element={<Profile />}/>
-                            {/* <Route path="/:productId" element={<ProductPage />} /> */}
+                            <Route path="/products/:productId" element={<Product />} /> 
                     </Routes>
                 </BrowserRouter>
             </div>
