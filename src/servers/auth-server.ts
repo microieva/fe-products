@@ -13,8 +13,7 @@ export const handlers = [
       )
     } else {
       return res(
-        ctx.status(401),
-        ctx.json({ statusCode: 401, message: 'Unauthorized' }),
+        ctx.status(401)
       );
     }
   }),
@@ -26,8 +25,7 @@ export const handlers = [
       )
     } else {
       return res(
-        ctx.status(401),
-        ctx.json({ statusCode: 401, message: 'Unauthorized' }),
+        ctx.status(401)
       );
     }
   })

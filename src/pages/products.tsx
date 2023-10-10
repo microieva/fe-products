@@ -46,12 +46,6 @@ const Products: FC = () => {
         deleteProduct(testID); //tested works
     }
     
-    const onSortAsc = () => {
-        //dispatch(sortByPrice('asc'));
-    }
-    const onSortDesc = () => {
-        //dispatch(sortByPrice('desc'));
-    }
     const onUpdateProduct = () => { // tested works
         console.log('updating ID: ', testID);
         updateProduct({ id: testID, title: 'updated-title', description: 'LOREM IPSUM LOREM IPSUM'})
@@ -63,8 +57,7 @@ const Products: FC = () => {
             <button onClick={()=>onAddNewProduct()}>Add New Product</button>
             <button onClick={()=>onDeleteProduct()}>DELETE Product id {testID}</button>
             <button onClick={()=>onUpdateProduct()}>UPDATE Product id {testID}</button>
-            <button onClick={onSortAsc}>Sort By Price Asc</button>
-            <button onClick={onSortDesc}>Sort By Price Desc</button>
+
             <input type='text' placeholder='Search By Title' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
 
            <p>Number of Items In Cart: {cart.length}</p>

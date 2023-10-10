@@ -45,8 +45,8 @@ const Pagination: FC<PaginationProps> = ({ itemsPerPage, totalItems, onPageChang
 						onChange={handleItemsPerPageChange}
 						value={`${itemsPerPageOption}`}
 					>
-						{itemsPerPage.map((option) => (
-							<MenuItem value={option}>{option}</MenuItem>
+						{itemsPerPage.map((option, i) => (
+							<MenuItem key={i} value={option}>{option}</MenuItem>
 						))}
   					</Select>
 				</FormControl>

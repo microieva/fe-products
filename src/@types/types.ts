@@ -1,4 +1,6 @@
+import { LoginResponse } from "./auth"
 import { Product } from "./product"
+import { User } from "./user"
 
 export type ErrorProps = {
   text: string | null,
@@ -18,4 +20,17 @@ export type ButtonProps = {
   width?: string,
   height?: string,
   onClick: ()=>void
+}
+
+export type TypeForm = 'signup' | 'login' | null;
+
+export type TypeFormContext = {
+  form: TypeForm,
+  onClose: ()=> void,
+}
+
+export type TypeUserContext = {
+  user: User | undefined,
+  onLogout: ()=> void,
+  onLogin: ()=> void
 }
