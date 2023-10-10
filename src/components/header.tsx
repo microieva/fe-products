@@ -12,6 +12,7 @@ import Button from './button';
 import FormSwitcher from './form-switcher';
 import { TypeForm, TypeUserContext } from '../@types/types';
 import { User } from '../@types/user';
+import { Link, Outlet } from 'react-router-dom';
 
 
 const Header: FC = () => {
@@ -51,9 +52,11 @@ const Header: FC = () => {
                         :
                         <>
                             <Button text="log out" width="8rem" height="2rem" onClick={()=>onLogout()} />
-                            <IconButton id="profile-icon">
-                                <AccountCircleOutlinedIcon /> 
-                            </IconButton>
+                            <Link to={`/auth/profile`}>
+                                <IconButton id="profile-icon">
+                                        <AccountCircleOutlinedIcon />
+                                </IconButton>
+                            </Link>    
                         </>
                     }
                     <IconButton>
@@ -77,6 +80,7 @@ const Header: FC = () => {
                 <Backdrop open={open} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
                 </FormProvider>
             </ThemeProvider>
+            <Outlet />
         </header>
     )
 }
