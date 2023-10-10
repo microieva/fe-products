@@ -3,6 +3,7 @@ import { FC, useContext, useEffect, useState } from 'react';
 import { IconButton, ThemeProvider, Backdrop, Dialog, Badge } from '@mui/material';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 
 import { theme } from '../shared/theme';
 import { useAppSelector } from '../hooks/useAppSelector';
@@ -54,7 +55,9 @@ const Header: FC<HeaderProps> = ({ title }) => {
                         </>
                         :
                         <>
-                            <Button text="log out" width="8rem" height="2rem" onClick={()=>onLogout()} />
+                            <IconButton onClick={()=> onLogout()}>
+                                <LogoutOutlinedIcon />
+                            </IconButton>
                             <Link to={`/auth/profile`}>
                                 <IconButton id="profile-icon">
                                         <AccountCircleOutlinedIcon />
