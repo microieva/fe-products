@@ -31,5 +31,6 @@ export type TypeFormContext = {
 
 export type TypeUserContext = {
   user: User | undefined,
-  onLogout: ()=> void
+  onLogout: ()=> void,
+  onLogin: ()=> void
 }

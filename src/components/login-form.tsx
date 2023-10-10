@@ -6,12 +6,14 @@ import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 
 import { FormContext } from '../contexts/form';
-import { TypeFormContext } from '../@types/types';
+import { TypeFormContext, TypeUserContext } from '../@types/types';
 import { useLoginMutation } from '../redux/api-queries/auth-queries';
-import { LoginRequest } from '../@types/auth';
+import { LoginRequest, LoginResponse } from '../@types/auth';
+import { UserContext } from '../contexts/user';
 
 
 const LoginForm = () => {
+    const { onLogin } = useContext(UserContext) as TypeUserContext;
     const [ request, setRequest ] = useState<LoginRequest | undefined>();
 
     const [ email, setEmail ] = useState<string>();
@@ -25,9 +27,6 @@ const LoginForm = () => {
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setRequest({email, password});
-        if (!err) {
-            onClose();
-        }
     };
 
     const handleInputFocus = () => {
@@ -36,15 +35,18 @@ const LoginForm = () => {
 
     const saveToken = (token: string) => {
         localStorage.setItem('token', JSON.stringify(token));
+        onClose();
     }
 
     useEffect(()=> {
         const initialLogin = async () => {
             try {
-                const payload = request && await login({email: request.email, password: request.password}).unwrap();
+                const payload: LoginResponse | undefined = request && await login({email: request.email, password: request.password}).unwrap();
                 payload && saveToken(payload.access_token);
-            } catch (e){
-                setErr(true);
+                onLogin(); //calling to get the token, which should trigger effect ??
+            } catch (error){
+                error && setErr(true);
+                formRef.current && formRef.current.reset();
             }
         }
         initialLogin();

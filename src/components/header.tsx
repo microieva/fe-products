@@ -20,7 +20,7 @@ import { User } from '../@types/user';
 
 
 const Header: FC = () => {
-    const { user, onLogout } = useContext(UserContext) as TypeUserContext;
+    const { user, onLogout, onLogin } = useContext(UserContext) as TypeUserContext;
 
     const [ loggedInUser, setLoggedInUser ] = useState<User | undefined>(user);
     const [ open, setOpen ] = useState<boolean>(false);
@@ -28,7 +28,8 @@ const Header: FC = () => {
     const cart = useAppSelector(state => state.cart);
     const amount = cart.reduce((curr, item) => curr+item.quantity, 0);
 
-    console.log('USER from header: ', loggedInUser);
+    console.log('loggedInUser from header: ', loggedInUser);
+    console.log('user from header: ', user);
 
     const handleOpen = (form: TypeForm) => {
         setOpen(true);
@@ -41,7 +42,6 @@ const Header: FC = () => {
     }
     const openCart = () => {
         //setCart(true)
-        console.log('click')
     }
 
     const openProfilePage = () => {
@@ -49,8 +49,9 @@ const Header: FC = () => {
     }
 
     useEffect(()=> {
+        onLogin(); // should header component check if there is token
         setLoggedInUser(user);
-    }, [loggedInUser]);
+    }, [user]);
 
     return (
         <header>

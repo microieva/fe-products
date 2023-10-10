@@ -7,15 +7,17 @@ import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
 
 import { useAddUserMutation } from '../redux/api-queries/user-queries';
 import { FormContext } from '../contexts/form';
-import { TypeFormContext } from '../@types/types';
+import { TypeFormContext, TypeUserContext } from '../@types/types';
 import { User } from '../@types/user';
 import { SerializedError } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import { useLoginMutation } from '../redux/api-queries/auth-queries';
+import { UserContext } from '../contexts/user';
 
 
 const SignupForm = () => {
     // 'https://api.lorem.space/image/face?w=640&h=480&r=867' avatar
+    const { onLogin } = useContext(UserContext) as TypeUserContext;
     const [user, setUser] = useState<Partial<User>>();
      
     const [ name, setName ] = useState<string>();
@@ -50,6 +52,7 @@ const SignupForm = () => {
         // if does - inform
         // if not - login 
         await login({email: email, password: password});
+        onLogin(); 
         onClose();
     }
     useEffect(()=> {
@@ -64,11 +67,10 @@ const SignupForm = () => {
             if (!err) {
                 try {
                     const payload = user && await addUser(user).unwrap();
-                    payload && loginSignupUser(payload.email, payload.password)
-                    //setSignedupUser(payload);    
+                    payload && loginSignupUser(payload.email, payload.password);  
                 } catch (error: any) {
                     setErr(true);
-                    //formRef.current && formRef.current.reset();
+                    // we do not reset the form so the user can see input texts and edit them without typing from 0
                 }
             }
         }
