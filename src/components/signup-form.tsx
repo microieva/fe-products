@@ -1,18 +1,15 @@
 import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 
-import FormControl from '@mui/material/FormControl';
-import { IconButton, TextField } from '@mui/material';
+import { IconButton, TextField, FormControl } from '@mui/material';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
 
 import { useAddUserMutation } from '../redux/api-queries/user-queries';
+import { useLoginMutation } from '../redux/api-queries/auth-queries';
 import { FormContext } from '../contexts/form';
+import { UserContext } from '../contexts/user';
 import { TypeFormContext, TypeUserContext } from '../@types/types';
 import { User } from '../@types/user';
-import { SerializedError } from '@reduxjs/toolkit';
-import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
-import { useLoginMutation } from '../redux/api-queries/auth-queries';
-import { UserContext } from '../contexts/user';
 
 
 const SignupForm = () => {
@@ -48,9 +45,6 @@ const SignupForm = () => {
     };
 
     const loginSignupUser = async (email: string, password: string) => {
-        // check if user exists
-        // if does - inform
-        // if not - login 
         await login({email: email, password: password});
         onLogin(); 
         onClose();
@@ -70,7 +64,6 @@ const SignupForm = () => {
                     payload && loginSignupUser(payload.email, payload.password);  
                 } catch (error: any) {
                     setErr(true);
-                    // we do not reset the form so the user can see input texts and edit them without typing from 0
                 }
             }
         }

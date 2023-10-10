@@ -1,15 +1,14 @@
 import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 
-import FormControl from '@mui/material/FormControl';
-import { IconButton, TextField } from '@mui/material';
+import { IconButton, TextField, FormControl } from '@mui/material';
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 
-import { FormContext } from '../contexts/form';
-import { TypeFormContext, TypeUserContext } from '../@types/types';
 import { useLoginMutation } from '../redux/api-queries/auth-queries';
-import { LoginRequest, LoginResponse } from '../@types/auth';
+import { FormContext } from '../contexts/form';
 import { UserContext } from '../contexts/user';
+import { LoginRequest, LoginResponse } from '../@types/auth';
+import { TypeFormContext, TypeUserContext } from '../@types/types';
 
 
 const LoginForm = () => {
@@ -43,7 +42,7 @@ const LoginForm = () => {
             try {
                 const payload: LoginResponse | undefined = request && await login({email: request.email, password: request.password}).unwrap();
                 payload && saveToken(payload.access_token);
-                onLogin(); //calling to get the token, which should trigger effect ??
+                onLogin(); 
             } catch (error){
                 error && setErr(true);
                 formRef.current && formRef.current.reset();

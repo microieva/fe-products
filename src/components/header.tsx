@@ -1,21 +1,16 @@
 import { FC, useContext, useEffect, useState } from 'react';
 
-import { IconButton, ThemeProvider } from '@mui/material';
-import { Backdrop } from '@mui/material';
-import Dialog from '@mui/material/Dialog';
-import Badge from '@mui/material/Badge';
+import { IconButton, ThemeProvider, Backdrop, Dialog, Badge } from '@mui/material';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
 
+import { theme } from '../shared/theme';
 import { useAppSelector } from '../hooks/useAppSelector';
 import FormProvider from '../contexts/form';
-import { theme } from '../shared/theme';
+import { UserContext } from '../contexts/user';
 import Button from './button';
 import FormSwitcher from './form-switcher';
 import { TypeForm, TypeUserContext } from '../@types/types';
-import { UserContext } from '../contexts/user';
 import { User } from '../@types/user';
 
 
@@ -28,9 +23,6 @@ const Header: FC = () => {
     const cart = useAppSelector(state => state.cart);
     const amount = cart.reduce((curr, item) => curr+item.quantity, 0);
 
-    console.log('loggedInUser from header: ', loggedInUser);
-    console.log('user from header: ', user);
-
     const handleOpen = (form: TypeForm) => {
         setOpen(true);
         setForm(form);
@@ -40,16 +32,9 @@ const Header: FC = () => {
         setOpen(false);
         return true;
     }
-    const openCart = () => {
-        //setCart(true)
-    }
-
-    const openProfilePage = () => {
-        // router link ?
-    }
 
     useEffect(()=> {
-        onLogin(); // should header component check if there is token
+        onLogin(); 
         setLoggedInUser(user);
     }, [user]);
 
@@ -66,7 +51,7 @@ const Header: FC = () => {
                         :
                         <>
                             <Button text="log out" width="8rem" height="2rem" onClick={()=>onLogout()} />
-                            <IconButton onClick={openProfilePage} id="profile-icon">
+                            <IconButton id="profile-icon">
                                 <AccountCircleOutlinedIcon /> 
                             </IconButton>
                         </>
@@ -79,7 +64,7 @@ const Header: FC = () => {
                                 "&.css-z5pebr-MuiBadge-badge": {backgroundColor: "orange"}
                             }}
                         >
-                            <ShoppingCartOutlinedIcon onClick={openCart}/>
+                            <ShoppingCartOutlinedIcon />
                         </Badge>
                     </IconButton>
                 </div>
