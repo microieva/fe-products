@@ -25,3 +25,6 @@ package-lock.json
 
 _*
 _/
+# Ignore commented lines and console.log statements
+^\/\/|^\/\*|\*|console\.log
+
