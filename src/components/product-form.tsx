@@ -7,7 +7,9 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import NativeSelect from '@mui/material/NativeSelect';
 import { TextareaAutosize } from '@mui/base';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
+import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
 import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 
 import { UserContext } from '../contexts/user';
 import { TypeUserContext } from '../@types/types';
@@ -44,6 +46,7 @@ const ProductForm: FC<Props> = ({ product }) => {
     const [ updateProduct ] = useUpdateProductMutation();
     const [ err, setErr ] = useState<boolean>(true);
     const formRef = useRef<HTMLFormElement>(null);
+    const [ disabled, setDisabled ] = useState<boolean>(true);
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -100,7 +103,7 @@ const ProductForm: FC<Props> = ({ product }) => {
     }
 
     const onEdit = () => {
-        // set the form to editable
+        setDisabled(false);
     }
     const handleCategoryChange = (event: SelectChangeEvent) => {
         setCategory(event.target.value as string);
@@ -112,7 +115,7 @@ const ProductForm: FC<Props> = ({ product }) => {
             <form onSubmit={handleSubmit} ref={formRef}>
                 <FormControl fullWidth>
                     <TextField
-                        disabled={!admin}
+                        disabled={disabled}
                         fullWidth
                         variant="standard"
                         label="Title"
@@ -127,10 +130,10 @@ const ProductForm: FC<Props> = ({ product }) => {
                               transition: 'visibility 0.2s ease-in',
                             },
                             '& .MuiFormLabel-asterisk': {
-                                visibility: user?.role === 'admin' ? 'visible' : 'hidden',
+                                visibility: !disabled ? 'visible' : 'hidden',
                             },
-                            '& .MuiInputBase-root.MuiInput-root:before': { // DOESNT WORK !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                                borderBottom: user?.role === 'admin' ? '1px orange solid' : 'none',
+                            '& .MuiInputBase-root.MuiInput-root:before': { 
+                                borderBottom: disabled ? '1px darkgrey dotted' : 'none',
                             }
                         }}
                         onFocus={()=>setTitleError(false)} 
@@ -138,7 +141,7 @@ const ProductForm: FC<Props> = ({ product }) => {
                 </FormControl>
                 <FormControl fullWidth>
                     <TextField
-                        disabled={!admin}
+                        disabled={disabled}
                         fullWidth
                         variant="standard"
                         label="Price"
@@ -150,14 +153,14 @@ const ProductForm: FC<Props> = ({ product }) => {
                         helperText="Price is required"
                         sx={{
                             '& .MuiFormHelperText-root': {
-                              visibility: priceError ? 'visible' : 'hidden',
+                              visibility: titleError ? 'visible' : 'hidden',
                               transition: 'visibility 0.2s ease-in',
                             },
                             '& .MuiFormLabel-asterisk': {
-                                visibility: user?.role === 'admin' ? 'visible' : 'hidden',
+                                visibility: !disabled ? 'visible' : 'hidden',
                             },
-                            '& .MuiInputBase-root.MuiInput-root:before': {
-                                borderBottom: user?.role === 'admin' ? '1px orange solid' : 'none',
+                            '& .MuiInputBase-root.MuiInput-root:before': { 
+                                borderBottom: disabled ? '1px darkgrey dotted' : 'none',
                             }
                         }}
                         onFocus={()=>setPriceError(false)}
@@ -167,7 +170,7 @@ const ProductForm: FC<Props> = ({ product }) => {
                 <FormControl fullWidth>
                     <FormLabel 
                         style={{  
-                            color: "darkgrey",
+                            color: disabled ? "darkgrey" : "#3d3d3d",
                             fontSize: "13px",
                             marginBottom: "0.5rem" 
                         }}
@@ -175,7 +178,7 @@ const ProductForm: FC<Props> = ({ product }) => {
                         Description
                     </FormLabel>
                     <TextareaAutosize
-                        disabled={!admin}
+                        disabled={disabled}
                         name="description"
                         value={description}
                         onChange={(e)=> setDescription(e.target.value)}
@@ -190,7 +193,7 @@ const ProductForm: FC<Props> = ({ product }) => {
                     <>
                         <FormControl fullWidth>
                             <TextField
-                                disabled={!admin}
+                                disabled={disabled}
                                 fullWidth
                                 variant="standard"
                                 label="Image"
@@ -200,14 +203,14 @@ const ProductForm: FC<Props> = ({ product }) => {
                                 onChange={(e) => setImage(e.target.value)}
                                 sx={{
                                     '& .MuiFormHelperText-root': {
-                                        visibility: imageError ? 'visible' : 'hidden',
-                                        transition: 'visibility 0.2s ease-in',
+                                      visibility: titleError ? 'visible' : 'hidden',
+                                      transition: 'visibility 0.2s ease-in',
                                     },
                                     '& .MuiFormLabel-asterisk': {
-                                        visibility: user?.role === 'admin' ? 'visible' : 'hidden',
+                                        visibility: !disabled ? 'visible' : 'hidden',
                                     },
-                                    '& .MuiInputBase-root.MuiInput-root:before': {
-                                        borderBottom: user?.role === 'admin' ? '1px orange solid' : 'none',
+                                    '& .MuiInputBase-root.MuiInput-root:before': { 
+                                        borderBottom: disabled ? '1px darkgrey dotted' : 'none',
                                     }
                                 }}
                                 helperText="Avatar error"
@@ -217,7 +220,7 @@ const ProductForm: FC<Props> = ({ product }) => {
                             <FormControl fullWidth>
                                 <FormLabel 
                                     style={{  
-                                        color: "darkgrey",
+                                        color: disabled ? "darkgrey" : "#3d3d3d",
                                         fontSize: "13px",
                                         marginBottom: "0.5rem" 
                                     }}
@@ -225,7 +228,7 @@ const ProductForm: FC<Props> = ({ product }) => {
                                     Category
                                 </FormLabel>
                                 <NativeSelect
-                                    disabled={admin}
+                                    disabled={disabled}
                                     defaultValue={category}
                                     inputProps={{
                                         name: 'age',
@@ -244,7 +247,7 @@ const ProductForm: FC<Props> = ({ product }) => {
                             style={{  
                                 color: "darkgrey",
                                 fontSize: "13px",
-                                marginBottom: "0.5rem" 
+                                marginBottom: "0.5rem"
                             }}
                         >
                             Category
@@ -253,15 +256,21 @@ const ProductForm: FC<Props> = ({ product }) => {
                     </>}
                     {admin && 
                         <div className='btn-group'>
-                            <IconButton type ="submit" onClick={()=> handleSubmit}>
-                                <EditNoteOutlinedIcon/>
-                            </IconButton> 
+                            {disabled ? 
                             <IconButton onClick={()=> onEdit()}>
-                                <DoorBackOutlinedIcon/>
+                                <EditNoteOutlinedIcon/>
                             </IconButton>
+                            :
+                            <IconButton type ="submit">
+                                <BackupOutlinedIcon />
+                            </IconButton>
+                            }
+                            {!disabled && <IconButton >
+                                <CancelOutlinedIcon/>
+                            </IconButton>}
                         </div>
                     }
-            </form>
+            </form> 
         </div>
     
     );

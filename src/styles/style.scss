@@ -1,5 +1,8 @@
 *{
   font-family: 'Roboto', sans-serif;
+  h1, h2, div, p {
+    color: #3d3d3d;
+  }
 }
 .app-container { 
   position: relative;
@@ -251,14 +254,17 @@ footer {
   .view-details {
     display: flex;
     justify-content: space-between;
-    & textarea:disabled {
+    textarea {
       background-color: transparent;
       font-family: 'Roboto', sans-serif;
       font-size: 1rem;
-      border: none;
-      color: darkgrey;
       letter-spacing: 1px;
-      margin-bottom: 2rem;
+      padding: 1rem;
+      &:disabled {  
+        border: none;
+        border-bottom: 1px darkgrey dotted;
+        color: darkgrey;
+      }
     }
     & > div {
       width: 50%;
@@ -280,6 +286,11 @@ footer {
   .btn-group {
     align-self: flex-end;
     color: darkgray;
+    button {
+      margin-left: 1rem;
+      height: 3rem;
+      width: 3rem;
+    }
     svg {
       height: 3rem;
       width: 3rem;
