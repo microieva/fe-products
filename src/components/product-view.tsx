@@ -3,6 +3,7 @@ import { Product } from '../@types/product';
 import { IconButton } from '@mui/material';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 import { useNavigate } from 'react-router-dom';
+import ProductForm from './product-form';
 
 interface Props {
     product: Product
@@ -19,19 +20,16 @@ const ProductView: FC<Props> = ({product}) => {
                 <div className='btn-group'>
                         <IconButton>
                             
-                       </IconButton>
-                       <IconButton onClick={()=> goBack('/')}>
-                           <DoorBackOutlinedIcon/>
-                       </IconButton>
+                        </IconButton>
+                        <IconButton onClick={()=> goBack('/')}>
+                            <DoorBackOutlinedIcon/>
+                        </IconButton>
                 </div>
             </div>
             <div className='view-details'>
-                <div className="product-details-text">
-                    <p><span>product name:</span> {product.title}</p>
-                    <p><span>product price:</span> {product.price}</p>
-                </div>
+                <ProductForm product={product}/>
                 <div className="img-wrapper">
-                   this will be image stepper
+
                 </div>
             </div>
         </div>

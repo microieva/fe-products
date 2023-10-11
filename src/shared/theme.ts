@@ -13,6 +13,9 @@ export const theme = createTheme({
           },
           '& .MuiFormHelperText-root': {
             color: 'orange'
+          },
+          '& .MuiInputBase-root.Mui-disabled': {
+            color: 'red'
           }
         }
       },

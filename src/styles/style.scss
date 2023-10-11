@@ -251,6 +251,18 @@ footer {
   .view-details {
     display: flex;
     justify-content: space-between;
+    & textarea:disabled {
+      background-color: transparent;
+      font-family: 'Roboto', sans-serif;
+      font-size: 1rem;
+      border: none;
+      color: darkgrey;
+      letter-spacing: 1px;
+      margin-bottom: 2rem;
+    }
+    & > div {
+      width: 50%;
+    }
     .profile-details-text {
       margin: auto 0;
       span {

@@ -38,3 +38,22 @@ const FormSwitcher = () => {
       
 }
 export default FormSwitcher;
+
+/* dynamic form maybe would accept 1 parameter, schema, which will be either user or product. 
+then we transform shcema into arr of key-value pairs:
+
+const arr = Object.keys(schema).map((key) => ({
+        key,
+        value: product[key as keyof Product | User]
+    }));
+
+
+{arr.map(productKeyValuePair => {
+                            return (
+                               <>
+                                    <p>{productKeyValuePair.key}:</p>
+                                    <p>{productKeyValuePair.value?.toString()}</p>
+                               </>
+                            )
+                    })}
+*/
