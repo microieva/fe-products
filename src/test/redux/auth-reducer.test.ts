@@ -1,7 +1,7 @@
 import { store } from '../../shared/store';
 import server from '../../servers/auth-server';
 import authQueries from '../../redux/api-queries/auth-queries';
-import { mockUser, mockToken } from '../../shared/mock-auth';
+import { mockUser, mockResponse } from '../../shared/mock-auth';
 import { LoginResponse, LoginRequest } from '../../@types/auth';
 
 describe('authentification', () => {
@@ -19,13 +19,13 @@ describe('authentification', () => {
       email: 'ieva@email.com',
       password: 'admin'
     };
-    const result: any = await store.dispatch(authQueries.endpoints.login.initiate(loginRequest));
-    expect(result.data).toMatchObject(mockToken);
+    const result: any = await store.dispatch(authQueries.endpoints.login.initiate({email: loginRequest.email, password: loginRequest.password}));
+    expect(result.data).toMatchObject(mockResponse);
   });
 
   it('Should get logged in user', async ()=>{
-    const access = mockToken.access_token;
-    const result: any = await store.dispatch(authQueries.endpoints.getUser.initiate(access));
+    const token: string = mockResponse.access_token;
+    const result: any = await store.dispatch(authQueries.endpoints.getUser.initiate(token));
     expect(result.data).toMatchObject(mockUser);
   })
 })
