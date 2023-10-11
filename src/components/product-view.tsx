@@ -29,7 +29,7 @@ const ProductView: FC<Props> = ({product}) => {
             <div className='view-details'>
                 <ProductForm product={product}/>
                 <div className="img-wrapper">
-
+                    <img src={`${product.images[product.images.length-1]}`} alt="profile picture" />
                 </div>
             </div>
         </div>

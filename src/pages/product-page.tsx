@@ -14,18 +14,13 @@ const ProductPage: FC = () => {
     const { productId } = useParams();
     const goBack = useNavigate();
     const { data } = useGetProductByIdQuery(Number(productId));
-    const [ product, setProduct ] = useState<Product | undefined>();
-
-    useEffect(()=> {
-        setProduct(data);
-    }, [data])
 
     return (
         <>
-            {product ? 
+            {data ? 
                 <main>
                     <Header/>
-                    <ProductView product={product}/>
+                    <ProductView product={data}/>
                 </main>
             :
                 goBack('/')

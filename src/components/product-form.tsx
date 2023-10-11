@@ -1,15 +1,19 @@
 import { FC, FormEvent, useContext, useEffect, useRef, useState } from 'react';
 
 import { IconButton, TextField, FormControl, FormLabel } from '@mui/material';
+import FormHelperText from '@mui/material/FormHelperText';
+
+import { SelectChangeEvent } from '@mui/material/Select';
+import NativeSelect from '@mui/material/NativeSelect';
 import { TextareaAutosize } from '@mui/base';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
-import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
 import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
 
 import { UserContext } from '../contexts/user';
 import { TypeUserContext } from '../@types/types';
 import { useAddProductMutation, useUpdateProductMutation } from '../redux/api-queries/product-queries';
-import { Product } from '../@types/product';
+import { Category, Product } from '../@types/product';
+import { useGetCategoriesQuery } from '../redux/api-queries/category-queries';
 
 interface Props {
     product: Product
@@ -25,8 +29,11 @@ const ProductForm: FC<Props> = ({ product }) => {
     const [ price, setPrice ] = useState<string | undefined>(product.price.toString());
     const [ description, setDescription ] = useState<string | undefined>(product.description);
     const [ image, setImage ] = useState<string | undefined>(product.images[0]);
+    const [ category, setCategory ] = useState<string>(product.category.name);
 
     const [ item, setItem ] = useState<Partial<Product>>();
+    const { data } = useGetCategoriesQuery(undefined);
+    const [ categories, setCategories ] = useState<Category[] | undefined>();
 
     const [ titleError, setTitleError ] = useState<boolean>(false);
     const [ priceError, setPriceError ] = useState<boolean>(false);
@@ -57,7 +64,10 @@ const ProductForm: FC<Props> = ({ product }) => {
         if (user) {
             setAdmin(user.role === 'admin')
         }
-    }, [item, user]);
+        if (data) {
+            setCategories(data)
+        }
+    }, [item, user, data]);
 
     const validate = () => {
         const priceRegex = new RegExp('^\d*\.?\d+');
@@ -88,14 +98,12 @@ const ProductForm: FC<Props> = ({ product }) => {
             setErr(titleError && priceError && descriptionError && imageError);
         }
     }
-     /* 
-             FIX IMAGES AND CATEGORY DROPDOWN
-
-                    images: string[],
-                    categoryId?: number, */
 
     const onEdit = () => {
         // set the form to editable
+    }
+    const handleCategoryChange = (event: SelectChangeEvent) => {
+        setCategory(event.target.value as string);
     }
 
 
@@ -177,59 +185,72 @@ const ProductForm: FC<Props> = ({ product }) => {
                     />
                 </FormControl>
                 <FormControl fullWidth>
-                    {/* <TextField
-                        disabled={!admin}
-                        fullWidth
-                        variant="standard"
-                        label="Category"
-                        name="category"
-                        type="text"
-                        value={category}
-                        onChange={(e) => setCategory(e.target.value)}
-                        sx={{
-                            '& .MuiFormHelperText-root': {
-                                visibility: imageError ? 'visible' : 'hidden',
-                                transition: 'visibility 0.2s ease-in',
-                            },
-                            '& .MuiFormLabel-asterisk': {
-                                visibility: user?.role === 'admin' ? 'visible' : 'hidden',
-                            },
-                            '& .MuiInputBase-root.MuiInput-root:before': {
-                                borderBottom: user?.role === 'admin' ? '1px orange solid' : 'none',
-                            }
-                            }}
-                        helperText="Avatar error"
-                        onFocus={()=> setImageError(false)}
-                    /> */}
                 </FormControl> 
-                { admin && <>
-                    <FormControl fullWidth>
-                        <TextField
-                            disabled={!admin}
-                            fullWidth
-                            variant="standard"
-                            label="Image"
-                            name="image"
-                            type="text"
-                            value={image}
-                            onChange={(e) => setImage(e.target.value)}
-                            sx={{
-                                '& .MuiFormHelperText-root': {
-                                    visibility: imageError ? 'visible' : 'hidden',
-                                    transition: 'visibility 0.2s ease-in',
-                                },
-                                '& .MuiFormLabel-asterisk': {
-                                    visibility: user?.role === 'admin' ? 'visible' : 'hidden',
-                                },
-                                '& .MuiInputBase-root.MuiInput-root:before': {
-                                    borderBottom: user?.role === 'admin' ? '1px orange solid' : 'none',
-                                }
+                { admin ? 
+                    <>
+                        <FormControl fullWidth>
+                            <TextField
+                                disabled={!admin}
+                                fullWidth
+                                variant="standard"
+                                label="Image"
+                                name="image"
+                                type="text"
+                                value={image}
+                                onChange={(e) => setImage(e.target.value)}
+                                sx={{
+                                    '& .MuiFormHelperText-root': {
+                                        visibility: imageError ? 'visible' : 'hidden',
+                                        transition: 'visibility 0.2s ease-in',
+                                    },
+                                    '& .MuiFormLabel-asterisk': {
+                                        visibility: user?.role === 'admin' ? 'visible' : 'hidden',
+                                    },
+                                    '& .MuiInputBase-root.MuiInput-root:before': {
+                                        borderBottom: user?.role === 'admin' ? '1px orange solid' : 'none',
+                                    }
+                                }}
+                                helperText="Avatar error"
+                                onFocus={()=> setImageError(false)}
+                            />
+                            </FormControl> 
+                            <FormControl fullWidth>
+                                <FormLabel 
+                                    style={{  
+                                        color: "darkgrey",
+                                        fontSize: "13px",
+                                        marginBottom: "0.5rem" 
+                                    }}
+                                >
+                                    Category
+                                </FormLabel>
+                                <NativeSelect
+                                    disabled={admin}
+                                    defaultValue={category}
+                                    inputProps={{
+                                        name: 'age',
+                                        id: 'uncontrolled-native',
+                                    }}
+                                >   
+                                    {categories && categories.map((ctgry: Category)=> {
+                                        return <option key={ctgry.id} value={ctgry.name}>{ctgry.name}</option>
+                                    })} 
+                                </NativeSelect>
+                            </FormControl>
+                    </> 
+                    :
+                    <>
+                        <FormLabel 
+                            style={{  
+                                color: "darkgrey",
+                                fontSize: "13px",
+                                marginBottom: "0.5rem" 
                             }}
-                            helperText="Avatar error"
-                            onFocus={()=> setImageError(false)}
-                        />
-                        </FormControl> 
-                    </> }
+                        >
+                            Category
+                        </FormLabel>
+                        <div style={{color: "darkgrey"}}>{category}</div>
+                    </>}
                     {admin && 
                         <div className='btn-group'>
                             <IconButton type ="submit" onClick={()=> handleSubmit}>

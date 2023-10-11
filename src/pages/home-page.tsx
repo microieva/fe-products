@@ -8,7 +8,7 @@ const HomePage: FC = () => {
     const {data, error, isLoading, isError} = useGetUsersQuery();
     
     useEffect(()=> {
-        console.log('USERS from HOME: ', data, error);
+        console.log('admins from HOME: ', data?.filter(user => user.role === 'admin'),);
         
     }, [data])
 
