@@ -1,28 +1,31 @@
-import { FC, useContext, useEffect } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { UserContext } from '../contexts/user';
 import Header from '../components/header';
-import ProfileDetails from '../components/profile-details';
 import Footer from '../components/footer';
 
 import { TypeUserContext } from '../@types/types';
+import ProfileView from '../components/profile-view';
+import { User } from '../@types/user';
 
 
-const Profile: FC = () => {
+const ProfilePage: FC = () => {
     const { user, onLogin } = useContext(UserContext) as TypeUserContext;
+    const [ profile, setProfile ] = useState<User | undefined>(user);
     const goBack = useNavigate();
 
     useEffect(()=> {
         onLogin();
+        setProfile(user)
     }, [user]);
 
     return (
         <>
-            {user ? 
+            {profile ? 
                 <main>
                     <Header/>
-                    {<ProfileDetails user={user}/>}
+                    <ProfileView user={profile}/>
                 </main>
             :
                 goBack('/')
@@ -32,4 +35,4 @@ const Profile: FC = () => {
     ) 
 }
 
-export default Profile;
+export default ProfilePage;

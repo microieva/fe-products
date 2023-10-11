@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import TableView from './table-view';
 import SearchBar from './search-bar';
-import ViewSwitcher from './view-switcher';
+import HomeViewSwitcherIcons from './home-view-switcher-icons';
 import { Product } from '../@types/product';
 import CardsView from './cards-view';
 
@@ -22,7 +22,7 @@ const Section: FC = () => {
         <section>
             <div className='utilities-container'>
                 <SearchBar searchProducts={searchProducts}/>
-                <ViewSwitcher switchView={switchView}/>
+                <HomeViewSwitcherIcons switchView={switchView}/>
             </div>
             <div className='products-container'>
                 {activeView === 'grid' && <CardsView filteredData={filteredData}/>}

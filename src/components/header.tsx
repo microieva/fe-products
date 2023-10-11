@@ -56,7 +56,7 @@ const Header: FC = () => {
                             </IconButton>
                             <Link to={`/auth/profile`}>
                                 <IconButton id="profile-icon">
-                                        <AccountCircleOutlinedIcon />
+                                    <AccountCircleOutlinedIcon />
                                 </IconButton>
                             </Link>    
                         </>

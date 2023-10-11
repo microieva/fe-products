@@ -238,7 +238,7 @@ footer {
   height: 3rem;
 }
 
-.profile-container {
+.view-container {
   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
   border-radius: 7px;
   margin: auto;
@@ -249,33 +249,33 @@ footer {
   flex-direction: column;
   width: 79%;
 }
-.profile-container .profile-header {
+.view-container .view-header {
   display: flex;
   justify-content: space-between;
   margin-bottom: 3rem;
 }
-.profile-container .profile-details {
+.view-container .view-details {
   display: flex;
   justify-content: space-between;
 }
-.profile-container .profile-details .profile-details-text {
+.view-container .view-details .profile-details-text {
   margin: auto 0;
 }
-.profile-container .profile-details .profile-details-text span {
+.view-container .view-details .profile-details-text span {
   color: darkgrey;
 }
-.profile-container .profile-details .img-wrapper {
+.view-container .view-details .img-wrapper {
   margin-right: 5rem;
   clip-path: circle(50% at center);
   border-radius: 50%;
   height: 22rem;
   width: 22rem;
 }
-.profile-container .btn-group {
+.view-container .btn-group {
   align-self: flex-end;
   color: darkgray;
 }
-.profile-container .btn-group svg {
+.view-container .btn-group svg {
   height: 3rem;
   width: 3rem;
 }

@@ -44,9 +44,9 @@ const CardsView = ({ filteredData }: ViewProps) => {
 	return (
 		<div className="cards-container">
 			<div className="cards-view-wrapper">
-				{currentProducts.map(product => {
+				{currentProducts.map((product: Product, i) => {
 					return (
-						<Link style={{textDecoration: "none", color: "black"}} to={`/products/${product.id}`}>
+						<Link key={i} style={{textDecoration: "none", color: "black"}} to={`/products/${product.id}`}>
 							<ProductCard key={product.id} product={product}/>
 						</Link>
 					);

@@ -10,7 +10,7 @@ interface SwitcherProps {
     switchView:(activeView: string)=>void
 }
 
-const ViewSwitcher: FC<SwitcherProps> = ({ switchView }: SwitcherProps) => {
+const HomeViewSwitcherIcons: FC<SwitcherProps> = ({ switchView }: SwitcherProps) => {
     const [activeView, setActiveView] = useState<string>('grid');
 
     const handleTableClick = () => {
@@ -31,4 +31,4 @@ const ViewSwitcher: FC<SwitcherProps> = ({ switchView }: SwitcherProps) => {
     );
 };
 
-export default ViewSwitcher;
+export default HomeViewSwitcherIcons;
