@@ -4,7 +4,7 @@ import { Product } from '../@types/product';
 import CartActions from './cart-actions';
 
 interface CardProps {
-  product: Product
+    product: Product
 }
 
 const ProductCard: FC<CardProps> = ({product}: CardProps) => {

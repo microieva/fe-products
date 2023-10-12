@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useState, MouseEvent } from 'react';
 
 import IconButton from "@mui/material/IconButton";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -16,29 +16,34 @@ interface CartActionsProps {
 
 const CartActions: FC<CartActionsProps> = ({product}: CartActionsProps) => {
     const cart = useAppSelector(state => state.cart); 
-    const [isInCart, setIsInCart] = useState<boolean>(cart.some((item: CartItem) => item.id == product.id))
+    const [isInCart, setIsInCart] = useState<boolean>(cart.some((item: CartItem) => item.id === product.id))
     const dispatch = useAppDispatch();
 
-    const addToCart = () => {
+    const addToCart = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+        event.preventDefault();
+        event.stopPropagation();
         dispatch(addItem(product));
         setIsInCart(true);
     }
-    const removeFromCart = () => {
-        dispatch(removeItem(product.id))
-    }
+    const removeFromCart = useCallback((event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+        event.preventDefault();
+        event.stopPropagation();
+        dispatch(removeItem(product.id));
+      }, [dispatch, product.id]);
+    
     useEffect(()=>{
-        const inCart = cart.some((item: CartItem) => item.id == product.id);
+        const inCart = cart.some((item: CartItem) => item.id === product.id);
         if (!inCart) {
             setIsInCart(false)
         }
-    }, [isInCart, removeFromCart]);
+    }, [isInCart, removeFromCart, product.id, cart]);
 
     return (
-        <div className='btn-group' style={{float: "right"}}>
+        <div className='btn-group' style={{float: "right", position: "relative", zIndex:"0"}}>
             <IconButton 
                 aria-label="add" 
                 size="large" 
-                onClick={addToCart}
+                onClick={(e)=>addToCart(e)}
             >
                 <AddCircleOutlineIcon/>
             </IconButton>
@@ -47,11 +52,12 @@ const CartActions: FC<CartActionsProps> = ({product}: CartActionsProps) => {
                 size="large" 
                 onClick={removeFromCart} 
                 disabled={!isInCart} 
-                className={!isInCart ? 'disabled' : ''}
-                sx={{ "&:disabled": {cursor: "default"}}} // doesnt work !!!
             >
                 <DeleteOutlineIcon />
             </IconButton>
+            {!isInCart && (
+                <div className="icon-disable-div"/>
+            )}
         </div>
   )
 }
