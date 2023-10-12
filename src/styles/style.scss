@@ -278,16 +278,18 @@ footer {
       font-size: 1rem;
       letter-spacing: 1px;
       padding: 1rem 0;
-      min-width:30rem;
+      min-width: 30rem; // make the textarea fixed with and responsive
       max-width: 30rem;
+      border: none;
+      border-bottom: 1px darkgrey solid;
       &:disabled {  
         border: none;
         border-bottom: 1px darkgrey dotted;
         color: darkgrey;
       }
     }
-    & > div {
-      width: 50%;
+    .form-container {
+      width: 40rem;
     }
     .profile-details-text {
       margin: auto 0;

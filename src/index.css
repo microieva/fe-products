@@ -286,14 +286,16 @@ footer {
   padding: 1rem 0;
   min-width: 30rem;
   max-width: 30rem;
+  border: none;
+  border-bottom: 1px darkgrey solid;
 }
 .view-container .view-details textarea:disabled {
   border: none;
   border-bottom: 1px darkgrey dotted;
   color: darkgrey;
 }
-.view-container .view-details > div {
-  width: 50%;
+.view-container .view-details .form-container {
+  width: 40rem;
 }
 .view-container .view-details .profile-details-text {
   margin: auto 0;
