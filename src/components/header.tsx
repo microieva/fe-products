@@ -31,7 +31,6 @@ const Header: FC = () => {
 
     const handleClose = () => {
         setOpen(false);
-        return true;
     }
 
     useEffect(()=> {
