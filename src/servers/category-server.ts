@@ -4,11 +4,24 @@ import {setupServer} from 'msw/node';
 import {mockCategories} from '../shared/mock-categories';
 import { mockProducts } from '../shared/mock-products';
 
-
 export const handlers = [
   rest.get('https://api.escuelajs.co/api/v1/categories', (req, res, ctx) =>{
-    return res(ctx.json(mockCategories))
+    return res(ctx.json(mockCategories));
   }),
+  rest.get(`https://api.escuelajs.co/api/v1/categories/:categoryId`, (req, res, ctx) =>{
+    const { categoryId } = req.params;
+    const mockCategory = mockCategories.find(c=> c.id === Number(categoryId));
+
+    if(mockCategory) {
+      return res(
+        ctx.json(mockCategory)
+        )
+      } else {
+      return res(
+        ctx.json("Category Not Found")
+        )
+      }
+    }), 
   rest.get(`https://api.escuelajs.co/api/v1/categories/:categoryId/products`, (req, res, ctx) => {
     const { categoryId } = req.params;
     const queryResult = mockProducts.filter(p =>p.category.id === Number(categoryId));

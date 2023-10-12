@@ -8,13 +8,17 @@ const categoryQueries = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: 'https://api.escuelajs.co/api/v1/categories'
     }),
-    tagTypes: ['Categories', 'Products'],
+    tagTypes: ['Categories', 'Products', 'Category'],
     endpoints: (build) => ({
         getCategories: build.query<Category[], undefined>({
             query: () => '/',
             providesTags: ['Categories'],
         }),
-        getProductsByCategory: build.query<Product[], string>({
+        getCategoryById: build.query<Category, number>({
+            query: (categoryId) => `/${categoryId}`,
+            providesTags: ['Category']
+        }),
+        getProductsByCategory: build.query<Product[], number>({
             query: (categoryId) => `/${categoryId}/products`,
             providesTags: ['Products'],
         })
@@ -23,6 +27,7 @@ const categoryQueries = createApi({
 
 export const { 
     useGetCategoriesQuery,
+    useGetCategoryByIdQuery,
     useGetProductsByCategoryQuery
  } = categoryQueries;
 export default categoryQueries;
