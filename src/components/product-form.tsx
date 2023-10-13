@@ -72,6 +72,7 @@ const ProductForm: FC<Props> = ({ product }) => {
         user && setAdmin(user.role === 'admin');
         data && setCategories(data);
         product && setFormData(product);
+        !user && goBack('/');
     }, [user, data, product ]);
 
     useEffect(()=> {

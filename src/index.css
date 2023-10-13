@@ -289,13 +289,19 @@ footer {
   border: none;
   border-bottom: 1px darkgrey solid;
 }
+.view-container .view-details textarea:focus {
+  border: none;
+  outline: none;
+  border-bottom: 2px aquamarine solid;
+  transition: 0.2s ease;
+}
 .view-container .view-details textarea:disabled {
   border: none;
   border-bottom: 1px darkgrey dotted;
   color: darkgrey;
 }
 .view-container .view-details .form-container {
-  width: 30rem;
+  max-width: 30rem;
 }
 .view-container .view-details .profile-details-text {
   margin: auto 0;

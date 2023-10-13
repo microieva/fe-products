@@ -2,7 +2,7 @@ import { createTheme } from '@mui/material/styles';
 
 export const theme = createTheme({
   components: {
-    MuiTextField: {
+    MuiFormControl: {
       styleOverrides: {
         root: {
           '& .MuiInputLabel-root.Mui-focused': {
@@ -14,8 +14,8 @@ export const theme = createTheme({
           '& .MuiFormHelperText-root': {
             color: 'orange'
           },
-          '& .MuiFormControl-root.MuiTextField-root.MuiInputBase-root.MuiInput-root:before': {
-            borderBottom: 'none'
+          '& .MuiFormControl-root.MuiTextField-root .MuiInputBase-root.MuiInput-root:before': {
+            borderBottom: '1px darkgrey solid'
           }
         }
       },

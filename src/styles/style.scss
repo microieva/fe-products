@@ -282,14 +282,20 @@ footer {
       max-width: 30rem;
       border: none;
       border-bottom: 1px darkgrey solid;
+      &:focus {
+        border: none;
+        outline: none;
+        border-bottom: 2px aquamarine solid;
+        transition: 0.2s ease;
+      }
       &:disabled {  
         border: none;
         border-bottom: 1px darkgrey dotted;
         color: darkgrey;
       }
     }
-    .form-container {
-      width: 30rem;
+    .form-container { // double declaration
+      max-width: 30rem;
     }
     .profile-details-text {
       margin: auto 0;
