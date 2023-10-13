@@ -24,7 +24,7 @@ const Section: FC = () => {
                 <SearchBar searchProducts={searchProducts}/>
                 <HomeViewSwitcherIcons switchView={switchView}/>
             </div>
-            <div className='products-container'>
+            <div className='grid-table-container'>
                 {activeView === 'grid' && <CardsView filteredData={filteredData}/>}
                 {activeView === 'table' && <TableView filteredData={filteredData}/>}
             </div>  

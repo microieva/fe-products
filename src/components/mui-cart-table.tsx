@@ -1,20 +1,19 @@
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Box from '@mui/material/Box';
-import { visuallyHidden } from '@mui/utils';
-
-import { CartColumn } from '../@types/table';
-import CartActions from './cart-actions';
-import CustomTableHead from './custom-table-head';
+import { ChangeEvent, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
+
+import {
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TablePagination,
+    TableRow
+} from '@mui/material';
+
+import CartActions from './cart-actions';
+import { CustomCartTableHead } from './custom-table-head';
+import { CartColumn } from '../@types/table';
 import { CartItem } from '../@types/cart';
 
 interface Props {
@@ -62,7 +61,7 @@ const MuiTable = ({ data }: Props) => {
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
             <TableContainer sx={{ maxHeight: "40rem" }}>
                 <Table stickyHeader aria-label="sticky table">
-                    <CustomTableHead sx={{ "&thead": {top: "0", position: "sticky"} }}>
+                    <CustomCartTableHead sx={{ "&thead": {top: "0", position: "sticky"} }}>
                         <TableRow>
                             {columns.map((column: CartColumn) => (
                                 <TableCell
@@ -75,7 +74,7 @@ const MuiTable = ({ data }: Props) => {
                                 ))}
                                  <TableCell colSpan={1} style={{ minWidth: 50 }}></TableCell>
                             </TableRow>
-                        </CustomTableHead>
+                        </CustomCartTableHead>
                         <TableBody sx={{ "& tbody": {height: ""}}}>
                         { rows
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)

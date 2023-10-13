@@ -1,22 +1,24 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { Link, Outlet } from 'react-router-dom';
 
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Box from '@mui/material/Box';
 import { visuallyHidden } from '@mui/utils';
+import {
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TablePagination,
+    TableRow,
+    TableSortLabel,
+    Box
+} from '@mui/material';
 
+import { CustomProductsTableHead } from './custom-table-head';
+import { getSorted } from '../redux/selectors/getSorted';
+import CartActions from './cart-actions';
 import { Product } from '../@types/product';
 import { TableColumn } from '../@types/table';
-import CartActions from './cart-actions';
-import CustomTableHead from './custom-table-head';
-import { getSorted } from '../redux/selectors/getSorted';
-import { Link, Outlet } from 'react-router-dom';
 
 interface TableProps {
     data: Product[],
@@ -71,7 +73,7 @@ const MuiTable = ({ data }: TableProps) => {
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
             <TableContainer sx={{ maxHeight: "40rem" }}>
                 <Table stickyHeader aria-label="sticky table">
-                    <CustomTableHead sx={{ "&thead": {top: "0", position: "sticky"} }}>
+                    <CustomProductsTableHead sx={{ "&thead": {top: "0", position: "sticky"} }}>
                         <TableRow>
                             {columns.map((column: TableColumn) => (
                                 <TableCell
@@ -96,7 +98,7 @@ const MuiTable = ({ data }: TableProps) => {
                                 ))}
                                  <TableCell colSpan={1} style={{ minWidth: 50 }}></TableCell>
                             </TableRow>
-                        </CustomTableHead>
+                        </CustomProductsTableHead>
                         <TableBody sx={{ "& tbody": {height: ""}}}>
                         { rows
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
