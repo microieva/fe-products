@@ -3,7 +3,7 @@ import { User } from '../@types/user';
 import { IconButton, ThemeProvider, Backdrop, Dialog } from '@mui/material';
 import PlaylistAddOutlinedIcon from '@mui/icons-material/PlaylistAddOutlined';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate, Outlet } from 'react-router-dom';
 import FormProvider from '../contexts/form';
 import { theme } from '../shared/theme';
 import ProductForm from './product-form';
@@ -26,9 +26,11 @@ const ProfileView: FC<Props> = ({ user }) => {
                 <div className='view-header'>
                     <h2>profile</h2>
                     <div className='btn-group'>
-                            <IconButton>
-                                <PlaylistAddOutlinedIcon onClick={()=> setOpen(true)}/>  
-                            </IconButton>
+                            <Link to={`/products/new`}>
+                                <IconButton>
+                                    <PlaylistAddOutlinedIcon/>  
+                                </IconButton>
+                            </Link>
                             <IconButton onClick={()=> goBack('/')}>
                                 <DoorBackOutlinedIcon/>
                             </IconButton>
@@ -44,14 +46,10 @@ const ProfileView: FC<Props> = ({ user }) => {
                     </div>
                 </div>
             </div>
-        <ThemeProvider theme={theme}>
-            <FormProvider onClose={handleClose}>
-                <Dialog fullWidth open={open} onClose={handleClose} >
-                    <ProductForm />
-                </Dialog>
-            </FormProvider>
-            <Backdrop open={open} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}/>
-        </ThemeProvider>
+            <ThemeProvider theme={theme}>
+                <ProductForm />
+            </ThemeProvider>
+            <Outlet />
     </>
     )
 }

@@ -18,6 +18,7 @@ import { useAddProductMutation, useUpdateProductMutation } from '../redux/api-qu
 import { Category, Product } from '../@types/product';
 import { useGetCategoriesQuery } from '../redux/api-queries/category-queries';
 import { FormContext } from '../contexts/form';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
     product?: Product
@@ -47,12 +48,13 @@ const ProductForm: FC<Props> = ({ product }) => {
 
     const [ addProduct ] = useAddProductMutation();
     const [ updateProduct ] = useUpdateProductMutation();
-    const { onClose } = useContext(FormContext) as TypeFormContext;
     const [ err, setErr ] = useState<boolean>(true);
     const formRef = useRef<HTMLFormElement>(null);
     const [ disabled, setDisabled ] = useState<boolean>(product ? true : false);
     const [ itemIsNew, setItemIsNew ] = useState<boolean | undefined>();
+    const goBack = useNavigate();
 
+    
     const onSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -87,7 +89,7 @@ const ProductForm: FC<Props> = ({ product }) => {
                     const payload = item && await addProduct(item).unwrap();
                     payload && setFormData(payload);  
                     product && setDisabled(true);
-                    !product && onClose();
+                    !product && goBack('/');
                 } catch (error: any) {
                     setErr(true);
                 }
@@ -135,13 +137,17 @@ const ProductForm: FC<Props> = ({ product }) => {
         setDisabled(false);
     }
     const onCancel = () => {
-        formData && setTitle(formData.title);
-        formData && setPrice(formData.price.toString());
-        formData && setDescription(formData.description);
-        formData && setImage(formData.images[0]);
-        formData && setCategoryName(formData.category.name);
-
-        setDisabled(true);
+        if (!product) {
+            goBack('/');
+        } else {
+            formData && setTitle(formData.title);
+            formData && setPrice(formData.price.toString());
+            formData && setDescription(formData.description);
+            formData && setImage(formData.images[0]);
+            formData && setCategoryName(formData.category.name);
+    
+            setDisabled(true);
+        }
     }
 
     return (
@@ -285,41 +291,39 @@ const ProductForm: FC<Props> = ({ product }) => {
                         </FormLabel>
                         <div style={{color: "darkgrey"}}>{categoryName}</div>
                     </>}
-                    {admin && 
-                        <div className='btn-group'>
-                            {disabled ? 
-                                <IconButton onClick={()=> onEdit()}>
-                                    <EditNoteOutlinedIcon/>
-                                </IconButton>
-                            :
-                            <>
-                                {product ? 
-                                    <div className='btn-group'>
-                                        <IconButton type="submit" onClick={()=> setItemIsNew(true)}>
-                                            <PlaylistAddOutlinedIcon />
-                                        </IconButton>
-                                        <IconButton type ="submit" onClick={()=> setItemIsNew(false)}>
-                                            <PlaylistAddCheckOutlinedIcon />
-                                        </IconButton>
-                                    </div> 
-                                    :
-                                    <div className='btn-group'>
-                                        <IconButton>
-                                            <BackupOutlinedIcon type="submit" />  
-                                        </IconButton>
-                                        <IconButton>
-                                            <DoorBackOutlinedIcon/>
-                                        </IconButton>
-                                    </div>
-                                }
-                            </>}
-                            
-                            <>
-                                {!disabled && <IconButton onClick={()=> onCancel()}>
-                                    <CancelOutlinedIcon/>
-                                </IconButton>}
-                            </>
-                        </div>
+                    { admin && 
+                        <>
+                            { product && disabled && 
+                                <div className='btn-group'>
+                                    <IconButton onClick={()=> onEdit()}>
+                                        <EditNoteOutlinedIcon/>
+                                    </IconButton>
+                                </div>
+                            }
+                            { product && !disabled && 
+                                <div className='btn-group'>    
+                                    <IconButton type="submit" onClick={()=> setItemIsNew(true)}>
+                                        <PlaylistAddOutlinedIcon />
+                                    </IconButton>
+                                    <IconButton type ="submit" onClick={()=> setItemIsNew(false)}>
+                                        <PlaylistAddCheckOutlinedIcon />
+                                    </IconButton>
+                                    <IconButton onClick={()=> onCancel()}>
+                                        <CancelOutlinedIcon/>
+                                    </IconButton>
+                                </div> 
+                            }
+                            { !product && 
+                                <div className="btn-group">
+                                    <IconButton>
+                                        <BackupOutlinedIcon type="submit" />  
+                                    </IconButton>
+                                    <IconButton onClick={()=> onCancel()}>
+                                        <CancelOutlinedIcon/>
+                                    </IconButton>  
+                                </div>
+                            }
+                        </> 
                     }
             </form> 
         </div>

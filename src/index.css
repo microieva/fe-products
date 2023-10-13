@@ -295,7 +295,7 @@ footer {
   color: darkgrey;
 }
 .view-container .view-details .form-container {
-  width: 40rem;
+  width: 30rem;
 }
 .view-container .view-details .profile-details-text {
   margin: auto 0;
@@ -312,6 +312,14 @@ footer {
   width: 100%;
   height: auto;
   border-radius: 50rem;
+}
+.view-container .view-details .img-wrapper__empty {
+  border: 1px lightgrey dashed;
+  width: 25rem;
+  height: 25rem;
+  border-radius: 50rem;
+  margin: auto;
+  margin-bottom: 8rem;
 }
 
 /*# sourceMappingURL=index.css.map */

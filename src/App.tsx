@@ -5,6 +5,7 @@ import UserProvider from './contexts/user';
 import HomePage from './pages/home-page';
 import ProfilePage from './pages/profile-page';
 import ProductPage from './pages/product-page';
+import ProductFormPage from './pages/product-form-page';
 
 const App: FC = () => {
 
@@ -14,6 +15,7 @@ const App: FC = () => {
                 <BrowserRouter>
                     <Routes>
                         <Route path="/auth/profile" element={<ProfilePage />}/>
+                        <Route path="/products/new" element={<ProductFormPage />} /> 
                         <Route path="/products/:productId" element={<ProductPage />} /> 
                         <Route path="/" element={<HomePage />}/>
                     </Routes>

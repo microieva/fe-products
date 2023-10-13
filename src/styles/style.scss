@@ -289,7 +289,7 @@ footer {
       }
     }
     .form-container {
-      width: 40rem;
+      width: 30rem;
     }
     .profile-details-text {
       margin: auto 0;
@@ -305,6 +305,15 @@ footer {
         width: 100%;
         height: auto;
         border-radius: 50rem;
+      }
+      &__empty{
+        border: 1px lightgrey dashed;
+        width: 25rem;
+        height: 25rem;
+        border-radius: 50rem;
+        margin: auto;
+        margin-bottom: 8rem;
+
       }
     }
   }

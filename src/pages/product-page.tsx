@@ -6,6 +6,7 @@ import Footer from '../components/footer';
 import Header from '../components/header';
 import { Product } from '../@types/product';
 import ProductView from '../components/product-view';
+import ProductFormView from '../components/product-form-view';
 
 const ProductPage: FC = () => { 
     const { productId } = useParams();
@@ -16,12 +17,11 @@ const ProductPage: FC = () => {
         data && setProduct(data);
     }, [data])
 
-
     return (
         <>
             <main>
                 <Header/>
-                {product && <ProductView product={data}/>}
+                {data ? <ProductView product={data}/> : <ProductFormView />}
             </main>
             <Footer />
         </>
