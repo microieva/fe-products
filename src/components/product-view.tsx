@@ -5,7 +5,7 @@ import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 import { useNavigate } from 'react-router-dom';
 import ProductForm from './product-form';
 import CartActions from './cart-actions';
-import { theme } from '../shared/theme';
+import { orangeTheme } from '../shared/theme';
 import { TypeUserContext } from '../@types/types';
 import { UserContext } from '../contexts/user';
 
@@ -34,7 +34,7 @@ const ProductView: FC<Props> = ({ product }) => {
                 </div>
             </div>
             <div className='view-details'>
-                <ThemeProvider theme={theme}>
+                <ThemeProvider theme={orangeTheme}>
                     <ProductForm product={product}/>
                 </ThemeProvider>
                 <div className="img-wrapper">

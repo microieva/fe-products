@@ -7,11 +7,13 @@ import Footer from '../components/footer';
 import { TypeUserContext } from '../@types/types';
 import ProfileView from '../components/profile-view';
 import { User } from '../@types/user';
+import { useNavigate } from 'react-router-dom';
 
 
 const ProfilePage: FC = () => {
     const { user, onLogin } = useContext(UserContext) as TypeUserContext;
     const [ profile, setProfile ] = useState<User | undefined>(user);
+    const goBack = useNavigate();
 
     useEffect(()=> {
         onLogin();
@@ -20,11 +22,17 @@ const ProfilePage: FC = () => {
 
     return (
         <>
-            <main>
-                <Header/>
-                {profile && <ProfileView user={profile}/>}
-            </main>
-            <Footer />
+            {profile ? 
+                <>
+                    <main>
+                        <Header/>
+                        <ProfileView user={profile}/>
+                    </main>
+                    <Footer />
+                </>
+            :
+            goBack('/')
+            }
         </>
     ) 
 }

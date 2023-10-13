@@ -1,14 +1,9 @@
-import { FC, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { FC } from 'react'
 
-import { useGetProductByIdQuery } from '../redux/api-queries/product-queries';
-import Footer from '../components/footer';
-import Header from '../components/header';
-import { Product } from '../@types/product';
-import ProductView from '../components/product-view';
-import ProductFormView from '../components/product-form-view';
 import { useAppSelector } from '../hooks/useAppSelector';
+import Header from '../components/header';
 import CartView from '../components/cart-view';
+import Footer from '../components/footer';
 
 const CartPage: FC = () => { 
   const cart = useAppSelector(state => state.cart);

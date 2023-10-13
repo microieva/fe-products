@@ -15,9 +15,9 @@ const App: FC = () => {
             <div className='app-container'>
                 <BrowserRouter>
                     <Routes>
-                        <Route path="/auth/profile" element={<ProfilePage />}/>
                         <Route path="/products/new" element={<ProductFormPage />} /> 
                         <Route path="/products/:productId" element={<ProductPage />} /> 
+                        <Route path="/auth/profile" element={<ProfilePage />}/>
                         <Route path="/cart" element={<CartPage />}/>
                         <Route path="/" element={<HomePage />}/>
                     </Routes>

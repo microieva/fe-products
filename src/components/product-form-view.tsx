@@ -1,10 +1,10 @@
 import { FC } from 'react';
-import { Product } from '../@types/product';
+import { useNavigate } from 'react-router-dom';
+
 import { IconButton, ThemeProvider } from '@mui/material';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
-import { useNavigate } from 'react-router-dom';
 import ProductForm from './product-form';
-import { theme } from '../shared/theme';
+import { orangeTheme } from '../shared/theme';
 
 const ProductFormView: FC = () => {  
     const goBack = useNavigate();
@@ -21,7 +21,7 @@ const ProductFormView: FC = () => {
                     </div>
                     </div>
                     <div className='view-details'>
-                    <ThemeProvider theme={theme}>
+                    <ThemeProvider theme={orangeTheme}>
                         <ProductForm />
                     </ThemeProvider>
                     <div className="img-wrapper__empty">

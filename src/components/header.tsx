@@ -5,7 +5,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 
-import { theme } from '../shared/theme';
+import { marineTheme } from '../shared/theme';
 import { useAppSelector } from '../hooks/useAppSelector';
 import FormProvider from '../contexts/form';
 import { UserContext } from '../contexts/user';
@@ -37,11 +37,14 @@ const Header: FC = () => {
     useEffect(()=> {
         onLogin(); 
         setLoggedInUser(user);
+        if (loggedInUser && loggedInUser.role !== 'admin' || !user) {
+            setAdmin(false);
+        }
     }, [user]);
 
     useEffect(()=> {
         user && user.role === 'admin' && setAdmin(true);
-    }, [user, admin])
+    }, [user])
 
     return (
         <header>
@@ -80,7 +83,7 @@ const Header: FC = () => {
                     </Link>}
                 </div>
             </div>
-            <ThemeProvider theme={theme}>
+            <ThemeProvider theme={marineTheme}>
                 <FormProvider form={form} onClose={handleClose}>
                     <Dialog fullWidth open={open} onClose={handleClose} >
                         <FormSwitcher />
