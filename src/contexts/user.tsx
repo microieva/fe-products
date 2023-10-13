@@ -1,8 +1,7 @@
 import { FC, ReactNode, createContext, useEffect, useState } from 'react';
+import { useGetUserQuery } from '../redux/api-queries/auth-queries';
 import { TypeUserContext } from '../@types/types';
 import { User } from '../@types/user';
-import { LoginResponse } from '../@types/auth';
-import { useGetUserQuery } from '../redux/api-queries/auth-queries';
 
 export const UserContext = createContext<TypeUserContext | null>(null); 
 

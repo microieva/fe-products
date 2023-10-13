@@ -1,5 +1,8 @@
 *{
   font-family: 'Roboto', sans-serif;
+  h1, h2, div, p {
+    color: #3d3d3d;
+  }
 }
 .app-container { 
   position: relative;
@@ -184,8 +187,18 @@ footer {
     align-self: flex-end;
     margin: 0 0 20px 0;
     color: darkgray;
-    .disabled:hover { // doesnt work !!!
-      cursor: default
+    .icon-disable-div {
+      position: absolute;
+      top: 0;
+      left: 48px;
+      width: 50%;
+      height: 100%;
+      background: transparent;
+      z-index: 2;
+      //pointer-events: 'none'; 
+      &:hover {
+        cursor: default;
+      }
     }
   }
   .product-price {
@@ -239,29 +252,50 @@ footer {
   margin: auto;
   margin-bottom: 2rem;
   margin-top: 5rem;
-  padding: 1rem 0.5rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   width: 79%;
   .view-header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 3rem;
+    .icons {
+      display: flex;
+    }
+    .btn-group {
+      float: none;
+    }
   }
   .view-details {
     display: flex;
     justify-content: space-between;
-    & textarea:disabled {
+    align-items: center;
+    textarea {
       background-color: transparent;
       font-family: 'Roboto', sans-serif;
       font-size: 1rem;
-      border: none;
-      color: darkgrey;
       letter-spacing: 1px;
-      margin-bottom: 2rem;
+      padding: 1rem 0;
+      min-width: 30rem; // make the textarea fixed with and responsive
+      max-width: 30rem;
+      border: none;
+      border-bottom: 1px darkgrey solid;
+      &:focus {
+        border: none;
+        outline: none;
+        border-bottom: 2px aquamarine solid;
+        transition: 0.2s ease;
+      }
+      &:disabled {  
+        border: none;
+        border-bottom: 1px darkgrey dotted;
+        color: darkgrey;
+      }
     }
-    & > div {
-      width: 50%;
+    .form-container { // double declaration
+      max-width: 30rem;
     }
     .profile-details-text {
       margin: auto 0;
@@ -270,19 +304,23 @@ footer {
       }
     }
     .img-wrapper {
-      margin-right: 5rem;
       clip-path: circle(50% at center);
       border-radius: 50%;
-      height: 22rem;
-      width: 22rem;
-    }
-  }
-  .btn-group {
-    align-self: flex-end;
-    color: darkgray;
-    svg {
-      height: 3rem;
-      width: 3rem;
+      margin: 3rem;
+      img {
+        width: 100%;
+        height: auto;
+        border-radius: 50rem;
+      }
+      &__empty{
+        border: 1px lightgrey dashed;
+        width: 25rem;
+        height: 25rem;
+        border-radius: 50rem;
+        margin: auto;
+        margin-bottom: 8rem;
+
+      }
     }
   }
 }

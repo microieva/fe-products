@@ -7,8 +7,8 @@ interface TableProps {
     filteredData: Product[]
 }
 const Table: FC<TableProps> = ({ filteredData }: TableProps) => {
+    const { data } = useGetProductsQuery(undefined);
     const [ products, setProducts] = useState<Product[]>([])
-    const { data, error } = useGetProductsQuery(undefined);
 
     useEffect(()=>{
         if (filteredData.length !== 0) {
@@ -20,7 +20,7 @@ const Table: FC<TableProps> = ({ filteredData }: TableProps) => {
 
     return (
             <div className='table-view'>
-                <MuiTable data={products} />
+                {products && <MuiTable data={products} />}
             </div>
         )
 }

@@ -5,7 +5,7 @@ export const FormContext = createContext<TypeFormContext | null>(null);
 
 interface FormProviderProps {
     children: ReactNode,
-    form: TypeForm,
+    form?: TypeForm,
     onClose: ()=> void
 }
 

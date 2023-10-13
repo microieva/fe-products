@@ -1,5 +1,4 @@
 import { FC, useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { UserContext } from '../contexts/user';
 import Header from '../components/header';
@@ -13,7 +12,6 @@ import { User } from '../@types/user';
 const ProfilePage: FC = () => {
     const { user, onLogin } = useContext(UserContext) as TypeUserContext;
     const [ profile, setProfile ] = useState<User | undefined>(user);
-    const goBack = useNavigate();
 
     useEffect(()=> {
         onLogin();
@@ -22,14 +20,10 @@ const ProfilePage: FC = () => {
 
     return (
         <>
-            {profile ? 
-                <main>
-                    <Header/>
-                    <ProfileView user={profile}/>
-                </main>
-            :
-                goBack('/')
-            }
+            <main>
+                <Header/>
+                {profile && <ProfileView user={profile}/>}
+            </main>
             <Footer />
         </>
     ) 

@@ -1,6 +1,9 @@
 * {
   font-family: "Roboto", sans-serif;
 }
+* h1, * h2, * div, * p {
+  color: #3d3d3d;
+}
 
 .app-container {
   position: relative;
@@ -191,7 +194,16 @@ footer {
   margin: 0 0 20px 0;
   color: darkgray;
 }
-.card-content .btn-group .disabled:hover {
+.card-content .btn-group .icon-disable-div {
+  position: absolute;
+  top: 0;
+  left: 48px;
+  width: 50%;
+  height: 100%;
+  background: transparent;
+  z-index: 2;
+}
+.card-content .btn-group .icon-disable-div:hover {
   cursor: default;
 }
 .card-content .product-price {
@@ -244,7 +256,7 @@ footer {
   margin: auto;
   margin-bottom: 2rem;
   margin-top: 5rem;
-  padding: 1rem 0.5rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   width: 79%;
@@ -252,23 +264,44 @@ footer {
 .view-container .view-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 3rem;
+}
+.view-container .view-header .icons {
+  display: flex;
+}
+.view-container .view-header .btn-group {
+  float: none;
 }
 .view-container .view-details {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
-.view-container .view-details textarea:disabled {
+.view-container .view-details textarea {
   background-color: transparent;
   font-family: "Roboto", sans-serif;
   font-size: 1rem;
-  border: none;
-  color: darkgrey;
   letter-spacing: 1px;
-  margin-bottom: 2rem;
+  padding: 1rem 0;
+  min-width: 30rem;
+  max-width: 30rem;
+  border: none;
+  border-bottom: 1px darkgrey solid;
 }
-.view-container .view-details > div {
-  width: 50%;
+.view-container .view-details textarea:focus {
+  border: none;
+  outline: none;
+  border-bottom: 2px aquamarine solid;
+  transition: 0.2s ease;
+}
+.view-container .view-details textarea:disabled {
+  border: none;
+  border-bottom: 1px darkgrey dotted;
+  color: darkgrey;
+}
+.view-container .view-details .form-container {
+  max-width: 30rem;
 }
 .view-container .view-details .profile-details-text {
   margin: auto 0;
@@ -277,19 +310,22 @@ footer {
   color: darkgrey;
 }
 .view-container .view-details .img-wrapper {
-  margin-right: 5rem;
   clip-path: circle(50% at center);
   border-radius: 50%;
-  height: 22rem;
-  width: 22rem;
+  margin: 3rem;
 }
-.view-container .btn-group {
-  align-self: flex-end;
-  color: darkgray;
+.view-container .view-details .img-wrapper img {
+  width: 100%;
+  height: auto;
+  border-radius: 50rem;
 }
-.view-container .btn-group svg {
-  height: 3rem;
-  width: 3rem;
+.view-container .view-details .img-wrapper__empty {
+  border: 1px lightgrey dashed;
+  width: 25rem;
+  height: 25rem;
+  border-radius: 50rem;
+  margin: auto;
+  margin-bottom: 8rem;
 }
 
 /*# sourceMappingURL=index.css.map */
