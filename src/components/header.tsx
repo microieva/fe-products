@@ -17,6 +17,7 @@ import { Link, Outlet } from 'react-router-dom';
 
 const Header: FC = () => {
     const { user, onLogout, onLogin } = useContext(UserContext) as TypeUserContext;
+    const [ admin, setAdmin ] = useState<boolean>(false);
 
     const [ loggedInUser, setLoggedInUser ] = useState<User | undefined>(user);
     const [ open, setOpen ] = useState<boolean>(false);
@@ -37,6 +38,10 @@ const Header: FC = () => {
         onLogin(); 
         setLoggedInUser(user);
     }, [user]);
+
+    useEffect(()=> {
+        user && user.role === 'admin' && setAdmin(true);
+    }, [user, admin])
 
     return (
         <header>
@@ -60,17 +65,19 @@ const Header: FC = () => {
                             </Link>    
                         </>
                     }
-                    <IconButton>
-                        <Badge 
-                            overlap="circular" 
-                            badgeContent={amount}
-                            sx={{
-                                "&.css-z5pebr-MuiBadge-badge": {backgroundColor: "orange"}
-                            }}
-                        >
-                            <ShoppingCartOutlinedIcon />
-                        </Badge>
-                    </IconButton>
+                    {!admin && <Link to='/cart'>
+                        <IconButton>
+                            <Badge 
+                                overlap="circular" 
+                                badgeContent={amount}
+                                sx={{
+                                    "&.css-z5pebr-MuiBadge-badge": {backgroundColor: "orange"}
+                                }}
+                            >
+                                <ShoppingCartOutlinedIcon />
+                            </Badge>
+                        </IconButton>
+                    </Link>}
                 </div>
             </div>
             <ThemeProvider theme={theme}>

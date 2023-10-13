@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 import { visuallyHidden } from '@mui/utils';
 
 import { Product } from '../@types/product';
-import { Column } from '../@types/table';
+import { TableColumn } from '../@types/table';
 import CartActions from './cart-actions';
 import CustomTableHead from './custom-table-head';
 import { getSorted } from '../redux/selectors/getSorted';
@@ -30,7 +30,7 @@ const MuiTable = ({ data }: TableProps) => {
     const [orderBy, setOrderBy] = useState<keyof Product>('title');
     const [rows, setRows] = useState<Product[]>(data)
 
-    const columns: readonly Column[] = [
+    const columns: readonly TableColumn[] = [
         { id: 'title', label: 'Title', minWidth: 170 },
         {
             id: 'price',
@@ -73,7 +73,7 @@ const MuiTable = ({ data }: TableProps) => {
                 <Table stickyHeader aria-label="sticky table">
                     <CustomTableHead sx={{ "&thead": {top: "0", position: "sticky"} }}>
                         <TableRow>
-                            {columns.map((column: Column) => (
+                            {columns.map((column: TableColumn) => (
                                 <TableCell
                                     key={column.id}
                                     align={column.align}
@@ -114,7 +114,7 @@ const MuiTable = ({ data }: TableProps) => {
                                             }
                                         }}
                                     >    
-                                    {columns.map((column: Column) => {
+                                    {columns.map((column: TableColumn) => {
                                         const value = column.render ? column.render(row) : row[column.id].toString();
                                        
                                         return (

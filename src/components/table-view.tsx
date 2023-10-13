@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import MuiTable from './mui-table';
+import MuiProductsTable from './mui-products-table';
 import { useGetProductsQuery } from '../redux/api-queries/product-queries';
 import { Product } from '../@types/product';
 
@@ -20,7 +20,7 @@ const Table: FC<TableProps> = ({ filteredData }: TableProps) => {
 
     return (
             <div className='table-view'>
-                {products && <MuiTable data={products} />}
+                {products && <MuiProductsTable data={products} />}
             </div>
         )
 }
