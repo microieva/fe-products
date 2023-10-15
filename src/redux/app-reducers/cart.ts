@@ -23,13 +23,15 @@ const cartSlice = createSlice({
                 state[index].quantity--;
             } else {
                 state.splice(index, 1);
-            }
-            
+            }    
+        },
+        emptyCart: (state) => {
+            state.length = 0;
         }
     }
 });
 
 const cartReducer = cartSlice.reducer;
-export const { addItem, removeItem } = cartSlice.actions;
+export const { addItem, removeItem, emptyCart } = cartSlice.actions;
 
 export default cartReducer;
