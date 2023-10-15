@@ -1,7 +1,7 @@
 import {rest} from 'msw';
 import {setupServer} from 'msw/node';
 
-import {mockProducts} from '../shared/mock-products';
+import {mockProducts} from '../../shared/mock-products';
 
 
 export const handlers = [

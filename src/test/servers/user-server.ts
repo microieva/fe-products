@@ -1,7 +1,7 @@
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
-import { mockUsers } from '../shared/mock-users';
+import { mockUsers } from '../../shared/mock-users';
 
 export const handlers = [
   rest.get('https://api.escuelajs.co/api/v1/users', (req, res, ctx) =>{

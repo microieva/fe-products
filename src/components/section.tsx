@@ -1,12 +1,11 @@
 import { FC, useState } from 'react';
-import TableView from './table-view';
+import TableView from './products-table-view';
 import SearchBar from './search-bar';
 import HomeViewSwitcherIcons from './home-view-switcher-icons';
-import { Product } from '../@types/product';
 import CardsView from './cards-view';
+import { Product } from '../@types/product';
 
 const Section: FC = () => {
-    //this component should return options to: searchbar, reset all products, switch view from cards to table
     const [activeView, setActiveView] = useState<string>('grid');
     const [ filteredData, setFilteredData ] = useState<Product[]>([]);
 
@@ -19,7 +18,7 @@ const Section: FC = () => {
     }
 
     return (
-        <section>
+        <section style={{ width: "100%"}}>
             <div className='utilities-container'>
                 <SearchBar searchProducts={searchProducts}/>
                 <HomeViewSwitcherIcons switchView={switchView}/>

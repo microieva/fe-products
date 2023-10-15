@@ -14,7 +14,6 @@ interface Props {
 
 const ProfileView: FC<Props> = ({ user }) => {
     const [ loggedInUser, setLoggedInUser ] = useState<User | undefined>(user);
-    const [ open, setOpen ] = useState<boolean>(false);
     const goBack = useNavigate();
 
     useEffect(()=> {
@@ -28,11 +27,12 @@ const ProfileView: FC<Props> = ({ user }) => {
                 <div className='view-header'>
                     <h2>profile</h2>
                     <div className='btn-group'>
+                            {user.role === 'admin' && 
                             <Link to={`/products/new`}>
                                 <IconButton>
                                     <PlaylistAddOutlinedIcon/>  
                                 </IconButton>
-                            </Link>
+                            </Link>}
                             <IconButton onClick={()=> goBack('/')}>
                                 <DoorBackOutlinedIcon/>
                             </IconButton>

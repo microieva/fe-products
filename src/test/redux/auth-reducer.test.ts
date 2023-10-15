@@ -1,5 +1,5 @@
 import { store } from '../../shared/store';
-import server from '../../servers/auth-server';
+import server from '../servers/auth-server';
 import authQueries from '../../redux/api-queries/auth-queries';
 import { mockUser, mockResponse } from '../../shared/mock-auth';
 import { LoginResponse, LoginRequest } from '../../@types/auth';

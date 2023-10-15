@@ -1,7 +1,7 @@
 import {rest} from 'msw';
 import {setupServer} from 'msw/node';
 
-import { mockRequest, mockResponse, mockUser } from '../shared/mock-auth';
+import { mockRequest, mockResponse, mockUser } from '../../shared/mock-auth';
 import { Token } from 'graphql';
 
 export const handlers = [

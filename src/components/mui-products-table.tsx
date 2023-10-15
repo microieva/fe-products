@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useContext, useEffect, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
 import { visuallyHidden } from '@mui/utils';
@@ -19,18 +19,23 @@ import { getSorted } from '../redux/selectors/getSorted';
 import CartActions from './cart-actions';
 import { Product } from '../@types/product';
 import { TableColumn } from '../@types/table';
+import { TypeUserContext } from '../@types/types';
+import { UserContext } from '../contexts/user';
 
 interface TableProps {
     data: Product[],
 }
 
-const MuiTable = ({ data }: TableProps) => {
+const MuiProductsTable = ({ data }: TableProps) => {
+    const { user } = useContext(UserContext) as TypeUserContext;
+    const [ admin, setAdmin ] = useState<boolean>(false);
+    
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     type Order = 'asc' | 'desc';
     const [order, setOrder] = useState<Order>('asc');
     const [orderBy, setOrderBy] = useState<keyof Product>('title');
-    const [rows, setRows] = useState<Product[]>(data)
+    const [rows, setRows] = useState<Product[]>(data);
 
     const columns: readonly TableColumn[] = [
         { id: 'title', label: 'Title', minWidth: 170 },
@@ -67,7 +72,11 @@ const MuiTable = ({ data }: TableProps) => {
     useEffect(()=> {
         const sorted = getSorted(data, order, orderBy);
         setRows(sorted);
-    }, [data, order, orderBy, handleSort])
+    }, [data, order, orderBy, handleSort]);
+
+    useEffect(()=> {
+        user && user.role === 'admin' ? setAdmin(true) : setAdmin(false);
+    }, [user])
     
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -96,7 +105,7 @@ const MuiTable = ({ data }: TableProps) => {
                                     </TableSortLabel>
                                 </TableCell>
                                 ))}
-                                 <TableCell colSpan={1} style={{ minWidth: 50 }}></TableCell>
+                                {(!user || !admin) && <TableCell colSpan={1} style={{ minWidth: 50 }}></TableCell>}
                             </TableRow>
                         </CustomProductsTableHead>
                         <TableBody sx={{ "& tbody": {height: ""}}}>
@@ -110,7 +119,7 @@ const MuiTable = ({ data }: TableProps) => {
                                         tabIndex={-1} 
                                         key={row.id} 
                                         sx={{
-                                            "& td": {padding: "0 1rem"},
+                                            "& td": {padding: admin ? "1rem 1rem" : "0 1rem"},
                                             "& td:hover": {
                                                 cursor: "pointer"
                                             }
@@ -127,9 +136,10 @@ const MuiTable = ({ data }: TableProps) => {
                                             </TableCell>    
                                             );
                                         })}
+                                        {(!user || !admin) && 
                                         <TableCell>
                                             <CartActions product={row}/>
-                                        </TableCell>
+                                        </TableCell>}
                                     </TableRow>
                                 );
                             })}
@@ -150,4 +160,4 @@ const MuiTable = ({ data }: TableProps) => {
         );
     }
 
-export default MuiTable;
+export default MuiProductsTable;

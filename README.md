@@ -1,33 +1,36 @@
-
-
 # DEMO
 
-[Progress So Far](https://fs16-6-frontend-project-six.vercel.app/)
+[Live](https://fs16-6-frontend-project-six.vercel.app/)
 
 
+## Technologies
 
---------------------------------------------------------------------------------
+- React
+- Redux & RTK
+- Typescript
+- Sass
+- Third-party API
 
+## User Scenarios
 
-## Requirement
+- Unregistered user: view all products, view single product page, view cart page, add / remove items from cart;
+- Registered user: view all products, view single product page, view cart page, add / remove items from cart, view own profile page;
+- Admin: view all products, view single product page, view own profile page, add / edit / remove product;
 
-1. Use the API endpoint [https://fakeapi.platzi.com/](https://fakeapi.platzi.com/) to create an e-commerce website. Read the documentation and learn how to use the different endpoints.
-2. Create at lease 4 pages (can be more if you want): Page for all products, product page,
-   profile page (only available if user logins), and cart page (cart page could be a page or a modal)
-3. Create Redux store for following features:
-   - product reducer: get all products, find a single products, filter products by
-     categories, sort products by price. Create, update and delete a product (enable update & delete features only for admin of the webapp)
-   - user reducer: register and login
-   - cart reducer: add product to cart, remove products, update products's quantity in cart
-4. When adding routers to your application, programatically set certain routes to be private. For example, route to user profile page should not be accessible if user has not logged in.
-5. Implement unit testing for the reducers
-6. Deploy the application and rewrite README file.
+## Pages
 
-## Bonus
+- Home Page: unregistered user, registered user, admin;
+- Product Page: unregistered user, registered user, admin;
+- Cart Page: unregistered user, registered user;
+- Prodile Page: registered user, admin;
 
-1. Use context API to switch theme
-2. Use pagination when fetching/displaying all the products
-3. Implement performance optimization where applicable
+## Functionalities
+
+- Home Page: sign up / login, open cart page, search products, open single product page, switch views grid / table. In table sort products by title, price or category;
+- Product Page: view product details, add, edit, remove product;
+- Cart Page: view cart, add, remove, items, empty cart;
+- Prodile Page: view current user details, add new product;
+
 
 ## Instruction to start the project
 

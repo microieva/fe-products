@@ -1,4 +1,4 @@
-import server from "../../servers/category-server";
+import server from "../servers/category-server";
 import { mockCategories } from "../../shared/mock-categories";
 import { store } from "../../shared/store";
 import categoryQueries from "../../redux/api-queries/category-queries";

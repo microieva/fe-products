@@ -110,7 +110,7 @@ const MuiTable = ({ data }: Props) => {
                                                 const value = column.render ? column.render(row) : row[column.id].toString();
                                                 return (
                                                     <TableCell key={column.id} align={column.align}>
-                                                        <Link key={index} style={{textDecoration: "none", color: "black"}} to={`/products/${row.id}`}>
+                                                        <Link key={column.id} style={{textDecoration: "none", color: "black"}} to={`/products/${row.id}`}>
                                                             { value }
                                                         </Link>
                                                     </TableCell>      

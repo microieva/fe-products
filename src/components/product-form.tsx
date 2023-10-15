@@ -1,31 +1,27 @@
 import { FC, FormEvent, useContext, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { IconButton, TextField, FormControl, FormLabel, MenuItem } from '@mui/material';
-import FormHelperText from '@mui/material/FormHelperText';
-
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { TextareaAutosize } from '@mui/base';
 import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import PlaylistAddOutlinedIcon from '@mui/icons-material/PlaylistAddOutlined';
 import PlaylistAddCheckOutlinedIcon from '@mui/icons-material/PlaylistAddCheckOutlined';
-import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 import BackupOutlinedIcon from '@mui/icons-material/BackupOutlined';
 
-import { UserContext } from '../contexts/user';
-import { TypeFormContext, TypeUserContext } from '../@types/types';
 import { useAddProductMutation, useUpdateProductMutation } from '../redux/api-queries/product-queries';
-import { Category, Product } from '../@types/product';
 import { useGetCategoriesQuery } from '../redux/api-queries/category-queries';
-import { FormContext } from '../contexts/form';
-import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../contexts/user';
+import { TypeUserContext } from '../@types/types';
+import { Category, Product } from '../@types/product';
 
 interface Props {
     product?: Product
 }
 
 const ProductForm: FC<Props> = ({ product }) => {
-    // NEED IMAGE LINK !
+
     const [ formData, setFormData ] = useState<Product | undefined>(product);
     const { user } = useContext(UserContext) as TypeUserContext; 
     const [ admin, setAdmin ] = useState<boolean>(false);
@@ -55,7 +51,7 @@ const ProductForm: FC<Props> = ({ product }) => {
     const goBack = useNavigate();
 
     
-    const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+    const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         const item: Partial<Product> = {
@@ -63,8 +59,8 @@ const ProductForm: FC<Props> = ({ product }) => {
             price: Number(price),
             description,
             categoryId: categoryId,
-            images: formData?.images
-        }
+            images: formData ? formData.images : ['https://i.imgur.com/RLnJJyQ.jpeg']
+        };
         setItem(item);
     }
 
@@ -72,7 +68,6 @@ const ProductForm: FC<Props> = ({ product }) => {
         user && setAdmin(user.role === 'admin');
         data && setCategories(data);
         product && setFormData(product);
-        !user && goBack('/');
     }, [user, data, product ]);
 
     useEffect(()=> {
@@ -87,10 +82,8 @@ const ProductForm: FC<Props> = ({ product }) => {
         const submitProduct = async() => {
             if (!err && itemIsNew) {
                 try {
-                    const payload = item && await addProduct(item).unwrap();
-                    payload && setFormData(payload);  
-                    product && setDisabled(true);
-                    !product && goBack('/');
+                    item && await addProduct(item);
+                    goBack('/');
                 } catch (error: any) {
                     setErr(true);
                 }
@@ -106,32 +99,10 @@ const ProductForm: FC<Props> = ({ product }) => {
             }
         }
         submitProduct();
-    });
+    }, [item, itemIsNew, err]);
 
     const validate = () => {
-        const priceRegex = new RegExp('^\d*\.?\d+');
-        const descriptionRegex = new RegExp('^[a-zA-Z]');
-        //const imageRegex = new RegExp('^(https?|ftp)://[^\s/$.?#].[^\s]*');
-
-        if (item) {
-            if (!item.title) {
-                setTitleError(true);
-            }
-            if (item.price) {
-                if (!item.price.toString().match(priceRegex)) {
-                    setPriceError(true);
-                }
-            }
-            if (item.description) {
-                if (!item.description.match(descriptionRegex)) {
-                    setDescriptionError(true);
-                }
-            }
-            if (!item.images) {
-                setImageError(true);
-            }
-            setErr(titleError && priceError && descriptionError);
-        }
+        setErr(titleError && priceError && descriptionError);
     }
 
     const onEdit = () => {
@@ -164,7 +135,7 @@ const ProductForm: FC<Props> = ({ product }) => {
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         required
-                        helperText="CHECK ERRORS Title is required"
+                        helperText="Title is required"
                         sx={{
                             '& .MuiFormHelperText-root': {
                               visibility: titleError ? 'visible' : 'hidden',
@@ -194,7 +165,7 @@ const ProductForm: FC<Props> = ({ product }) => {
                         helperText="Price is required"
                         sx={{
                             '& .MuiFormHelperText-root': {
-                              visibility: titleError ? 'visible' : 'hidden',
+                              visibility: priceError ? 'visible' : 'hidden',
                               transition: 'visibility 0.2s ease-in',
                             },
                             '& .MuiFormLabel-asterisk': {
@@ -224,7 +195,6 @@ const ProductForm: FC<Props> = ({ product }) => {
                         value={description}
                         onChange={(e)=> setDescription(e.target.value)}
                         required
-                        //helperText="Description is required"
                         onFocus={()=>setDescriptionError(false)}
                     />
                 </FormControl>
@@ -244,7 +214,7 @@ const ProductForm: FC<Props> = ({ product }) => {
                                 onChange={(e) => setImage(e.target.value)}
                                 sx={{
                                     '& .MuiFormHelperText-root': {
-                                      visibility: titleError ? 'visible' : 'hidden',
+                                      visibility: imageError ? 'visible' : 'hidden',
                                       transition: 'visibility 0.2s ease-in',
                                     },
                                     '& .MuiFormLabel-asterisk': {
@@ -254,7 +224,6 @@ const ProductForm: FC<Props> = ({ product }) => {
                                         borderBottom: disabled ? '1px darkgrey dotted' : 'none',
                                     }
                                 }}
-                                helperText="Image error"
                                 onFocus={()=> setImageError(false)}
                             />
                         </FormControl> 
@@ -316,8 +285,8 @@ const ProductForm: FC<Props> = ({ product }) => {
                             }
                             { !product && 
                                 <div className="btn-group">
-                                    <IconButton>
-                                        <BackupOutlinedIcon type="submit" />  
+                                    <IconButton type="submit" onClick={()=> setItemIsNew(true)}>
+                                        <BackupOutlinedIcon />  
                                     </IconButton>
                                     <IconButton onClick={()=> onCancel()}>
                                         <CancelOutlinedIcon/>

@@ -1,14 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
-import ImageListItemBar from '@mui/material/ImageListItemBar';
-
+import { Link, Outlet } from 'react-router-dom';
+import { useGetProductsQuery } from '../redux/api-queries/product-queries';
 import ProductCard from './product-card';
 import Pagination from './pagination';
+import { UserContext } from '../contexts/user';
 import { Product } from '../@types/product';
-import { useGetProductsQuery } from '../redux/api-queries/product-queries';
-import { Link, Outlet } from 'react-router-dom';
+import { TypeUserContext } from '../@types/types';
+import Loading from './loading';
 
 interface ViewProps {
   filteredData: Product[]
@@ -16,7 +15,8 @@ interface ViewProps {
 
 const CardsView = ({ filteredData }: ViewProps) => {
 	const [ products, setProducts] = useState<Product[]>([]);
-    const { data, error } = useGetProductsQuery(undefined);
+  const { data, isLoading } = useGetProductsQuery(undefined);
+	const { user } = useContext(UserContext) as TypeUserContext;
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [itemsPerPage, setItemsPerPage] = useState<number>(20);
 
@@ -26,11 +26,7 @@ const CardsView = ({ filteredData }: ViewProps) => {
         } else {
             data && setProducts(data)
         }
-    }, [filteredData, data]);
-
-	useEffect(()=> {
-
-	});
+    }, [filteredData, data, user]);
 
 	const handlePageChange = (newPage: number, newItemsPerPage: number) => {
     	setCurrentPage(newPage);
@@ -42,7 +38,9 @@ const CardsView = ({ filteredData }: ViewProps) => {
   	const currentProducts = products.slice(startIndex, endIndex);
 
 	return (
-		<div className="cards-container">
+		<>
+			{isLoading ? <Loading /> :
+			<div className="cards-container">
 			<div className="cards-view-wrapper">
 				{currentProducts.map((product: Product, i) => {
 					return (
@@ -63,7 +61,9 @@ const CardsView = ({ filteredData }: ViewProps) => {
 			</div>
 			<Outlet />
 		</div>
-	);
+			}
+		</>
+	)
 };
 
 export default CardsView;

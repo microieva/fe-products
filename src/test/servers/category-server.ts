@@ -1,8 +1,8 @@
 import {rest} from 'msw';
 import {setupServer} from 'msw/node';
 
-import {mockCategories} from '../shared/mock-categories';
-import { mockProducts } from '../shared/mock-products';
+import {mockCategories} from '../../shared/mock-categories';
+import { mockProducts } from '../../shared/mock-products';
 
 export const handlers = [
   rest.get('https://api.escuelajs.co/api/v1/categories', (req, res, ctx) =>{

@@ -1,5 +1,5 @@
 import { store } from '../../shared/store';
-import server from '../../servers/user-server';
+import server from '../servers/user-server';
 import userQueries from '../../redux/api-queries/user-queries';
 import { mockUsers } from '../../shared/mock-users';
 import { User } from '../../@types/user';

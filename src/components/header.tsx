@@ -40,6 +40,7 @@ const Header: FC = () => {
         if (loggedInUser && loggedInUser.role !== 'admin' || !user) {
             setAdmin(false);
         }
+        user && user.role === 'admin' && setAdmin(true);
     }, [user]);
 
     useEffect(()=> {

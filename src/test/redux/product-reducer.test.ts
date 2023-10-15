@@ -1,5 +1,5 @@
 import { store } from '../../shared/store';
-import server from '../../servers/product-server';
+import server from '../servers/product-server';
 import productQueries from '../../redux/api-queries/product-queries';
 import { mockProducts } from '../../shared/mock-products';
 import { Product } from '../../@types/product';

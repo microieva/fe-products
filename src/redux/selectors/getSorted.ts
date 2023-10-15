@@ -43,4 +43,3 @@ export const getSorted = (
 
     return sortedData;
 };
-// createSelector for redux toolkit for these helper functions cause this hook has cache and returns new calculation only if state changed!!

@@ -1,13 +1,16 @@
 import { FC, useContext, useEffect, useState } from 'react';
-import { Product } from '../@types/product';
+import { useNavigate } from 'react-router-dom';
+
 import { IconButton, ThemeProvider } from '@mui/material';
 import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
-import { useNavigate } from 'react-router-dom';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { useDeleteProductMutation } from '../redux/api-queries/product-queries';
+import { orangeTheme } from '../shared/theme';
+import { UserContext } from '../contexts/user';
 import ProductForm from './product-form';
 import CartActions from './cart-actions';
-import { orangeTheme } from '../shared/theme';
 import { TypeUserContext } from '../@types/types';
-import { UserContext } from '../contexts/user';
+import { Product } from '../@types/product';
 
 interface Props {
     product: Product
@@ -16,11 +19,17 @@ interface Props {
 const ProductView: FC<Props> = ({ product }) => {
     const { user } = useContext(UserContext) as TypeUserContext;
     const [ admin, setAdmin ] = useState<boolean>(false);
+    const [ deleteProduct ] = useDeleteProductMutation();
     const goBack = useNavigate();
 
     useEffect(()=> {
         user && user.role === 'admin' && setAdmin(true);
-    }, [user])
+    }, [user]);
+
+    const onDelete = () => {
+        deleteProduct(product.id);
+        goBack('/');
+    }
 
     return (
         <div className="view-container">
@@ -28,6 +37,11 @@ const ProductView: FC<Props> = ({ product }) => {
                 <h2>product</h2>
                 <div className="icons">
                     {!admin && <CartActions product={product}/>}
+                    {admin && 
+                        <IconButton onClick={()=> onDelete()} style={{padding: "0.8rem"}}>
+                            <DeleteForeverIcon/>
+                        </IconButton>
+                    }
                     <IconButton onClick={()=> goBack('/')} style={{padding: "0.8rem"}}>
                         <DoorBackOutlinedIcon/>
                     </IconButton>
@@ -35,7 +49,7 @@ const ProductView: FC<Props> = ({ product }) => {
             </div>
             <div className='view-details'>
                 <ThemeProvider theme={orangeTheme}>
-                    <ProductForm product={product}/>
+                    {product && <ProductForm product={product}/>}
                 </ThemeProvider>
                 <div className="img-wrapper">
                     <img src={`${product.images[product.images.length-1]}`} alt="profile" />
